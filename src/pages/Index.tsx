@@ -48,9 +48,7 @@ const UpcomingList = memo(({ events }: { events: typeof mockEvents }) => {
           <div className="flex-1 text-left w-full mt-2 md:mt-0 text-center md:text-left">
             <div className="flex items-center justify-center md:justify-start gap-2">
               <div className="font-semibold">{ev.title}</div>
-              {ev.status === "TBC" ? (
-                <Badge className="badge-tbc uppercase tracking-wide">TBC</Badge>
-              ) : (
+              {ev.status === "TBC" ? null : (
                 <Badge variant="accent">Confirmed</Badge>
               )}
             </div>
@@ -58,7 +56,7 @@ const UpcomingList = memo(({ events }: { events: typeof mockEvents }) => {
             <div className="text-sm text-muted-foreground">VENUE: {ev.venue ?? ev.city}</div>
           </div>
           <div className="flex items-center gap-2 mt-2 md:mt-0 w-full md:w-auto justify-center md:justify-start">
-            <Link to={`/event/${ev.id}`} className="pressable"><Button size="sm" variant="secondary">Details</Button></Link>
+            <Link to={`/event/${ev.id}`} className="pressable"><Button size="smWide" variant="outlineBright">Details</Button></Link>
             
           </div>
         </li>
