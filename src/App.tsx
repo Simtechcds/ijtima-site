@@ -29,7 +29,7 @@ const App = () => (
       <BrowserRouter>
         <BackgroundImagePanel />
         <Header />
-        <div className="min-h-[calc(100vh-160px)] container py-6" onDoubleClick={() => window.dispatchEvent(new CustomEvent("bgpanel:open"))}>
+        <div className="min-h-[calc(100vh-160px)] container py-6 pb-28 md:pb-6" onDoubleClick={() => window.dispatchEvent(new CustomEvent("bgpanel:open"))}>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/south-africa" element={<SouthAfrica />} />

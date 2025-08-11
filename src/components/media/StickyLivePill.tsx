@@ -9,7 +9,7 @@ const StickyLivePill = () => {
   const [playing, setPlaying] = useState(feed.is_live);
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[min(720px,92%)]">
+    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[min(720px,92%)] sm:w-[min(720px,92%)]" style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}>
       <div className="glass-surface pill h-12 px-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className={`pill px-2 py-1 text-xs font-bold ${feed.is_live ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"}`}>
