@@ -8,7 +8,7 @@ import Seo from "@/components/Seo";
 import zaFlag from "@/assets/flags/za.svg";
 import worldGlobe from "@/assets/flags/world.svg";
 import { ChevronDown } from "lucide-react";
-import PerspectiveCarousel from "@/components/media/PerspectiveCarousel";
+import AppleCardStack from "@/components/media/AppleCardStack";
 
 // Month badge mapping using design tokens (CSS classes)
 const MONTH_CLASS_MAP = {
@@ -257,7 +257,7 @@ const Index = () => {
       {/* Below the fold: Regions quick-launch */}
       <RegionsQuickLaunch />
 
-      <PerspectiveCarousel slides={slides} />
+      <AppleCardStack slides={slides} />
 
       {/* Featured Collections */}
       <FeaturedCollections />
