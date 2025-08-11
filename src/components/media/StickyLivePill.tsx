@@ -10,17 +10,17 @@ const StickyLivePill = () => {
 
   return (
     <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[min(720px,92%)] sm:w-[min(720px,92%)]" style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}>
-      <div className="glass-surface pill h-12 px-3 flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 min-w-0">
-          <span className={`pill px-2 py-1 text-xs font-bold ${feed.is_live ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"} hidden sm:inline-flex`}>
+      <div className="glass-surface pill h-12 px-3 flex items-center justify-between gap-2 border border-white/60">
+        <div className="flex items-center gap-2 min-w-0 flex-1 justify-center sm:justify-start">
+          <span className={`pill px-2 py-1 text-xs font-bold ${feed.is_live ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"} inline-flex`}>
             {feed.is_live ? "LIVE" : "Next"}
           </span>
-          <div className="text-xs sm:text-sm font-medium text-foreground/90 whitespace-nowrap truncate max-w-[52vw]">
+          <div className="text-xs sm:text-sm font-medium text-foreground/90 whitespace-nowrap truncate max-w-[60vw] text-center sm:text-left">
             {feed.is_live ? feed.title : `Next: ${feed.next_label}`}
           </div>
         </div>
         <div className="flex items-center gap-1 sm:gap-2">
-          <Button size="sm" variant="secondary" onClick={() => setPlaying((p) => !p)} aria-label={playing ? "Pause" : "Play"} className="hidden sm:inline-flex">
+          <Button size="sm" variant="outlineBright" onClick={() => setPlaying((p) => !p)} aria-label={playing ? "Pause" : "Play"}>
             {playing ? "Pause" : "Play"}
           </Button>
           <Button size="sm" onClick={() => setOpen(true)}>
