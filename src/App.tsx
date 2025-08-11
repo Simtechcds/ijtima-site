@@ -17,6 +17,7 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import StickyLivePill from "./components/media/StickyLivePill";
 import BackgroundImagePanel from "./components/media/BackgroundImagePanel";
+import StatisticsSection from "./components/sections/StatisticsSection";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
+        <StatisticsSection />
         <Footer />
         <StickyLivePill />
       </BrowserRouter>
