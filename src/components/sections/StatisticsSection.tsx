@@ -78,21 +78,25 @@ const StatisticsSection: React.FC = () => {
           </p>
         </header>
 
-        {/* Stats grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
-          {stats.map((s) => (
-            <article
-              key={s.label}
-              className={`${s.bg} hairline rounded-2xl backdrop-blur-md shadow-lg p-4 sm:p-6 lg:p-8 text-center animate-fade-in`}
-            >
-              <div className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-foreground">
-                <CountUp end={s.value} />
-              </div>
-              <p className="mt-1 sm:mt-2 text-xs sm:text-sm md:text-base text-foreground/90">
-                {s.label}
-              </p>
-            </article>
-          ))}
+        {/* Stats grid in rounded panel */}
+        <div className="mx-auto w-[min(1100px,92%)]">
+          <div className="glass-surface hairline rounded-3xl p-3 sm:p-4 md:p-6 lg:p-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+              {stats.map((s) => (
+                <article
+                  key={s.label}
+                  className={`${s.bg} hairline rounded-2xl backdrop-blur-md shadow-lg p-4 sm:p-6 lg:p-8 text-center animate-fade-in`}
+                >
+                  <div className="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-foreground">
+                    <CountUp end={s.value} />
+                  </div>
+                  <p className="mt-1 sm:mt-2 text-xs sm:text-sm md:text-base text-foreground/90">
+                    {s.label}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

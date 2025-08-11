@@ -7,6 +7,7 @@ import { mockAudioFeeds, mockCollections, mockConfig, mockEvents } from "@/data/
 import Seo from "@/components/Seo";
 import zaFlag from "@/assets/flags/za.svg";
 import worldGlobe from "@/assets/flags/world.svg";
+import { ChevronDown } from "lucide-react";
 
 // Month badge mapping using design tokens (CSS classes)
 const MONTH_CLASS_MAP = {
@@ -140,6 +141,7 @@ const Index = () => {
   const upcoming = useMemo(() => mockEvents.slice(0, 3), []);
   const latestAudio = useMemo(() => mockAudioFeeds.slice(0, 4), []);
   const firstFeed = mockAudioFeeds[0];
+  const [liveOpen, setLiveOpen] = useState(false);
 
   useEffect(() => {
     if (location.hash && location.hash.startsWith("#ev-")) {
@@ -156,19 +158,37 @@ const Index = () => {
       <Seo title="Home — IJTIMA Collection" description="Upcoming events and latest audio streams." canonical="/" />
       <h1 className="sr-only">IJTIMA Collection — Events & Live Audio</h1>
 
-      {/* Live stream embed */}
+      {/* Live stream embed (collapsible) */}
       <section className="glass-surface p-4">
-        <div className="rounded-xl overflow-hidden">
-          <iframe
-            src="https://ijtima.mixlr.com/embed"
-            width="100%"
-            height="200"
-            title="IJTIMA Live Audio — Mixlr Player"
-            frameBorder="0"
-            scrolling="no"
-            loading="lazy"
+        <div
+          role="button"
+          aria-expanded={liveOpen}
+          aria-controls="live-embed"
+          onClick={() => setLiveOpen((v) => !v)}
+          className="flex items-center gap-2 cursor-pointer select-none"
+        >
+          <span className="bg-destructive text-destructive-foreground text-xs px-2 py-1 rounded-full font-semibold">
+            LIVE
+          </span>
+          <span className="text-sm text-foreground/90 font-medium">Stream</span>
+          <ChevronDown
+            className={`w-4 h-4 transition-transform duration-200 ${liveOpen ? "rotate-180" : "rotate-0"}`}
+            aria-hidden="true"
           />
         </div>
+        {liveOpen && (
+          <div id="live-embed" className="mt-3 rounded-xl overflow-hidden">
+            <iframe
+              src="https://ijtima.mixlr.com/embed"
+              width="100%"
+              height="200"
+              title="IJTIMA Live Audio — Mixlr Player"
+              frameBorder="0"
+              scrolling="no"
+              loading="lazy"
+            />
+          </div>
+        )}
         <small className="block mt-2 text-xs text-muted-foreground">
           <a href="https://mixlr.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">
             IJTIMA.SITE is on Mixlr
