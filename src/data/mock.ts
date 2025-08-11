@@ -1,11 +1,11 @@
-export interface EventItem { id: string; title: string; region: "SA" | "International"; city: string; venue_map_link: string; start_date: string; end_date?: string; status: "Confirmed" | "TBC"; poster?: string; notes_md?: string; attachments?: string[]; related_audio_show_id?: string; }
+export interface EventItem { id: string; title: string; region: "SA" | "International"; city: string; venue?: string; detailsDate?: string; venue_map_link: string; start_date: string; end_date?: string; status: "Confirmed" | "TBC"; poster?: string; notes_md?: string; attachments?: string[]; related_audio_show_id?: string; }
 export interface AudioFeed { platform: string; show_id: string; title: string; cover: string; is_live: boolean; live_url: string; next_label?: string; }
 export interface Collection { id: string; title: string; region: "SA" | "International"; cover: string; description: string; type: string; youtube_playlist_url?: string; years?: number[] }
 
 export const mockEvents: (EventItem & { dateLabel: string; calendarUrl: string })[] = [
-  { id: "sa-jor-2025", title: "SA Ulama & 4 Monthers Jor", region: "SA", city: "Gauteng", venue_map_link: "#", start_date: "2025-10-03", end_date: "2025-10-05", status: "TBC", dateLabel: "3–5 Oct 2025", calendarUrl: "#" },
-  { id: "wc-ijtima-2025", title: "Western Cape Ijtima", region: "SA", city: "Cape Town", venue_map_link: "https://maps.google.com/?q=721+Springfield+Road,+Philippi+Markaz+Nurul+Huda,+Cape+Town", start_date: "2025-12-12", end_date: "2025-12-14", status: "TBC", dateLabel: "12–14 Dec 2025", calendarUrl: "#" },
-  { id: "ec-ijtima-tbc", title: "Eastern Cape Ijtima", region: "SA", city: "Eastern Cape", venue_map_link: "#", start_date: "2025-12-31", status: "TBC", dateLabel: "TBC", calendarUrl: "#" },
+  { id: "sa-jor-2025", title: "SA ULAMA & 4 MONTHERS JOR", region: "SA", city: "Johannesburg", venue: "3 Crownwood Road, Masjid Nur (Jhb Markaz), Johannesburg", detailsDate: "3rd, 4th & 5th October 2025", venue_map_link: "#", start_date: "2025-10-03", end_date: "2025-10-05", status: "TBC", dateLabel: "3–5 Oct 2025", calendarUrl: "#" },
+  { id: "wc-ijtima-2025", title: "WESTERN CAPE IJTIMA", region: "SA", city: "Cape Town", venue: "721 Springfield Road, Philippi Markaz Nurul Huda, Cape Town", detailsDate: "12th, 13th & 14th December 2025", venue_map_link: "https://maps.google.com/?q=721+Springfield+Road,+Philippi+Markaz+Nurul+Huda,+Cape+Town", start_date: "2025-12-12", end_date: "2025-12-14", status: "TBC", dateLabel: "12–14 Dec 2025", calendarUrl: "#" },
+  { id: "ec-ijtima-tbc", title: "EASTERN CAPE IJTIMA", region: "SA", city: "Eastern Cape", venue: "TO BE CONFIRMED", detailsDate: "TO BE CONFIRMED", venue_map_link: "#", start_date: "2025-12-31", status: "TBC", dateLabel: "TBC", calendarUrl: "#" },
 ];
 
 export const mockAudioFeeds: AudioFeed[] = [

@@ -44,11 +44,12 @@ const UpcomingList = memo(({ events }: { events: typeof mockEvents }) => {
                 <Badge variant="accent">Confirmed</Badge>
               )}
             </div>
-            <div className="text-sm text-muted-foreground">{ev.city}</div>
+            <div className="text-sm text-muted-foreground">DATE: {ev.detailsDate ?? ev.dateLabel}</div>
+            <div className="text-sm text-muted-foreground">VENUE: {ev.venue ?? ev.city}</div>
           </div>
           <div className="flex items-center gap-2">
             <Link to={`/event/${ev.id}`} className="pressable"><Button size="sm" variant="secondary">Details</Button></Link>
-            <a href={ev.calendarUrl} target="_blank" rel="noreferrer" className="pressable"><Button size="sm" variant="outline">Add</Button></a>
+            
           </div>
         </li>
       ))}
