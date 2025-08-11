@@ -16,6 +16,7 @@ import AudioList from "./pages/AudioList";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import StickyLivePill from "./components/media/StickyLivePill";
+import BackgroundImagePanel from "./components/media/BackgroundImagePanel";
 
 const queryClient = new QueryClient();
 
@@ -25,8 +26,9 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <BackgroundImagePanel />
         <Header />
-        <div className="min-h-[calc(100vh-160px)] container py-6">
+        <div className="min-h-[calc(100vh-160px)] container py-6" onDoubleClick={() => window.dispatchEvent(new CustomEvent("bgpanel:open"))}>
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/south-africa" element={<SouthAfrica />} />
