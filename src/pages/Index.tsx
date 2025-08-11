@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
 import { mockAudioFeeds, mockCollections, mockConfig, mockEvents } from "@/data/mock";
@@ -29,10 +30,17 @@ const Index = () => {
               {upcoming.map((ev) => (
                 <li key={ev.id} className="event-card flex items-center gap-3 p-3 rounded-xl hover:bg-secondary/50 transition-colors">
                   <div className="pill px-3 py-2 bg-secondary text-sm font-semibold min-w-[84px] text-center">{ev.dateLabel}</div>
-                  <div className="flex-1 text-left">
-                    <div className="font-semibold">{ev.title}</div>
-                    <div className="text-sm text-muted-foreground">{ev.city}</div>
-                  </div>
+                    <div className="flex-1 text-left">
+                      <div className="flex items-center gap-2">
+                        <div className="font-semibold">{ev.title}</div>
+                        {ev.status === "TBC" ? (
+                          <Badge variant="muted" className="uppercase tracking-wide">TBC</Badge>
+                        ) : (
+                          <Badge variant="accent">Confirmed</Badge>
+                        )}
+                      </div>
+                      <div className="text-sm text-muted-foreground">{ev.city}</div>
+                    </div>
                   <div className="flex items-center gap-2">
                     <Link to={`/event/${ev.id}`} className="pressable"><Button size="sm" variant="secondary">Details</Button></Link>
                     <a href={ev.calendarUrl} target="_blank" rel="noreferrer" className="pressable"><Button size="sm" variant="outline">Add</Button></a>
@@ -48,8 +56,11 @@ const Index = () => {
                 <article aria-live="polite" className="glass-surface p-4">
                   <h3 className="text-sm uppercase tracking-wider text-muted-foreground mb-1">Now Playing</h3>
                   <div className="flex items-center justify-between gap-2">
-                    <div className="font-semibold">{mockAudioFeeds[0].title}</div>
-                    <Link to="/live"><Button variant="default">Open Full Player</Button></Link>
+                      <div className="flex items-center gap-2 font-semibold">
+                        {mockAudioFeeds[0].title}
+                        <Badge variant="accent">LIVE</Badge>
+                      </div>
+                      <Link to="/live"><Button variant="default">Open Full Player</Button></Link>
                   </div>
                 </article>
               )}
