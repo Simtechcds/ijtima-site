@@ -3,10 +3,9 @@ export interface AudioFeed { platform: string; show_id: string; title: string; c
 export interface Collection { id: string; title: string; region: "SA" | "International"; cover: string; description: string; type: string; youtube_playlist_url?: string; years?: number[] }
 
 export const mockEvents: (EventItem & { dateLabel: string; calendarUrl: string })[] = [
-  { id: "wc-ij", title: "Western Cape Ijtima", region: "SA", city: "Cape Town", venue_map_link: "https://maps.google.com", start_date: "2025-08-23", end_date: "2025-08-25", status: "TBC", dateLabel: "23–25 Aug", calendarUrl: "https://www.addevent.com/" },
-  { id: "gp-ow", title: "Old Workers Mashwara", region: "SA", city: "Johannesburg", venue_map_link: "https://maps.google.com", start_date: "2025-09-12", status: "Confirmed", dateLabel: "12 Sep", calendarUrl: "https://www.addevent.com/" },
-  { id: "intl-raiwind", title: "Raiwind Ijtima", region: "International", city: "Lahore", venue_map_link: "https://maps.google.com", start_date: "2025-11-01", status: "Confirmed", dateLabel: "Nov", calendarUrl: "https://www.addevent.com/" },
-  { id: "extra", title: "Extra Event (hidden)", region: "SA", city: "Pretoria", venue_map_link: "https://maps.google.com", start_date: "2025-10-10", status: "TBC", dateLabel: "Oct", calendarUrl: "https://www.addevent.com/" },
+  { id: "sa-jor-2025", title: "SA Ulama & 4 Monthers Jor", region: "SA", city: "Gauteng", venue_map_link: "#", start_date: "2025-10-03", end_date: "2025-10-05", status: "TBC", dateLabel: "3–5 Oct 2025", calendarUrl: "#" },
+  { id: "wc-ijtima-2025", title: "Western Cape Ijtima", region: "SA", city: "Cape Town", venue_map_link: "https://maps.google.com/?q=721+Springfield+Road,+Philippi+Markaz+Nurul+Huda,+Cape+Town", start_date: "2025-12-12", end_date: "2025-12-14", status: "TBC", dateLabel: "12–14 Dec 2025", calendarUrl: "#" },
+  { id: "ec-ijtima-tbc", title: "Eastern Cape Ijtima", region: "SA", city: "Eastern Cape", venue_map_link: "#", start_date: "2025-12-31", status: "TBC", dateLabel: "TBC", calendarUrl: "#" },
 ];
 
 export const mockAudioFeeds: AudioFeed[] = [
