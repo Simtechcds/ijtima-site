@@ -75,7 +75,7 @@ const LiveNowCard = memo(({ feed }: { feed: (typeof mockAudioFeeds)[number] | un
           {feed.title}
           <Badge variant="accent">LIVE</Badge>
         </div>
-        <Link to="/live"><Button variant="default">Open Full Player</Button></Link>
+        <a href="https://ijtima.mixlr.com/" className="inline-block"><Button variant="default">Open Full Player</Button></a>
       </div>
     </article>
   );
@@ -153,6 +153,26 @@ const Index = () => {
     <main className="space-y-6">
       <Seo title="Home — IJTIMA Collection" description="Upcoming events and latest audio streams." canonical="/" />
       <h1 className="sr-only">IJTIMA Collection — Events & Live Audio</h1>
+
+      {/* Live stream embed */}
+      <section className="glass-surface p-4">
+        <div className="rounded-xl overflow-hidden">
+          <iframe
+            src="https://ijtima.mixlr.com/embed"
+            width="100%"
+            height="200"
+            title="IJTIMA Live Audio — Mixlr Player"
+            frameBorder="0"
+            scrolling="no"
+            loading="lazy"
+          />
+        </div>
+        <small className="block mt-2 text-xs text-muted-foreground">
+          <a href="https://mixlr.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">
+            IJTIMA.SITE is on Mixlr
+          </a>
+        </small>
+      </section>
 
       {/* Main glass card with segmented control */}
       <section className="glass-surface p-4">

@@ -5,7 +5,7 @@ const Header = () => {
     { to: "/", label: "Home" },
     { to: "/south-africa", label: "South Africa" },
     { to: "/international", label: "International" },
-    { to: "/live", label: "Live" },
+    { to: "https://ijtima.mixlr.com/", label: "Live" },
     { to: "/about", label: "About" },
   ];
 
@@ -18,15 +18,25 @@ const Header = () => {
         </Link>
         <nav className="hidden md:flex items-center gap-5 text-sm">
           {nav.map((n) => (
-            <NavLink
-              key={n.to}
-              to={n.to}
-              className={({ isActive }) =>
-                `hover:text-accent-foreground transition-colors ${isActive ? "text-accent-foreground" : "text-muted-foreground"}`
-              }
-            >
-              {n.label}
-            </NavLink>
+            n.to.startsWith('http') ? (
+              <a
+                key={n.to}
+                href={n.to}
+                className="hover:text-accent-foreground transition-colors text-muted-foreground"
+              >
+                {n.label}
+              </a>
+            ) : (
+              <NavLink
+                key={n.to}
+                to={n.to}
+                className={({ isActive }) =>
+                  `hover:text-accent-foreground transition-colors ${isActive ? "text-accent-foreground" : "text-muted-foreground"}`
+                }
+              >
+                {n.label}
+              </NavLink>
+            )
           ))}
         </nav>
       </div>
