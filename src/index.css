@@ -38,6 +38,10 @@
     --input: 210 16% 22%;
     --ring: 158 77% 33%;
 
+    /* Custom brand accents */
+    --olive: 47 9% 40%;
+    --olive-foreground: 0 0% 100%;
+
     /* Radii */
     --radius: 1.375rem; /* ~22px for cards */
 
@@ -88,6 +92,10 @@
     --border: 210 16% 22%;
     --input: 210 16% 22%;
     --ring: 158 77% 33%;
+
+    /* Custom brand accents */
+    --olive: 47 9% 40%;
+    --olive-foreground: 0 0% 100%;
 
     --sidebar-background: 210 28% 12%;
     --sidebar-foreground: 210 40% 96%;

@@ -1,7 +1,8 @@
 import Seo from "@/components/Seo";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { mockCollections } from "@/data/mock";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 const CollectionDetail = () => {
   const { id } = useParams();
@@ -12,6 +13,11 @@ const CollectionDetail = () => {
   return (
     <main className="space-y-6">
       <Seo title={`${col.title} — Collection`} description={col.description} />
+      <div className="mb-2">
+        <Link to="/">
+          <Button variant="olive" size="smWide">Back to Home</Button>
+        </Link>
+      </div>
       <header className="glass-surface p-4">
         <h1 className="text-xl font-bold">{col.title}</h1>
         <p className="text-sm text-muted-foreground">{col.description}</p>

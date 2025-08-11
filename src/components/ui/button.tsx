@@ -20,6 +20,8 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         outlineBright:
           "bg-transparent text-foreground border border-[hsl(var(--foreground)/0.65)] hover:bg-[hsl(var(--foreground)/0.08)]",
+        olive:
+          "bg-olive text-olive-foreground hover:bg-olive/90",
       },
       size: {
         default: "h-10 px-4 py-2",
