@@ -1,4 +1,4 @@
-import { memo, useMemo, useState } from "react";
+import { memo, useMemo, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -6,19 +6,26 @@ import { Link } from "react-router-dom";
 import { mockAudioFeeds, mockCollections, mockConfig, mockEvents } from "@/data/mock";
 import Seo from "@/components/Seo";
 
-// Month-to-tone mapping (stable, no per-render regex allocations)
-const MONTHS = ["jan","feb","mar","apr","may","jun","jul","aug","sep","oct","nov","dec"] as const;
-const TONES = [
-  "bg-accent text-accent-foreground",
-  "bg-secondary text-secondary-foreground",
-  "bg-muted text-muted-foreground",
-  "bg-primary text-primary-foreground",
-  "bg-destructive text-destructive-foreground",
-] as const;
+// Month badge mapping using design tokens (CSS classes)
+const MONTH_CLASS_MAP = {
+  jan: "month-jan",
+  feb: "month-feb",
+  mar: "month-mar",
+  apr: "month-apr",
+  may: "month-may",
+  jun: "month-jun",
+  jul: "month-jul",
+  aug: "month-aug",
+  sep: "month-sep",
+  oct: "month-oct",
+  nov: "month-nov",
+  dec: "month-dec",
+} as const;
 const getMonthClass = (label: string) => {
   const lower = label.toLowerCase();
-  const idx = MONTHS.findIndex((m) => lower.includes(m));
-  return TONES[(idx >= 0 ? idx : 2) % TONES.length];
+  if (lower.includes("tbc")) return "month-tbc";
+  const key = (Object.keys(MONTH_CLASS_MAP) as Array<keyof typeof MONTH_CLASS_MAP>).find((m) => lower.includes(m));
+  return key ? MONTH_CLASS_MAP[key] : "month-tbc";
 };
 
 // Subcomponents (memoized) — keeps Home fast and reliable
@@ -31,7 +38,7 @@ const UpcomingList = memo(({ events }: { events: typeof mockEvents }) => {
   return (
     <ul className="space-y-3">
       {events.map((ev) => (
-        <li key={ev.id} className="event-card flex items-center gap-3 p-3 rounded-xl hover:bg-secondary/50 transition-colors">
+        <li id={`ev-${ev.id}`} key={ev.id} className="event-card flex items-center gap-3 p-3 rounded-xl hover:bg-secondary/50 transition-colors">
           <div className={`pill px-3 py-2 ${getMonthClass(ev.dateLabel)} text-sm font-semibold min-w-[84px] text-center`}>
             {ev.dateLabel}
           </div>
@@ -39,7 +46,7 @@ const UpcomingList = memo(({ events }: { events: typeof mockEvents }) => {
             <div className="flex items-center gap-2">
               <div className="font-semibold">{ev.title}</div>
               {ev.status === "TBC" ? (
-                <Badge variant="muted" className="uppercase tracking-wide">TBC</Badge>
+                <Badge className="badge-tbc uppercase tracking-wide">TBC</Badge>
               ) : (
                 <Badge variant="accent">Confirmed</Badge>
               )}
@@ -117,6 +124,16 @@ const Index = () => {
   const upcoming = useMemo(() => mockEvents.slice(0, 3), []);
   const latestAudio = useMemo(() => mockAudioFeeds.slice(0, 4), []);
   const firstFeed = mockAudioFeeds[0];
+
+  useEffect(() => {
+    if (location.hash && location.hash.startsWith("#ev-")) {
+      setTab("Upcoming");
+      requestAnimationFrame(() => {
+        const el = document.querySelector(location.hash) as HTMLElement | null;
+        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    }
+  }, []);
 
   return (
     <main className="space-y-6">
