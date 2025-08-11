@@ -13,7 +13,7 @@ const StickyLivePill = () => {
       <div className="glass-surface pill h-12 px-3 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <span className={`pill px-2 py-1 text-xs font-bold ${feed.is_live ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"}`}>
-            {feed.is_live ? "LIVE" : `Next Live: ${feed.next_label ?? "TBA"}`}
+            {feed.is_live ? "LIVE" : "Next"}
           </span>
           <div className="text-sm">
             {feed.is_live ? feed.title : `Next Live: ${feed.next_label}`}
