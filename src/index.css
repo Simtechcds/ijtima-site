@@ -124,19 +124,19 @@
 /* Month badge theme */
 @layer base {
   :root {
-    --month-jan: #56838F;
-    --month-feb: #8F567D;
-    --month-mar: #568F77;
-    --month-apr: #6A568F;
-    --month-may: #8F5661;
-    --month-jun: #568F56;
-    --month-jul: #8F7456;
-    --month-aug: #565D8F;
-    --month-sep: #8C568F;
-    --month-oct: #8F6756;
-    --month-nov: #5B8F56;
-    --month-dec: #566B8F;
-    --badge-tbc: #7F8F56;
+    --month-jan: #2f5e69;
+    --month-feb: #5a2f4b;
+    --month-mar: #2f5e49;
+    --month-apr: #3b2f5e;
+    --month-may: #5e2f36;
+    --month-jun: #2f5e2f;
+    --month-jul: #5e4a2f;
+    --month-aug: #2f365e;
+    --month-sep: #5a2f5e;
+    --month-oct: #5e3b2f;
+    --month-nov: #2f5e34;
+    --month-dec: #2f3e5e;
+    --badge-tbc: #5a5e2f;
   }
 }
 @layer components {

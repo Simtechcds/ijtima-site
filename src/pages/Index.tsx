@@ -5,6 +5,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
 import { mockAudioFeeds, mockCollections, mockConfig, mockEvents } from "@/data/mock";
 import Seo from "@/components/Seo";
+import zaFlag from "@/assets/flags/za.svg";
 
 // Month badge mapping using design tokens (CSS classes)
 const MONTH_CLASS_MAP = {
@@ -99,9 +100,7 @@ const RegionsQuickLaunch = memo(() => (
     <Link to="/south-africa" className="pressable">
       <div className="glass-surface p-4 text-center font-semibold">
         <span className="inline-flex items-center justify-center gap-2">
-          <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-secondary">
-            <span role="img" aria-label="South Africa flag" className="text-[13px] leading-none">🇿🇦</span>
-          </span>
+          <img src={zaFlag} alt="South Africa flag" className="h-6 w-6 rounded-full object-cover" loading="lazy" />
           <span>South Africa</span>
         </span>
       </div>
