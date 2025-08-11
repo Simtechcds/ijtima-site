@@ -57,7 +57,7 @@ const StatisticsSection: React.FC = () => {
 
   return (
     <section aria-labelledby="stats-title" className="py-10 md:py-12 lg:py-14">
-      <div className="mx-auto w-[min(1200px,92%)] relative overflow-hidden rounded-3xl glass-surface hairline">
+      <div className="mx-auto w-[min(1200px,92%)] relative overflow-hidden rounded-3xl glass-surface module-frame">
         {/* Background image clipped to panel with dark overlay */}
         <div className="absolute inset-0 -z-10">
           <img

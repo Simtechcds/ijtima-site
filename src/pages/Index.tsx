@@ -71,7 +71,7 @@ UpcomingList.displayName = "UpcomingList";
 const LiveNowCard = memo(({ feed }: { feed: (typeof mockAudioFeeds)[number] | undefined }) => {
   if (!feed?.is_live) return null;
   return (
-    <article aria-live="polite" className="glass-surface p-4">
+    <article aria-live="polite" className="glass-surface module-frame p-4">
       <h3 className="text-sm uppercase tracking-wider text-muted-foreground mb-1">Now Playing</h3>
       <div className="flex items-center justify-between gap-2">
         <div className="flex items-center gap-2 font-semibold">
@@ -100,7 +100,7 @@ LatestAudioList.displayName = "LatestAudioList";
 const RegionsQuickLaunch = memo(() => (
   <section className="grid grid-cols-2 gap-3">
     <Link to="/south-africa" className="pressable">
-      <div className="glass-surface p-4 text-center font-semibold">
+      <div className="glass-surface module-frame p-4 text-center font-semibold">
         <span className="inline-flex items-center justify-center gap-2">
           <img src={zaFlag} alt="South Africa flag" className="h-6 w-6 rounded-full object-cover" loading="lazy" />
           <span>South Africa</span>
@@ -108,7 +108,7 @@ const RegionsQuickLaunch = memo(() => (
       </div>
     </Link>
     <Link to="/international" className="pressable">
-      <div className="glass-surface p-4 text-center font-semibold">
+      <div className="glass-surface module-frame p-4 text-center font-semibold">
         <span className="inline-flex items-center justify-center gap-2">
           <img src={worldGlobe} alt="International world globe" className="h-6 w-6 rounded-full object-cover" loading="lazy" />
           <span>International</span>
@@ -123,7 +123,7 @@ const FeaturedCollections = memo(() => (
   <section className="grid gap-3">
     {mockCollections.slice(0, 2).map((c) => (
       <Link to={`/collection/${c.id}`} key={c.id} className="pressable">
-        <article className="glass-surface p-3 flex items-center gap-3">
+        <article className="glass-surface module-frame p-3 flex items-center gap-3">
           <img src={(c.id === "old-workers" || /ijtima/i.test(c.title)) ? "/lovable-uploads/3b7a5720-d209-4717-b9cf-19529c55872e.png" : c.cover} alt={`${c.title} cover`} className="w-16 h-16 rounded-lg object-cover" loading="lazy" />
           <div className="flex-1 text-left">
             <h3 className="font-semibold">{c.title}</h3>
@@ -159,7 +159,7 @@ const Index = () => {
       <h1 className="sr-only">IJTIMA Collection — Events & Live Audio</h1>
 
       {/* Live stream embed (collapsible) */}
-      <section className="glass-surface p-4">
+      <section className="glass-surface module-frame p-4">
         <div
           role="button"
           aria-expanded={liveOpen}
@@ -197,7 +197,7 @@ const Index = () => {
       </section>
 
       {/* Main glass card with segmented control */}
-      <section className="glass-surface p-4">
+      <section className="glass-surface module-frame p-4">
         <Tabs value={tab} onValueChange={(v) => setTab(v as "Upcoming" | "Latest")} className="w-full">
           <TabsList className="segmented w-full">
             <TabsTrigger value="Upcoming" className="seg flex-1">Upcoming</TabsTrigger>
