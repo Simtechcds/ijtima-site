@@ -99,7 +99,9 @@ const RegionsQuickLaunch = memo(() => (
     <Link to="/south-africa" className="pressable">
       <div className="glass-surface p-4 text-center font-semibold">
         <span className="inline-flex items-center justify-center gap-2">
-          <span role="img" aria-label="South Africa flag" className="text-base">🇿🇦</span>
+          <span className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-secondary">
+            <span role="img" aria-label="South Africa flag" className="text-[13px] leading-none">🇿🇦</span>
+          </span>
           <span>South Africa</span>
         </span>
       </div>
