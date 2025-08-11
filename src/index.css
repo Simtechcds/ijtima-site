@@ -139,9 +139,9 @@
   .pressable:active { transform: translateY(1px) scale(0.99); }
 
   /* Segmented control */
-  .segmented { display:flex; gap:6px; background: hsl(var(--secondary)); padding:4px; border-radius: 0.75rem; }
+  .segmented { display:flex; gap:6px; background: hsl(var(--secondary)); padding:4px; border-radius: 0.75rem; border: 1px solid hsl(var(--foreground) / 0.6); }
   .seg { flex:1; padding:8px 12px; border-radius: 0.625rem; font-weight:600; color: hsl(var(--muted-foreground)); transition: transform .18s ease, background-color .18s ease; }
-  .seg[data-state="active"] { background: hsl(var(--muted)); color: hsl(var(--foreground)); transform: translateY(-1px); box-shadow: inset 0 0 0 1px hsl(var(--border)); }
+  .seg[data-state="active"] { background: hsl(var(--muted)); color: hsl(var(--foreground)); transform: translateY(-1px); box-shadow: inset 0 0 0 1px hsl(var(--foreground) / 0.7); }
 
   /* Statistics card background helpers */
   .stat-brown { background-color: hsl(var(--stat-brown) / 0.6); }
