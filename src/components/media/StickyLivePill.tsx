@@ -10,20 +10,23 @@ const StickyLivePill = () => {
 
   return (
     <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[min(720px,92%)] sm:w-[min(720px,92%)]" style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}>
-      <div className="glass-surface pill h-12 px-3 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <span className={`pill px-2 py-1 text-xs font-bold ${feed.is_live ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"}`}>
+      <div className="glass-surface pill h-12 px-3 flex items-center justify-between gap-2">
+        <div className="flex items-center gap-2 min-w-0">
+          <span className={`pill px-2 py-1 text-xs font-bold ${feed.is_live ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"} hidden sm:inline-flex`}>
             {feed.is_live ? "LIVE" : "Next"}
           </span>
-          <div className="text-sm">
-            {feed.is_live ? feed.title : `Next Live: ${feed.next_label}`}
+          <div className="text-xs sm:text-sm font-medium text-foreground/90 whitespace-nowrap truncate max-w-[52vw]">
+            {feed.is_live ? feed.title : `Next: ${feed.next_label}`}
           </div>
         </div>
-        <div className="flex items-center gap-2">
-          <Button size="sm" variant="secondary" onClick={() => setPlaying((p) => !p)} aria-label={playing ? "Pause" : "Play"}>
+        <div className="flex items-center gap-1 sm:gap-2">
+          <Button size="sm" variant="secondary" onClick={() => setPlaying((p) => !p)} aria-label={playing ? "Pause" : "Play"} className="hidden sm:inline-flex">
             {playing ? "Pause" : "Play"}
           </Button>
-          <Button size="sm" onClick={() => setOpen(true)}>Open Full Player</Button>
+          <Button size="sm" onClick={() => setOpen(true)}>
+            <span className="sm:hidden">Open</span>
+            <span className="hidden sm:inline">Open Full Player</span>
+          </Button>
         </div>
       </div>
 
