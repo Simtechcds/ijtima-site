@@ -5,6 +5,8 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
 import { mockAudioFeeds, mockCollections, mockConfig, mockEvents } from "@/data/mock";
 import Seo from "@/components/Seo";
+import { Globe2 } from "lucide-react";
+import saBadge from "@/assets/sa-badge.png";
 
 // Month badge mapping using design tokens (CSS classes)
 const MONTH_CLASS_MAP = {
@@ -96,8 +98,22 @@ LatestAudioList.displayName = "LatestAudioList";
 
 const RegionsQuickLaunch = memo(() => (
   <section className="grid grid-cols-2 gap-3">
-    <Link to="/south-africa" className="pressable"><div className="glass-surface p-4 text-center font-semibold">🇿🇦 South Africa</div></Link>
-    <Link to="/international" className="pressable"><div className="glass-surface p-4 text-center font-semibold">🌍 International</div></Link>
+    <Link to="/south-africa" className="pressable">
+      <div className="glass-surface p-4 text-center font-semibold">
+        <span className="inline-flex items-center justify-center gap-2">
+          <img src={saBadge} alt="South Africa badge icon" className="w-4 h-4 rounded-full" loading="lazy" />
+          <span>South Africa</span>
+        </span>
+      </div>
+    </Link>
+    <Link to="/international" className="pressable">
+      <div className="glass-surface p-4 text-center font-semibold">
+        <span className="inline-flex items-center justify-center gap-2">
+          <Globe2 className="w-4 h-4" aria-hidden="true" />
+          <span>International</span>
+        </span>
+      </div>
+    </Link>
   </section>
 ));
 RegionsQuickLaunch.displayName = "RegionsQuickLaunch";
