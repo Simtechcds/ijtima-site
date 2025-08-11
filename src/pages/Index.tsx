@@ -135,19 +135,15 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="Latest" className="mt-4">
-            <div className="space-y-3">
-              <LiveNowCard feed={firstFeed} />
-              <div className="glass-surface p-0 overflow-hidden rounded-xl">
-                <iframe
-                  src="https://widget.spreaker.com/player?show_id=6705342&theme=light&playlist=false&playlist-continuous=false&chapters-image=true&episode_image_position=right&hide-logo=false&hide-likes=false&hide-comments=false&hide-sharing=false&hide-download=true"
-                  width="100%"
-                  height="200"
-                  title="Overport Ijtima 2025"
-                  frameBorder="0"
-                  loading="lazy"
-                />
-              </div>
-              <LatestAudioList list={latestAudio} />
+            <div className="glass-surface p-0 overflow-hidden rounded-xl">
+              <iframe
+                src="https://widget.spreaker.com/player?show_id=6705342&theme=light&playlist=show&playlist-continuous=false&chapters-image=true&episode_image_position=right&hide-logo=false&hide-likes=false&hide-comments=false&hide-sharing=false&hide-download=true"
+                width="100%"
+                height="350"
+                title="Overport Ijtima 2025"
+                frameBorder="0"
+                loading="lazy"
+              />
             </div>
           </TabsContent>
         </Tabs>
