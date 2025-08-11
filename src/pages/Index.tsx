@@ -41,12 +41,12 @@ const UpcomingList = memo(({ events }: { events: typeof mockEvents }) => {
   return (
     <ul className="space-y-3">
       {events.map((ev) => (
-        <li id={`ev-${ev.id}`} key={ev.id} className="event-card flex items-center gap-3 p-3 rounded-xl hover:bg-secondary/50 transition-colors">
-          <div className={`pill px-3 py-2 ${getMonthClass(ev.dateLabel)} text-sm font-semibold min-w-[84px] text-center`}>
+        <li id={`ev-${ev.id}`} key={ev.id} className="event-card flex flex-col md:flex-row items-start md:items-center gap-3 p-3 rounded-xl hover:bg-secondary/50 transition-colors">
+          <div className={`pill px-3 py-2 ${getMonthClass(ev.dateLabel)} text-sm font-semibold min-w-[84px] text-center self-center md:self-auto`}>
             {ev.dateLabel}
           </div>
-          <div className="flex-1 text-left">
-            <div className="flex items-center gap-2">
+          <div className="flex-1 text-left w-full mt-2 md:mt-0 text-center md:text-left">
+            <div className="flex items-center justify-center md:justify-start gap-2">
               <div className="font-semibold">{ev.title}</div>
               {ev.status === "TBC" ? (
                 <Badge className="badge-tbc uppercase tracking-wide">TBC</Badge>
@@ -57,7 +57,7 @@ const UpcomingList = memo(({ events }: { events: typeof mockEvents }) => {
             <div className="text-sm text-muted-foreground">DATE: {ev.detailsDate ?? ev.dateLabel}</div>
             <div className="text-sm text-muted-foreground">VENUE: {ev.venue ?? ev.city}</div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mt-2 md:mt-0 w-full md:w-auto justify-center md:justify-start">
             <Link to={`/event/${ev.id}`} className="pressable"><Button size="sm" variant="secondary">Details</Button></Link>
             
           </div>
