@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -11,8 +11,10 @@ export type Slide = {
 type Props = {
   slides: Slide[];
   className?: string;
-  heightClass?: string; // e.g. "h-[500px]"
-  heading?: string;
+  heightClass?: string; // responsive height
+  autoPlay?: boolean;
+  intervalMs?: number;
+  pauseOnHover?: boolean;
 };
 
 function shortestSignedDistance(i: number, active: number, n: number) {
@@ -25,29 +27,65 @@ function shortestSignedDistance(i: number, active: number, n: number) {
 export default function PerspectiveCarousel({
   slides,
   className,
-  heightClass = "h-[500px]",
-  heading,
+  heightClass = "h-[420px] md:h-[520px]",
+  autoPlay = true,
+  intervalMs = 3500,
+  pauseOnHover = true,
 }: Props) {
   const [active, setActive] = useState(0);
+  const [hovered, setHovered] = useState(false);
   const count = slides.length;
+  const timer = useRef<number | null>(null);
 
   const ordered = useMemo(() => slides.map((s, i) => ({ ...s, index: i })), [slides]);
 
   const goPrev = () => setActive((a) => (a - 1 + count) % count);
   const goNext = () => setActive((a) => (a + 1) % count);
 
-  return (
-    <section className={cn("w-full py-8 relative overflow-hidden", className)} aria-label={heading || "3D Perspective Gallery"}>
-      {heading && (
-        <h2 className="text-2xl font-bold mb-6 text-center">{heading}</h2>
-      )}
+  useEffect(() => {
+    if (!autoPlay || count <= 1) return;
 
-      <div className={cn("relative max-w-5xl mx-auto", heightClass, "[perspective:1200px]")}>        
-        <div className="absolute inset-0 flex items-center justify-center">
+    const start = () => {
+      if (timer.current) window.clearInterval(timer.current);
+      timer.current = window.setInterval(() => {
+        if (pauseOnHover && hovered) return;
+        if (document.visibilityState === "hidden") return;
+        setActive((a) => (a + 1) % count);
+      }, intervalMs);
+    };
+
+    start();
+    const visHandler = () => {
+      if (document.visibilityState === "visible") start();
+    };
+    document.addEventListener("visibilitychange", visHandler);
+
+    return () => {
+      if (timer.current) window.clearInterval(timer.current);
+      document.removeEventListener("visibilitychange", visHandler);
+    };
+  }, [autoPlay, intervalMs, count, hovered, pauseOnHover]);
+
+  return (
+    <section className={cn("w-full py-6 relative overflow-hidden", className)}>
+      {/* Stage */}
+      <div
+        className={cn(
+          "relative max-w-5xl mx-auto rounded-2xl",
+          heightClass,
+          "[perspective:1200px]"
+        )}
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
+      >
+        {/* Soft stage background for neatness */}
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-background/40 to-background/60 backdrop-blur-sm" />
+
+        {/* Slides */}
+        <div className="absolute inset-0 flex items-center justify-center px-2">
           {ordered.map((slide, i) => {
             const d = shortestSignedDistance(i, active, count);
 
-            // Positioning for 3D depth
             let translateX = 0;
             let translateZ = 0;
             let rotateY = 0;
@@ -56,37 +94,32 @@ export default function PerspectiveCarousel({
             let zIndex = 30;
 
             if (d === 0) {
-              translateX = 0;
-              translateZ = 0;
-              rotateY = 0;
-              scale = 1;
-              opacity = 1;
               zIndex = 50;
             } else if (d === -1) {
-              translateX = -220;
-              translateZ = -180;
-              rotateY = 12;
-              scale = 0.92;
-              opacity = 0.9;
+              translateX = -210;
+              translateZ = -170;
+              rotateY = 10;
+              scale = 0.93;
+              opacity = 0.95;
               zIndex = 45;
             } else if (d === 1) {
-              translateX = 220;
-              translateZ = -180;
-              rotateY = -12;
-              scale = 0.92;
-              opacity = 0.9;
+              translateX = 210;
+              translateZ = -170;
+              rotateY = -10;
+              scale = 0.93;
+              opacity = 0.95;
               zIndex = 45;
             } else if (d === -2) {
-              translateX = -360;
-              translateZ = -320;
-              rotateY = 18;
+              translateX = -340;
+              translateZ = -300;
+              rotateY = 16;
               scale = 0.86;
               opacity = 0.6;
               zIndex = 40;
             } else if (d === 2) {
-              translateX = 360;
-              translateZ = -320;
-              rotateY = -18;
+              translateX = 340;
+              translateZ = -300;
+              rotateY = -16;
               scale = 0.86;
               opacity = 0.6;
               zIndex = 40;
@@ -101,7 +134,7 @@ export default function PerspectiveCarousel({
               <article
                 key={slide.index}
                 className={cn(
-                  "absolute w-[72%] md:w-[60%] h-[80%] rounded-xl overflow-hidden shadow-xl transition-all duration-700 ease-out will-change-transform [transform-style:preserve-3d]",
+                  "absolute w-[86%] md:w-[64%] h-[78%] md:h-[80%] rounded-2xl overflow-hidden shadow-xl transition-all duration-700 ease-out will-change-transform [transform-style:preserve-3d] bg-card border border-border/60",
                   d === 0 ? "ring-1 ring-foreground/10" : ""
                 )}
                 style={{ transform, opacity, zIndex }}
@@ -116,8 +149,8 @@ export default function PerspectiveCarousel({
                     className="absolute inset-0 w-full h-full object-cover"
                     loading="lazy"
                   />
-                  <div className="absolute inset-x-0 bottom-0 p-6 bg-gradient-to-t from-black/70 to-transparent">
-                    <h3 className="text-white text-xl font-medium drop-shadow">{slide.title}</h3>
+                  <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
+                    <h3 className="text-white text-base md:text-xl font-medium drop-shadow">{slide.title}</h3>
                   </div>
                 </div>
               </article>
@@ -129,23 +162,23 @@ export default function PerspectiveCarousel({
         <button
           type="button"
           onClick={goPrev}
-          className="absolute left-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/30 backdrop-blur-sm hover:bg-white/50 transition-colors border border-white/60"
+          className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 z-[60] grid place-items-center h-9 w-9 md:h-10 md:w-10 rounded-full bg-white/40 backdrop-blur-md hover:bg-white/60 transition-colors border border-white/70"
           aria-label="Previous slide"
         >
-          <ChevronLeft className="h-5 w-5" />
+          <ChevronLeft className="h-4 w-4 md:h-5 md:w-5" />
         </button>
         <button
           type="button"
           onClick={goNext}
-          className="absolute right-4 top-1/2 -translate-y-1/2 z-50 p-3 rounded-full bg-white/30 backdrop-blur-sm hover:bg-white/50 transition-colors border border-white/60"
+          className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 z-[60] grid place-items-center h-9 w-9 md:h-10 md:w-10 rounded-full bg-white/40 backdrop-blur-md hover:bg-white/60 transition-colors border border-white/70"
           aria-label="Next slide"
         >
-          <ChevronRight className="h-5 w-5" />
+          <ChevronRight className="h-4 w-4 md:h-5 md:w-5" />
         </button>
       </div>
 
       {/* Dots */}
-      <div className="flex justify-center mt-6 gap-2">
+      <div className="flex justify-center mt-5 gap-2">
         {slides.map((_, i) => (
           <button
             key={i}

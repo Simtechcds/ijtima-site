@@ -255,7 +255,7 @@ const Index = () => {
       {/* Below the fold: Regions quick-launch */}
       <RegionsQuickLaunch />
 
-      <PerspectiveCarousel heading="3D Perspective Gallery" slides={slides} />
+      <PerspectiveCarousel slides={slides} />
 
       {/* Featured Collections */}
       <FeaturedCollections />
