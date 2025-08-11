@@ -8,6 +8,7 @@ import Seo from "@/components/Seo";
 import zaFlag from "@/assets/flags/za.svg";
 import worldGlobe from "@/assets/flags/world.svg";
 import { ChevronDown } from "lucide-react";
+import PerspectiveCarousel from "@/components/media/PerspectiveCarousel";
 
 // Month badge mapping using design tokens (CSS classes)
 const MONTH_CLASS_MAP = {
@@ -140,6 +141,36 @@ const Index = () => {
   const latestAudio = useMemo(() => mockAudioFeeds.slice(0, 4), []);
   const firstFeed = mockAudioFeeds[0];
   const [liveOpen, setLiveOpen] = useState(false);
+  const slides = useMemo(
+    () => [
+      {
+        src: "/lovable-uploads/52e60509-f8e2-4dfc-ae17-627c6a5fc34a.png",
+        alt: "Quote: The purpose of ijtima...",
+        title: "Awakening Hearts",
+      },
+      {
+        src: "/lovable-uploads/4ef2493c-e68d-4a99-a15f-5cf41bfcc9b5.png",
+        alt: "Quote banner - purpose of ijtima",
+        title: "Purpose of Ijtima",
+      },
+      {
+        src: "/lovable-uploads/d6a843b3-c1ec-48f4-a83e-54dc4ab4d047.png",
+        alt: "Ijtima is a spiritual gathering...",
+        title: "Spiritual Gathering",
+      },
+      {
+        src: "/lovable-uploads/7b1ded13-79f6-4e14-b861-f0156905ba69.png",
+        alt: "Sincerity is the cornerstone...",
+        title: "Sincerity & Barakah",
+      },
+      {
+        src: "/lovable-uploads/6f779a33-58ec-4871-9017-30dc5969d926.png",
+        alt: "Ijtima gathering of hearts...",
+        title: "Gathering of Hearts",
+      },
+    ],
+    []
+  );
 
   useEffect(() => {
     if (location.hash && location.hash.startsWith("#ev-")) {
@@ -223,6 +254,8 @@ const Index = () => {
 
       {/* Below the fold: Regions quick-launch */}
       <RegionsQuickLaunch />
+
+      <PerspectiveCarousel heading="3D Perspective Gallery" slides={slides} />
 
       {/* Featured Collections */}
       <FeaturedCollections />
