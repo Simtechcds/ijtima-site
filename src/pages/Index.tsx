@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { mockAudioFeeds, mockCollections, mockConfig, mockEvents } from "@/data/mock";
 import Seo from "@/components/Seo";
 import zaFlag from "@/assets/flags/za.svg";
+import worldGlobe from "@/assets/flags/world.svg";
 
 // Month badge mapping using design tokens (CSS classes)
 const MONTH_CLASS_MAP = {
@@ -108,7 +109,7 @@ const RegionsQuickLaunch = memo(() => (
     <Link to="/international" className="pressable">
       <div className="glass-surface p-4 text-center font-semibold">
         <span className="inline-flex items-center justify-center gap-2">
-          <span role="img" aria-label="Globe" className="text-base">🌍</span>
+          <img src={worldGlobe} alt="International world globe" className="h-6 w-6 rounded-full object-cover" loading="lazy" />
           <span>International</span>
         </span>
       </div>
