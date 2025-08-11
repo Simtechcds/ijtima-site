@@ -2,104 +2,122 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Design System — IJTIMA Collection
+   All colors are HSL. Tokens power glass surfaces, motion and type rhythm. */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Base surfaces (dark-first aesthetic) */
+    --background: 210 28% 10%;
+    --foreground: 210 40% 96%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 210 30% 12%;
+    --card-foreground: 210 40% 96%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 210 30% 12%;
+    --popover-foreground: 210 40% 96%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Brand */
+    --primary: 210 20% 92%;
+    --primary-foreground: 210 28% 10%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Accent — Calm Emerald (#159A6A) */
+    --accent: 158 77% 33%;
+    --accent-foreground: 150 100% 97%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --secondary: 210 25% 18%;
+    --secondary-foreground: 210 40% 96%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 24% 20%;
+    --muted-foreground: 210 15% 70%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 46%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 210 16% 22%;
+    --input: 210 16% 22%;
+    --ring: 158 77% 33%;
 
-    --radius: 0.5rem;
+    /* Radii */
+    --radius: 1.375rem; /* ~22px for cards */
 
-    --sidebar-background: 0 0% 98%;
+    /* Sidebar (not used yet but kept aligned) */
+    --sidebar-background: 210 28% 12%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 158 77% 33%;
+    --sidebar-primary-foreground: 150 100% 97%;
+    --sidebar-accent: 210 24% 18%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 210 16% 22%;
+    --sidebar-ring: 158 77% 33%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Glass tokens */
+    --glass-bg: 210 30% 12% / 0.6;   /* backdrop glass */
+    --glass-border: 210 16% 22% / 0.6;
+    --glass-elev: 0 10px 28px -10px hsl(210 40% 2% / 0.5);
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --background: 210 28% 10%;
+    --foreground: 210 40% 96%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 210 30% 12%;
+    --card-foreground: 210 40% 96%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 210 30% 12%;
+    --popover-foreground: 210 40% 96%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --primary: 210 20% 92%;
+    --primary-foreground: 210 28% 10%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 210 25% 18%;
+    --secondary-foreground: 210 40% 96%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 210 24% 20%;
+    --muted-foreground: 210 15% 70%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62% 42%;
+    --destructive-foreground: 0 0% 98%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --border: 210 16% 22%;
+    --input: 210 16% 22%;
+    --ring: 158 77% 33%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 210 28% 12%;
+    --sidebar-foreground: 210 40% 96%;
+    --sidebar-primary: 158 77% 33%;
+    --sidebar-primary-foreground: 150 100% 97%;
+    --sidebar-accent: 210 24% 18%;
+    --sidebar-accent-foreground: 210 40% 96%;
+    --sidebar-border: 210 16% 22%;
+    --sidebar-ring: 158 77% 33%;
   }
 }
 
 @layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-  }
+  * { @apply border-border; }
+  html { font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+  body { @apply bg-background text-foreground antialiased; }
 }
+
+/* Reusable utilities powered by tokens */
+@layer components {
+  .glass-surface {
+    background-color: hsl(var(--glass-bg));
+    -webkit-backdrop-filter: blur(10px) saturate(110%);
+    backdrop-filter: blur(10px) saturate(110%);
+    border-radius: var(--radius);
+    border: 1px solid hsl(var(--glass-border));
+    box-shadow: var(--glass-elev);
+  }
+  .hairline { border: 1px solid hsl(var(--border)); }
+  .pill { border-radius: 9999px; }
+  .pressable { transition: transform 0.18s cubic-bezier(0.4,0,0.2,1); }
+  .pressable:active { transform: translateY(1px) scale(0.99); }
+
+  /* Segmented control */
+  .segmented { display:flex; gap:6px; background: hsl(var(--secondary)); padding:4px; border-radius: 0.75rem; }
+  .seg { flex:1; padding:8px 12px; border-radius: 0.625rem; font-weight:600; color: hsl(var(--muted-foreground)); transition: transform .18s ease, background-color .18s ease; }
+  .seg[data-state="active"] { background: hsl(var(--muted)); color: hsl(var(--foreground)); transform: translateY(-1px); box-shadow: inset 0 0 0 1px hsl(var(--border)); }
+}
+
