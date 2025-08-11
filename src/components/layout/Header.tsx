@@ -1,4 +1,7 @@
 import { Link, NavLink } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetTrigger, SheetContent, SheetClose } from "@/components/ui/sheet";
+import { Menu } from "lucide-react";
 
 const Header = () => {
   const nav = [
@@ -16,29 +19,71 @@ const Header = () => {
           <img src="/lovable-uploads/82f80df7-e56d-4b4a-8a87-06bbe9c95483.png" alt="IJTIMA logo" className="w-9 h-9 rounded-full" />
           <span className="font-semibold tracking-tight">Ijtima Collection</span>
         </Link>
-        <nav className="hidden md:flex items-center gap-5 text-sm">
-          {nav.map((n) => (
-            n.to.startsWith('http') ? (
-              <a
-                key={n.to}
-                href={n.to}
-                className="hover:text-accent-foreground transition-colors text-muted-foreground"
-              >
-                {n.label}
-              </a>
-            ) : (
-              <NavLink
-                key={n.to}
-                to={n.to}
-                className={({ isActive }) =>
-                  `hover:text-accent-foreground transition-colors ${isActive ? "text-accent-foreground" : "text-muted-foreground"}`
-                }
-              >
-                {n.label}
-              </NavLink>
-            )
-          ))}
-        </nav>
+        <div className="flex items-center gap-2">
+          <nav className="hidden md:flex items-center gap-5 text-sm">
+            {nav.map((n) => (
+              n.to.startsWith('http') ? (
+                <a
+                  key={n.to}
+                  href={n.to}
+                  className="hover:text-accent-foreground transition-colors text-muted-foreground"
+                >
+                  {n.label}
+                </a>
+              ) : (
+                <NavLink
+                  key={n.to}
+                  to={n.to}
+                  className={({ isActive }) =>
+                    `hover:text-accent-foreground transition-colors ${isActive ? "text-accent-foreground" : "text-muted-foreground"}`
+                  }
+                >
+                  {n.label}
+                </NavLink>
+              )
+            ))}
+          </nav>
+
+          {/* Mobile menu */}
+          <div className="md:hidden">
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button variant="outlineBright" size="icon" aria-label="Open menu">
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="right" className="w-64">
+                <nav className="mt-6">
+                  <ul className="grid gap-1">
+                    {nav.map((n) => (
+                      <li key={n.to}>
+                        {n.to.startsWith('http') ? (
+                          <a
+                            href={n.to}
+                            className="block rounded-md px-3 py-2 text-muted-foreground hover:bg-accent/40 hover:text-accent-foreground transition-colors"
+                          >
+                            {n.label}
+                          </a>
+                        ) : (
+                          <SheetClose asChild>
+                            <NavLink
+                              to={n.to}
+                              className={({ isActive }) =>
+                                `block rounded-md px-3 py-2 transition-colors ${isActive ? "bg-accent/40 text-accent-foreground" : "text-muted-foreground hover:bg-accent/40 hover:text-accent-foreground"}`
+                              }
+                            >
+                              {n.label}
+                            </NavLink>
+                          </SheetClose>
+                        )}
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              </SheetContent>
+            </Sheet>
+          </div>
+        </div>
       </div>
     </header>
   );
