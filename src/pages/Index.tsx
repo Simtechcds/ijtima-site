@@ -12,6 +12,23 @@ const Index = () => {
   const latestAudio = useMemo(() => mockAudioFeeds.slice(0, 4), []);
   const isLive = mockAudioFeeds[0]?.is_live;
 
+  // Map month in date label to semantic color classes
+  const getMonthClass = (label: string) => {
+    const months = [
+      'jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'
+    ];
+    const foundIndex = months.findIndex((m) => new RegExp(m, 'i').test(label));
+    const tones = [
+      'bg-accent text-accent-foreground',
+      'bg-secondary text-secondary-foreground',
+      'bg-muted text-muted-foreground',
+      'bg-primary text-primary-foreground',
+      'bg-destructive text-destructive-foreground',
+    ];
+    const idx = foundIndex >= 0 ? foundIndex % tones.length : 1; // fallback to secondary
+    return tones[idx];
+  };
+
   return (
     <main className="space-y-6">
       <Seo title="Home — IJTIMA Collection" description="Upcoming events and latest audio streams." canonical="/" />
@@ -29,7 +46,7 @@ const Index = () => {
             <ul className="space-y-3">
               {upcoming.map((ev) => (
                 <li key={ev.id} className="event-card flex items-center gap-3 p-3 rounded-xl hover:bg-secondary/50 transition-colors">
-                  <div className="pill px-3 py-2 bg-secondary text-sm font-semibold min-w-[84px] text-center">{ev.dateLabel}</div>
+                  <div className={`pill px-3 py-2 ${getMonthClass(ev.dateLabel)} text-sm font-semibold min-w-[84px] text-center`}>{ev.dateLabel}</div>
                     <div className="flex-1 text-left">
                       <div className="flex items-center gap-2">
                         <div className="font-semibold">{ev.title}</div>
@@ -89,7 +106,7 @@ const Index = () => {
         {mockCollections.slice(0, 2).map((c) => (
           <Link to={`/collection/${c.id}`} key={c.id} className="pressable">
             <article className="glass-surface p-3 flex items-center gap-3">
-              <img src={c.cover} alt={`${c.title} cover`} className="w-16 h-16 rounded-lg object-cover" loading="lazy" />
+              <img src={(c.id === "old-workers" || /ijtima/i.test(c.title)) ? "/lovable-uploads/3b7a5720-d209-4717-b9cf-19529c55872e.png" : c.cover} alt={`${c.title} cover`} className="w-16 h-16 rounded-lg object-cover" loading="lazy" />
               <div className="flex-1 text-left">
                 <h3 className="font-semibold">{c.title}</h3>
                 <p className="text-sm text-muted-foreground">{c.description}</p>
