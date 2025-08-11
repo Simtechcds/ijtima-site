@@ -49,10 +49,10 @@ const CountUp: React.FC<{ end: number; duration?: number; className?: string }> 
 
 const StatisticsSection: React.FC = () => {
   const stats = [
-    { value: 50, label: "Deep Brown Legacy", bg: "stat-brown" },
-    { value: 109, label: "Olive Khaki Milestones", bg: "stat-olive" },
-    { value: 7108, label: "Slate Gray Gatherings", bg: "stat-slate" },
-    { value: 26743, label: "Plum Hours of Service", bg: "stat-plum" },
+    { value: 50, label: "Years", bg: "stat-brown" },
+    { value: 109, label: "Ijtimas", bg: "stat-olive" },
+    { value: 7108, label: "Programs", bg: "stat-slate" },
+    { value: 26743, label: "Hours", bg: "stat-plum" },
   ];
 
   return (
