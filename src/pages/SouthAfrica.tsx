@@ -12,7 +12,7 @@ const SouthAfrica = () => {
       <Tabs defaultValue="Ijtima">
         <div className="mb-4">
           <Link to="/">
-            <Button variant="secondary" size="sm">Back to Home</Button>
+            <Button variant="outlineBright" size="smWide">Back to Home</Button>
           </Link>
         </div>
         <TabsList className="segmented w-full">

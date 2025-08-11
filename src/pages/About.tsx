@@ -9,7 +9,7 @@ const About = () => {
 
       <div className="mb-2">
         <Link to="/">
-          <Button variant="secondary" size="sm">Back to Home</Button>
+          <Button variant="outlineBright" size="smWide">Back to Home</Button>
         </Link>
       </div>
 
