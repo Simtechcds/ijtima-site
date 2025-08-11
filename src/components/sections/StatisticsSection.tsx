@@ -49,10 +49,10 @@ const CountUp: React.FC<{ end: number; duration?: number; className?: string }> 
 
 const StatisticsSection: React.FC = () => {
   const stats = [
-    { value: 50, label: "Years", bg: "bg-primary/60" },
-    { value: 109, label: "Ijtimas", bg: "bg-secondary/60" },
-    { value: 7108, label: "Programs", bg: "bg-accent/60" },
-    { value: 26743, label: "Hours", bg: "bg-muted/60" },
+    { value: 50, label: "Deep Brown Legacy", bg: "stat-brown" },
+    { value: 109, label: "Olive Khaki Milestones", bg: "stat-olive" },
+    { value: 7108, label: "Slate Gray Gatherings", bg: "stat-slate" },
+    { value: 26743, label: "Plum Hours of Service", bg: "stat-plum" },
   ];
 
   return (
@@ -65,15 +65,15 @@ const StatisticsSection: React.FC = () => {
           className="h-full w-full object-cover"
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-background/70" aria-hidden="true" />
+        <div className="absolute inset-0 bg-background/60" aria-hidden="true" />
       </div>
 
-      <div className="container py-16 md:py-20 lg:py-24">
-        <header className="mb-8 md:mb-12 text-center">
+      <div className="container py-12 md:py-14 lg:py-16">
+        <header className="mb-6 md:mb-8 text-center">
           <h2 id="stats-title" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground drop-shadow-xl">
             Ijtima Overview Insights
           </h2>
-          <p className="mt-3 max-w-3xl mx-auto text-base md:text-lg text-muted-foreground drop-shadow">
+          <p className="mt-2 max-w-3xl mx-auto text-base md:text-lg text-muted-foreground drop-shadow">
             Preserving the Heritage and Legacy of Ijtimas in South Africa and Beyond
           </p>
         </header>

@@ -55,6 +55,12 @@
     --glass-bg: 210 30% 12% / 0.6;   /* backdrop glass */
     --glass-border: 210 16% 22% / 0.6;
     --glass-elev: 0 10px 28px -10px hsl(210 40% 2% / 0.5);
+
+    /* Statistics card shades */
+    --stat-brown: 0 21% 29%;
+    --stat-olive: 47 9% 40%;
+    --stat-slate: 209 8% 31%;
+    --stat-plum: 275 13% 35%;
   }
 
   .dark {
@@ -91,6 +97,12 @@
     --sidebar-accent-foreground: 210 40% 96%;
     --sidebar-border: 210 16% 22%;
     --sidebar-ring: 158 77% 33%;
+
+    /* Statistics card shades */
+    --stat-brown: 0 21% 29%;
+    --stat-olive: 47 9% 40%;
+    --stat-slate: 209 8% 31%;
+    --stat-plum: 275 13% 35%;
   }
 }
 
@@ -119,6 +131,12 @@
   .segmented { display:flex; gap:6px; background: hsl(var(--secondary)); padding:4px; border-radius: 0.75rem; }
   .seg { flex:1; padding:8px 12px; border-radius: 0.625rem; font-weight:600; color: hsl(var(--muted-foreground)); transition: transform .18s ease, background-color .18s ease; }
   .seg[data-state="active"] { background: hsl(var(--muted)); color: hsl(var(--foreground)); transform: translateY(-1px); box-shadow: inset 0 0 0 1px hsl(var(--border)); }
+
+  /* Statistics card background helpers */
+  .stat-brown { background-color: hsl(var(--stat-brown) / 0.6); }
+  .stat-olive { background-color: hsl(var(--stat-olive) / 0.6); }
+  .stat-slate { background-color: hsl(var(--stat-slate) / 0.6); }
+  .stat-plum  { background-color: hsl(var(--stat-plum) / 0.6); }
 }
 
 /* Month badge theme */
