@@ -189,21 +189,23 @@ const Index = () => {
 
       {/* Live stream embed (collapsible) */}
       <section className="glass-surface module-frame p-4">
-        <div
-          role="button"
-          aria-expanded={liveOpen}
-          aria-controls="live-embed"
-          onClick={() => setLiveOpen((v) => !v)}
-          className="inline-flex items-center justify-center gap-2 pill px-3 py-2 mx-auto md:mx-0 module-frame bg-secondary/60 hover:bg-secondary/70 cursor-pointer select-none transition-colors"
-        >
-          <span className="bg-destructive text-destructive-foreground text-xs px-2 py-1 rounded-full font-semibold">
-            LIVE
-          </span>
-          <span className="text-sm text-foreground/90 font-medium">Stream</span>
-          <ChevronDown
-            className={`w-4 h-4 transition-transform duration-200 ${liveOpen ? "rotate-180" : "rotate-0"}`}
-            aria-hidden="true"
-          />
+        <div className="flex justify-center md:justify-start">
+          <div
+            role="button"
+            aria-expanded={liveOpen}
+            aria-controls="live-embed"
+            onClick={() => setLiveOpen((v) => !v)}
+            className="inline-flex items-center justify-center gap-2 pill px-3 py-2 module-frame bg-secondary/60 hover:bg-secondary/70 cursor-pointer select-none transition-colors"
+          >
+            <span className="bg-destructive text-destructive-foreground text-xs px-2 py-1 rounded-full font-semibold">
+              LIVE
+            </span>
+            <span className="text-sm text-foreground/90 font-medium">Stream</span>
+            <ChevronDown
+              className={`w-4 h-4 transition-transform duration-200 ${liveOpen ? "rotate-180" : "rotate-0"}`}
+              aria-hidden="true"
+            />
+          </div>
         </div>
         {liveOpen && (
           <div id="live-embed" className="mt-3 rounded-xl overflow-hidden">
