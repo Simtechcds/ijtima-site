@@ -15,7 +15,7 @@ const International = () => {
       <Seo title="International — IJTIMA Collection" description="International hubs and related audios." />
       <div className="mb-4">
         <Link to="/">
-          <Button variant="outlineBright" size="smWide">Back to Home</Button>
+          <Button variant="olive" size="smWide">Back to Home</Button>
         </Link>
       </div>
       <div className="grid md:grid-cols-2 gap-4">

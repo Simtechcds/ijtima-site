@@ -98,7 +98,7 @@ const LatestAudioList = memo(({ list }: { list: typeof mockAudioFeeds }) => (
 LatestAudioList.displayName = "LatestAudioList";
 
 const RegionsQuickLaunch = memo(() => (
-  <section className="grid grid-cols-2 gap-3">
+  <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
     <Link to="/south-africa" className="pressable">
       <div className="glass-surface module-frame p-4 text-center font-semibold">
         <span className="inline-flex items-center justify-center gap-2">
@@ -165,7 +165,7 @@ const Index = () => {
           aria-expanded={liveOpen}
           aria-controls="live-embed"
           onClick={() => setLiveOpen((v) => !v)}
-          className="flex items-center gap-2 cursor-pointer select-none"
+          className="inline-flex items-center justify-center gap-2 pill px-3 py-2 mx-auto md:mx-0 module-frame bg-secondary/60 hover:bg-secondary/70 cursor-pointer select-none transition-colors"
         >
           <span className="bg-destructive text-destructive-foreground text-xs px-2 py-1 rounded-full font-semibold">
             LIVE
@@ -189,7 +189,7 @@ const Index = () => {
             />
           </div>
         )}
-        <small className="block mt-2 text-xs text-muted-foreground">
+        <small className="block mt-2 text-xs text-muted-foreground text-center md:text-left">
           <a href="https://mixlr.com/" target="_blank" rel="noopener noreferrer" className="underline hover:text-foreground">
             IJTIMA.SITE is on Mixlr
           </a>
