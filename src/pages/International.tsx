@@ -34,7 +34,16 @@ const raiwindList = [
 
 const tongiList = ["2016 Tongi Ijtema"];
 
-const nizamuddinList = ["2015 All Africa Nizamuddin Jor"];
+const nizamuddinList = [
+  "2015 All Africa Nizamuddin Jor",
+  "2013 All Africa Nizamuddin Jor",
+  "2011 All Africa Nizamuddin Jor",
+  "2011 All USA Nizamuddin Jor",
+  "2011 All India Nizamuddin Jor",
+  "2011 All Europe Nizamuddin Jor",
+  "2006 SA Nizamuddin Jor",
+  "2004 SA Nizamuddin Jor",
+];
 
 const ukList = ["2018 Blackburn", "2019 Blackburn", "2022 Blackburn"];
 const canadaList = ["2011 Toronto", "2023 Canada"];
@@ -89,9 +98,9 @@ const International = () => {
 
         <div className="rounded-lg ring-1 ring-foreground/20 p-3">
           <Tabs defaultValue="major" className="w-full">
-            <TabsList aria-label="International categories" className="w-full overflow-x-auto whitespace-nowrap">
-              <TabsTrigger value="major">Major</TabsTrigger>
-              <TabsTrigger value="global">Global</TabsTrigger>
+            <TabsList aria-label="International categories" className="segmented w-full">
+              <TabsTrigger value="major" className="seg flex-1">Major</TabsTrigger>
+              <TabsTrigger value="global" className="seg flex-1">Global</TabsTrigger>
             </TabsList>
 
             <TabsContent value="major">
@@ -99,11 +108,11 @@ const International = () => {
                 <h2 id="major-heading" className="sr-only">Major International Ijtimas</h2>
 
                 <Tabs defaultValue="raiwind" className="w-full">
-                  <TabsList aria-label="Major locations" className="w-full overflow-x-auto whitespace-nowrap">
-                    <TabsTrigger value="raiwind">Raiwind</TabsTrigger>
-                    <TabsTrigger value="tongi">Tongi</TabsTrigger>
-                    <TabsTrigger value="nizamuddin">Nizamuddin Jors</TabsTrigger>
-                  </TabsList>
+                    <TabsList aria-label="Major locations" className="segmented w-full">
+                      <TabsTrigger value="raiwind" className="seg flex-1">Raiwind</TabsTrigger>
+                      <TabsTrigger value="tongi" className="seg flex-1">Tongi</TabsTrigger>
+                      <TabsTrigger value="nizamuddin" className="seg flex-1">Nizamuddin Jors</TabsTrigger>
+                    </TabsList>
 
                   <TabsContent value="raiwind">
                     <AccordionList items={raiwindList} prefix="raiwind" />
@@ -125,12 +134,12 @@ const International = () => {
                 <h2 id="global-heading" className="sr-only">Global Regions</h2>
 
                 <Tabs defaultValue="uk" className="w-full">
-                  <TabsList aria-label="Global locations" className="w-full overflow-x-auto whitespace-nowrap">
-                    <TabsTrigger value="uk">UK</TabsTrigger>
-                    <TabsTrigger value="canada">Canada</TabsTrigger>
-                    <TabsTrigger value="other">Other</TabsTrigger>
-                    <TabsTrigger value="india">India</TabsTrigger>
-                  </TabsList>
+                    <TabsList aria-label="Global locations" className="segmented w-full">
+                      <TabsTrigger value="uk" className="seg flex-1">UK</TabsTrigger>
+                      <TabsTrigger value="canada" className="seg flex-1">Canada</TabsTrigger>
+                      <TabsTrigger value="other" className="seg flex-1">Other</TabsTrigger>
+                      <TabsTrigger value="india" className="seg flex-1">India</TabsTrigger>
+                    </TabsList>
 
                   <TabsContent value="uk">
                     <AccordionList items={ukList} prefix="uk" />
