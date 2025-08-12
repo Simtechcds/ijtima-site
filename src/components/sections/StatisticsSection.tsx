@@ -47,13 +47,14 @@ const CountUp: React.FC<{ end: number; duration?: number; className?: string }> 
   );
 };
 
-const StatisticsSection: React.FC = () => {
-  const stats = [
+const StatisticsSection: React.FC<{ stats?: { value: number; label: string; bg: string }[] }> = ({ stats }) => {
+  const defaultStats = [
     { value: 50, label: "Years", bg: "stat-brown" },
     { value: 109, label: "Ijtimas", bg: "stat-olive" },
     { value: 7108, label: "Programs", bg: "stat-slate" },
     { value: 26743, label: "Hours", bg: "stat-plum" },
   ];
+  const data = stats ?? defaultStats;
 
   return (
     <section aria-labelledby="stats-title" className="py-10 md:py-12 lg:py-14">
@@ -81,7 +82,7 @@ const StatisticsSection: React.FC = () => {
 
           {/* Stats grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
-            {stats.map((s) => (
+            {data.map((s) => (
               <article
                 key={s.label}
                 className={`${s.bg} hairline rounded-2xl backdrop-blur-md shadow-lg p-4 sm:p-6 lg:p-8 text-center animate-fade-in`}
