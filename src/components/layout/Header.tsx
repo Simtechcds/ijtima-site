@@ -26,6 +26,8 @@ const Header = () => {
                 <a
                   key={n.to}
                   href={n.to}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="hover:text-accent-foreground transition-colors text-muted-foreground"
                 >
                   {n.label}
@@ -60,6 +62,8 @@ const Header = () => {
                         {n.to.startsWith('http') ? (
                           <a
                             href={n.to}
+                            target="_blank"
+                            rel="noopener noreferrer"
                             className="block rounded-md px-3 py-2 text-muted-foreground hover:bg-accent/40 hover:text-accent-foreground transition-colors"
                           >
                             {n.label}
