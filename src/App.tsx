@@ -14,6 +14,7 @@ import Event from "./pages/Event";
 import CollectionDetail from "./pages/CollectionDetail";
 import AudioList from "./pages/AudioList";
 import Views from "./pages/Views";
+import Stats from "./pages/Stats";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import StickyLivePill from "./components/media/StickyLivePill";
@@ -59,6 +60,7 @@ const RoutedApp = () => {
           <Route path="/collection/:id" element={<CollectionDetail />} />
           <Route path="/audio" element={<AudioList />} />
           <Route path="/views" element={<Views />} />
+          <Route path="/stats" element={<Stats />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
