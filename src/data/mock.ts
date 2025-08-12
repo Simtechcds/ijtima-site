@@ -17,7 +17,7 @@ export const mockAudioFeeds: AudioFeed[] = [
 
 export const mockCollections: Collection[] = [
   { id: "sa-ijtima", title: "SA Ijtima Legacy", region: "SA", cover: "/lovable-uploads/79e43d92-6f74-4853-9fb4-6100a86bc227.png", description: "Where South Africa’s Ijtima Story Lives On", type: "Audio+Video", youtube_playlist_url: "https://youtube.com/playlist?list=xyz", years: [2025, 2024, 2023] },
-  { id: "old-workers", title: "ijtima History", region: "SA", cover: "/lovable-uploads/79e43d92-6f74-4853-9fb4-6100a86bc227.png", description: "Preserving the Moments, Honoring the Legacy, Inspiring the Future", type: "Audio", years: [2025, 2024] },
+  { id: "old-workers", title: "ijtima History", region: "SA", cover: "/lovable-uploads/79e43d92-6f74-4853-9fb4-6100a86bc227.png", description: "Moments Preserved. Legacy Honored. Future Inspired", type: "Audio", years: [2025, 2024] },
   { id: "raiwind", title: "Raiwind Ijtima", region: "International", cover: "/lovable-uploads/79e43d92-6f74-4853-9fb4-6100a86bc227.png", description: "Raiwind programs and playlists.", type: "Video", years: [2024, 2023] },
 ];
 
