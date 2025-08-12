@@ -18,6 +18,8 @@ const badgeVariants = cva(
           "border-transparent bg-accent text-accent-foreground hover:bg-accent/85",
         muted:
           "bg-muted text-muted-foreground border-border",
+        saffron:
+          "border-transparent bg-[hsl(var(--stat-saffron))] text-[hsl(var(--glass-white))] hover:opacity-95",
         outline: "text-foreground",
       },
     },
@@ -26,6 +28,7 @@ const badgeVariants = cva(
     },
   }
 )
+
 
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,

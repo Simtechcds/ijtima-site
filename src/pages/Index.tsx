@@ -10,6 +10,7 @@ import worldGlobe from "@/assets/flags/world.svg";
 import { ChevronDown } from "lucide-react";
 import FadeAutoGallery from "@/components/media/FadeAutoGallery";
 import { nowPlayingActions } from "@/store/nowPlaying";
+import SpreakerNowPlaying from "@/components/media/SpreakerNowPlaying";
 
 // Month badge mapping using design tokens (CSS classes)
 const MONTH_CLASS_MAP = {
@@ -218,14 +219,9 @@ const Index = () => {
           </TabsContent>
 
           <TabsContent value="Latest" className="mt-4">
-            <div className="glass-surface p-0 overflow-hidden rounded-xl" onPointerDown={() => nowPlayingActions.play({ provider: "podcast", title: "Latest audio — Spreaker", url: "https://widget.spreaker.com/player?show_id=6705342" })}>
-              <iframe
+            <div className="glass-surface p-0 overflow-hidden rounded-xl">
+              <SpreakerNowPlaying
                 src="https://widget.spreaker.com/player?show_id=6705342&theme=light&playlist=show&playlist-continuous=false&chapters-image=true&episode_image_position=right&hide-logo=false&hide-likes=false&hide-comments=false&hide-sharing=false&hide-download=true"
-                width="100%"
-                height="350"
-                title="Overport Ijtima 2025"
-                frameBorder="0"
-                loading="lazy"
               />
             </div>
           </TabsContent>
