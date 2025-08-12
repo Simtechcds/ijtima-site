@@ -234,7 +234,7 @@ const Index = () => {
       {/* Below the fold: Regions quick-launch */}
       <RegionsQuickLaunch />
 
-      <FadeAutoGallery slides={slides} />
+      <FadeAutoGallery slides={slides} heightClass="h-[260px] sm:h-[360px] md:h-[480px] lg:h-[540px] xl:h-[580px]" />
 
       {/* Featured Collections */}
       <FeaturedCollections />
