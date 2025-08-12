@@ -15,7 +15,7 @@ const SAItem = ({ value, label, pending = true, children }: SAItemProps) => {
           <span className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-2">
             <span className="whitespace-nowrap text-shadow-soft">{label}</span>
             {pending && (
-              <Badge className="badge-pending text-shadow-soft self-start sm:self-auto sm:ml-2">Updates Pending</Badge>
+              <Badge variant="outline" className="badge-pending text-shadow-soft self-start sm:self-auto sm:ml-2">Updates Pending</Badge>
             )}
           </span>
         </AccordionTrigger>
