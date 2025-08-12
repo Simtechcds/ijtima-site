@@ -34,7 +34,7 @@ const RoutedApp = () => {
   const intlStats = [
     { value: 14, label: "Raiwind", bg: "stat-sage" },
     { value: 7, label: "India", bg: "stat-saffron" },
-    { value: 1, label: "Tongi", bg: "stat-brown" },
+    { value: 1, label: "Tongi", bg: "stat-olive" },
     { value: 9, label: "Global", bg: "stat-slate" },
   ];
 
