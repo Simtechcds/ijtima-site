@@ -32,7 +32,7 @@ export default function FadeAutoGallery({
 
   return (
     <section className={cn("w-full py-6 relative", className)}>
-      <div className={cn("relative mx-auto max-w-6xl md:max-w-7xl rounded-2xl overflow-hidden glass-surface hairline", heightClass)}>
+      <div className={cn("relative mx-auto max-w-6xl md:max-w-7xl rounded-2xl overflow-hidden glass-surface ring-1 ring-inset ring-foreground/50", heightClass)}>
         {/* Slides */}
         {slides.map((s, i) => (
           <article
