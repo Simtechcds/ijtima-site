@@ -12,14 +12,14 @@ const SAItem = ({ value, label, pending = true, children }: SAItemProps) => {
     <div className={`${pending ? 'bg-[hsl(var(--plum))]/28' : 'bg-[hsl(var(--glass-white))]/20'} rounded-xl border border-border/50 backdrop-blur-md mb-2`}>
       <AccordionItem value={value} className="border-0">
         <AccordionTrigger className="text-left px-4">
-          <span className="flex items-center gap-2">
-            {label}
+          <span className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-2">
+            <span className="whitespace-nowrap text-shadow-soft">{label}</span>
             {pending && (
-              <Badge className="ml-2 bg-[hsl(var(--plum))] text-foreground">Updates Pending</Badge>
+              <Badge className="badge-pending text-shadow-soft self-start sm:self-auto sm:ml-2">Updates Pending</Badge>
             )}
           </span>
         </AccordionTrigger>
-        <AccordionContent className="text-muted-foreground px-4">
+        <AccordionContent className="text-muted-foreground px-4 text-shadow-soft">
           {children}
         </AccordionContent>
       </AccordionItem>

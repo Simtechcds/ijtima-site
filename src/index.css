@@ -63,6 +63,7 @@
     /* Extras */
     --glass-white: 0 0% 100%;
     --plum: 275 13% 35%;
+    --plum-deep: 275 22% 22%;
 
     /* Statistics card shades */
     --stat-brown: 0 21% 29%;
@@ -119,6 +120,7 @@
     /* Extras */
     --glass-white: 0 0% 100%;
     --plum: 275 13% 35%;
+    --plum-deep: 275 22% 22%;
   }
 }
 
@@ -189,5 +191,17 @@
   .pill.month-dec { background-color: var(--month-dec); color: hsl(var(--foreground)); }
   .pill.month-tbc { background-color: var(--badge-tbc); color: hsl(var(--foreground)); }
   .badge-tbc { background-color: var(--badge-tbc) !important; color: hsl(var(--foreground)) !important; }
+}
+
+@layer components {
+  /* Text shadow utility */
+  .text-shadow-soft { text-shadow: 0 1px 1px hsl(0 0% 0% / 0.35); }
+
+  /* Pending badge variant */
+  .badge-pending {
+    background-color: hsl(var(--plum-deep));
+    color: hsl(var(--glass-white));
+    border: 1px solid hsl(var(--glass-white));
+  }
 }
 
