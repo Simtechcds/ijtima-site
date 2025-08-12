@@ -1,5 +1,6 @@
 import Seo from "@/components/Seo";
 import { Button } from "@/components/ui/button";
+import { nowPlayingActions } from "@/store/nowPlaying";
 
 const Live = () => {
   return (
@@ -24,7 +25,14 @@ const Live = () => {
           </a>
         </small>
         <div className="flex items-center justify-end mt-3">
-          <Button variant="secondary">Continue in background</Button>
+          <Button
+            variant="secondary"
+            onClick={() =>
+              nowPlayingActions.play({ provider: "live", title: "Live stream", url: "https://ijtima.mixlr.com/embed" })
+            }
+          >
+            Continue in background
+          </Button>
         </div>
       </section>
     </main>

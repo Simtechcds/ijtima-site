@@ -1,51 +1,40 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { mockAudioFeeds } from "@/data/mock";
+import { Badge } from "@/components/ui/badge";
+import { useNowPlaying } from "@/store/nowPlaying";
 
 const StickyLivePill = () => {
-  const feed = mockAudioFeeds[0];
-  const [open, setOpen] = useState(false);
-  const [playing, setPlaying] = useState(feed.is_live);
+  const np = useNowPlaying();
+
+  if (!np.playing || !np.title) return null;
+
+  const source = (() => {
+    switch (np.provider) {
+      case "live":
+        return { label: "Live", variant: "accent" as const };
+      case "youtube":
+        return { label: "YouTube", variant: "destructive" as const };
+      case "podcast":
+        return { label: "Podcast", variant: "secondary" as const };
+      default:
+        return { label: "", variant: "muted" as const };
+    }
+  })();
 
   return (
-    <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[min(720px,92%)] sm:w-[min(720px,92%)]" style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}>
+    <div
+      className="fixed bottom-4 left-1/2 -translate-x-1/2 z-50 w-[min(720px,92%)] sm:w-[min(720px,92%)]"
+      style={{ bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}
+    >
       <div className="glass-surface pill h-12 px-3 flex items-center justify-between gap-2 border border-white/60">
         <div className="flex items-center gap-2 min-w-0 flex-1 justify-center sm:justify-start">
-          <span className={`pill px-2 py-1 text-xs font-bold ${feed.is_live ? "bg-accent text-accent-foreground" : "bg-muted text-muted-foreground"} inline-flex`}>
-            {feed.is_live ? "LIVE" : "Next"}
-          </span>
+          <Badge variant="muted" className="px-2 py-1 text-[10px] sm:text-xs">Now Playing</Badge>
+          {source.label && (
+            <Badge variant={source.variant} className="px-2 py-1 text-[10px] sm:text-xs">{source.label}</Badge>
+          )}
           <div className="text-xs sm:text-sm font-medium text-foreground/90 whitespace-nowrap truncate max-w-[60vw] text-center sm:text-left">
-            {feed.is_live ? feed.title : `Next: ${feed.next_label}`}
+            {np.title}
           </div>
-        </div>
-        <div className="flex items-center gap-1 sm:gap-2">
-          <Button size="sm" variant="outlineBright" onClick={() => setPlaying((p) => !p)} aria-label={playing ? "Pause" : "Play"}>
-            {playing ? "Pause" : "Play"}
-          </Button>
-          <Button size="sm" onClick={() => setOpen(true)}>
-            <span className="sm:hidden">Open</span>
-            <span className="hidden sm:inline">Open Full Player</span>
-          </Button>
         </div>
       </div>
-
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="bottom" className="h-[70vh]">
-          <SheetHeader>
-            <SheetTitle>Live Player</SheetTitle>
-          </SheetHeader>
-          <div className="mt-4 space-y-4">
-            <div className="aspect-video w-full bg-secondary rounded-md grid place-items-center">Stream Embed</div>
-            <div className="flex items-center justify-between">
-              <Button variant="secondary" onClick={() => setOpen(false)}>Continue in background</Button>
-              <a href={feed.live_url} target="_blank" rel="noreferrer">
-                <Button>Open External</Button>
-              </a>
-            </div>
-          </div>
-        </SheetContent>
-      </Sheet>
     </div>
   );
 };

@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { mockCollections } from "@/data/mock";
 
 import { Button } from "@/components/ui/button";
+import YouTubeNowPlaying from "@/components/media/YouTubeNowPlaying";
 
 const CollectionDetail = () => {
   const { id } = useParams();
@@ -85,24 +86,10 @@ const CollectionDetail = () => {
             <h2 className="font-semibold mb-3">Featured Videos</h2>
             <div className="grid md:grid-cols-2 gap-4">
               <article className="glass-surface module-frame p-3">
-                <iframe
-                  className="w-full aspect-video rounded-md"
-                  loading="lazy"
-                  src="https://www.youtube.com/embed/pYtzQWoIP6o?start=3"
-                  title="Ijtima video 1"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                />
+                <YouTubeNowPlaying videoId="pYtzQWoIP6o" />
               </article>
               <article className="glass-surface module-frame p-3">
-                <iframe
-                  className="w-full aspect-video rounded-md"
-                  loading="lazy"
-                  src="https://www.youtube.com/embed/0vtv1V9e7sQ"
-                  title="Ijtima video 2"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                />
+                <YouTubeNowPlaying videoId="0vtv1V9e7sQ" />
               </article>
             </div>
           </section>
@@ -125,24 +112,10 @@ const CollectionDetail = () => {
             <h2 className="font-semibold mb-3">Legacy Videos</h2>
             <div className="grid md:grid-cols-2 gap-4">
               <article className="glass-surface module-frame p-3">
-                <iframe
-                  className="w-full aspect-video rounded-md"
-                  loading="lazy"
-                  src="https://www.youtube.com/embed/ROVve3yiwOU?start=3"
-                  title="Haji Bhai Padia legacy — video 1"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                />
+                <YouTubeNowPlaying videoId="ROVve3yiwOU" />
               </article>
               <article className="glass-surface module-frame p-3">
-                <iframe
-                  className="w-full aspect-video rounded-md"
-                  loading="lazy"
-                  src="https://www.youtube.com/embed/bDio_UJJWs4"
-                  title="Haji Bhai Padia legacy — video 2"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                />
+                <YouTubeNowPlaying videoId="bDio_UJJWs4" />
               </article>
             </div>
           </section>
