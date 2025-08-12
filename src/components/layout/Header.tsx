@@ -16,7 +16,7 @@ const Header = () => {
     <header className="w-full border-b border-border/60 sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       <div className="container h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-3">
-          <img src="/lovable-uploads/c098dab8-8102-4ef1-aaaf-2c1af1046773.png" alt="IJTIMA.SITE logo" className="w-9 h-9 rounded-full" />
+          <img src="/lovable-uploads/c098dab8-8102-4ef1-aaaf-2c1af1046773.png" alt="IJTIMA.SITE logo" className="w-9 h-9 rounded-full" decoding="async" />
           <span className="font-semibold tracking-tight">IJTIMA.SITE</span>
         </Link>
         <div className="flex items-center gap-2">

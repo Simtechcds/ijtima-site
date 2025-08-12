@@ -44,7 +44,7 @@ const International = () => {
               {majorSections.map((s) => (
                 <Link to={s.to} key={s.id} className="pressable">
                   <article className="glass-surface module-frame p-4 h-full flex items-center gap-3">
-                    <img src="/lovable-uploads/3b7a5720-d209-4717-b9cf-19529c55872e.png" alt={`${s.title} emblem`} className="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                    <img src="/lovable-uploads/3b7a5720-d209-4717-b9cf-19529c55872e.png" alt={`${s.title} emblem`} className="w-12 h-12 rounded-lg object-cover" loading="lazy" decoding="async" />
                     <div>
                       <h3 className="font-semibold">{s.title}</h3>
                       <p className="text-sm text-muted-foreground">{s.desc}</p>
@@ -63,7 +63,7 @@ const International = () => {
               {globalSections.map((s) => (
                 <Link to={s.to} key={s.id} className="pressable">
                   <article className="glass-surface module-frame p-4 h-full flex items-center gap-3">
-                    <img src="/lovable-uploads/3b7a5720-d209-4717-b9cf-19529c55872e.png" alt={`${s.title} emblem`} className="w-12 h-12 rounded-lg object-cover" loading="lazy" />
+                    <img src="/lovable-uploads/3b7a5720-d209-4717-b9cf-19529c55872e.png" alt={`${s.title} emblem`} className="w-12 h-12 rounded-lg object-cover" loading="lazy" decoding="async" />
                     <div>
                       <h3 className="font-semibold">{s.title}</h3>
                       <p className="text-sm text-muted-foreground">{s.desc}</p>

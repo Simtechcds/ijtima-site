@@ -1,9 +1,9 @@
 import { memo, useMemo, useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
-import { mockAudioFeeds, mockCollections, mockConfig, mockEvents } from "@/data/mock";
+import { mockCollections, mockConfig, mockEvents } from "@/data/mock";
 import Seo from "@/components/Seo";
 import zaFlag from "@/assets/flags/za.svg";
 import worldGlobe from "@/assets/flags/world.svg";
@@ -55,6 +55,7 @@ const UpcomingList = memo(({ events }: { events: typeof mockEvents }) => {
                   alt="South Africa flag"
                   className="h-4 w-4 rounded-full object-cover"
                   loading="lazy"
+                  decoding="async"
                 />
               )}
             </div>
@@ -72,41 +73,13 @@ const UpcomingList = memo(({ events }: { events: typeof mockEvents }) => {
 });
 UpcomingList.displayName = "UpcomingList";
 
-const LiveNowCard = memo(({ feed }: { feed: (typeof mockAudioFeeds)[number] | undefined }) => {
-  if (!feed?.is_live) return null;
-  return (
-    <article aria-live="polite" className="glass-surface module-frame p-4">
-      <h3 className="text-sm uppercase tracking-wider text-muted-foreground mb-1">Now Playing</h3>
-      <div className="flex items-center justify-between gap-2">
-        <div className="flex items-center gap-2 font-semibold">
-          {feed.title}
-          <Badge variant="accent">LIVE</Badge>
-        </div>
-        <a href="https://ijtima.mixlr.com/" className="inline-block"><Button variant="default">Open Full Player</Button></a>
-      </div>
-    </article>
-  );
-});
-LiveNowCard.displayName = "LiveNowCard";
-
-const LatestAudioList = memo(({ list }: { list: typeof mockAudioFeeds }) => (
-  <ul className="space-y-2">
-    {list.map((a) => (
-      <li key={a.show_id} className="p-3 rounded-xl bg-secondary/50">
-        <div className="font-medium">{a.title}</div>
-        <div className="text-sm text-muted-foreground">{a.platform}</div>
-      </li>
-    ))}
-  </ul>
-));
-LatestAudioList.displayName = "LatestAudioList";
 
 const RegionsQuickLaunch = memo(() => (
   <section className="grid grid-cols-1 md:grid-cols-2 gap-3">
     <Link to="/south-africa" className="pressable">
       <div className="glass-surface module-frame p-4 text-center font-semibold">
         <span className="inline-flex items-center justify-center gap-2">
-          <img src={zaFlag} alt="South Africa flag" className="h-6 w-6 rounded-full object-cover" loading="lazy" />
+          <img src={zaFlag} alt="South Africa flag" className="h-6 w-6 rounded-full object-cover" loading="lazy" decoding="async" />
           <span>South Africa</span>
         </span>
       </div>
@@ -114,7 +87,7 @@ const RegionsQuickLaunch = memo(() => (
     <Link to="/international" className="pressable">
       <div className="glass-surface module-frame p-4 text-center font-semibold">
         <span className="inline-flex items-center justify-center gap-2">
-          <img src={worldGlobe} alt="International world globe" className="h-6 w-6 rounded-full object-cover" loading="lazy" />
+          <img src={worldGlobe} alt="International world globe" className="h-6 w-6 rounded-full object-cover" loading="lazy" decoding="async" />
           <span>International</span>
         </span>
       </div>
@@ -128,7 +101,7 @@ const FeaturedCollections = memo(() => (
     {mockCollections.slice(0, 2).map((c) => (
       <Link to={`/collection/${c.id}`} key={c.id} className="pressable">
         <article className="glass-surface module-frame p-3 flex items-center gap-3">
-          <img src={(c.id === "old-workers" || /ijtima/i.test(c.title)) ? "/lovable-uploads/3b7a5720-d209-4717-b9cf-19529c55872e.png" : c.cover} alt={`${c.title} cover`} className="w-16 h-16 rounded-lg object-cover" loading="lazy" />
+          <img src={(c.id === "old-workers" || /ijtima/i.test(c.title)) ? "/lovable-uploads/3b7a5720-d209-4717-b9cf-19529c55872e.png" : c.cover} alt={`${c.title} cover`} className="w-16 h-16 rounded-lg object-cover" loading="lazy" decoding="async" />
           <div className="flex-1 text-left">
             <h3 className="font-semibold">{c.title}</h3>
             <p className="text-sm text-muted-foreground">{c.description}</p>
@@ -143,8 +116,6 @@ FeaturedCollections.displayName = "FeaturedCollections";
 const Index = () => {
   const [tab, setTab] = useState(mockConfig.home_tabs_default);
   const upcoming = useMemo(() => mockEvents.slice(0, 3), []);
-  const latestAudio = useMemo(() => mockAudioFeeds.slice(0, 4), []);
-  const firstFeed = mockAudioFeeds[0];
   const [liveOpen, setLiveOpen] = useState(false);
   const slides = useMemo(
     () => [
