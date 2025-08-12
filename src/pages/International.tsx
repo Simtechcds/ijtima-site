@@ -96,7 +96,7 @@ const International = () => {
         </Link>
       </div>
 
-        <section className="glass-surface module-frame p-3">
+        <div className="rounded-lg ring-1 ring-foreground/20 p-3">
           <Tabs defaultValue="major" className="w-full">
             <TabsList aria-label="International categories" className="segmented w-full">
               <TabsTrigger value="major" className="seg flex-1">Major</TabsTrigger>
@@ -104,11 +104,11 @@ const International = () => {
             </TabsList>
 
             <TabsContent value="major">
-              <section aria-labelledby="major-heading" className="mt-4">
+              <section aria-labelledby="major-heading" className="mt-3">
                 <h2 id="major-heading" className="sr-only">Major International Ijtimas</h2>
 
                 <Tabs defaultValue="raiwind" className="w-full">
-                    <TabsList aria-label="Major locations" className="segmented w-full mt-3">
+                    <TabsList aria-label="Major locations" className="segmented w-full">
                       <TabsTrigger value="raiwind" className="seg flex-1">Raiwind</TabsTrigger>
                       <TabsTrigger value="tongi" className="seg flex-1">Tongi</TabsTrigger>
                       <TabsTrigger value="nizamuddin" className="seg flex-1">Nizamuddin Jors</TabsTrigger>
@@ -130,11 +130,11 @@ const International = () => {
             </TabsContent>
 
             <TabsContent value="global">
-              <section aria-labelledby="global-heading" className="mt-4">
+              <section aria-labelledby="global-heading" className="mt-3">
                 <h2 id="global-heading" className="sr-only">Global Regions</h2>
 
                 <Tabs defaultValue="uk" className="w-full">
-                    <TabsList aria-label="Global locations" className="segmented w-full mt-3">
+                    <TabsList aria-label="Global locations" className="segmented w-full">
                       <TabsTrigger value="uk" className="seg flex-1">UK</TabsTrigger>
                       <TabsTrigger value="canada" className="seg flex-1">Canada</TabsTrigger>
                       <TabsTrigger value="other" className="seg flex-1">Other</TabsTrigger>
@@ -160,7 +160,7 @@ const International = () => {
               </section>
             </TabsContent>
           </Tabs>
-        </section>
+        </div>
 
     </main>
   );
