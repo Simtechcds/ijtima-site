@@ -58,6 +58,20 @@ const indiaList = [
   "2017 Surendra Nagar Ijtema",
 ];
 
+type AccordionListProps = { items: readonly string[]; prefix: string };
+const AccordionList = ({ items, prefix }: AccordionListProps) => (
+  <Accordion type="single" collapsible className="w-full">
+    {items.map((label, idx) => (
+      <AccordionItem key={`${prefix}-${idx}`} value={`${prefix}-${idx}`}>
+        <AccordionTrigger className="text-sm md:text-base text-left">{label}</AccordionTrigger>
+        <AccordionContent>
+          <p className="text-muted-foreground">Details coming soon.</p>
+        </AccordionContent>
+      </AccordionItem>
+    ))}
+  </Accordion>
+);
+
 const International = () => {
   return (
     <main className="space-y-6">
@@ -75,7 +89,7 @@ const International = () => {
 
         <div className="rounded-lg ring-1 ring-foreground/20 p-3">
           <Tabs defaultValue="major" className="w-full">
-            <TabsList aria-label="International categories">
+            <TabsList aria-label="International categories" className="w-full overflow-x-auto whitespace-nowrap">
               <TabsTrigger value="major">Major</TabsTrigger>
               <TabsTrigger value="global">Global</TabsTrigger>
             </TabsList>
@@ -85,49 +99,22 @@ const International = () => {
                 <h2 id="major-heading" className="sr-only">Major International Ijtimas</h2>
 
                 <Tabs defaultValue="raiwind" className="w-full">
-                  <TabsList aria-label="Major locations">
+                  <TabsList aria-label="Major locations" className="w-full overflow-x-auto whitespace-nowrap">
                     <TabsTrigger value="raiwind">Raiwind</TabsTrigger>
                     <TabsTrigger value="tongi">Tongi</TabsTrigger>
                     <TabsTrigger value="nizamuddin">Nizamuddin Jors</TabsTrigger>
                   </TabsList>
 
                   <TabsContent value="raiwind">
-                    <Accordion type="single" collapsible className="w-full">
-                      {raiwindList.map((label, idx) => (
-                        <AccordionItem key={idx} value={`raiwind-${idx}`}>
-                          <AccordionTrigger>{label}</AccordionTrigger>
-                          <AccordionContent>
-                            <p className="text-muted-foreground">Details coming soon.</p>
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
+                    <AccordionList items={raiwindList} prefix="raiwind" />
                   </TabsContent>
 
                   <TabsContent value="tongi">
-                    <Accordion type="single" collapsible className="w-full">
-                      {tongiList.map((label, idx) => (
-                        <AccordionItem key={idx} value={`tongi-${idx}`}>
-                          <AccordionTrigger>{label}</AccordionTrigger>
-                          <AccordionContent>
-                            <p className="text-muted-foreground">Details coming soon.</p>
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
+                    <AccordionList items={tongiList} prefix="tongi" />
                   </TabsContent>
 
                   <TabsContent value="nizamuddin">
-                    <Accordion type="single" collapsible className="w-full">
-                      {nizamuddinList.map((label, idx) => (
-                        <AccordionItem key={idx} value={`nizamuddin-${idx}`}>
-                          <AccordionTrigger>{label}</AccordionTrigger>
-                          <AccordionContent>
-                            <p className="text-muted-foreground">Details coming soon.</p>
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
+                    <AccordionList items={nizamuddinList} prefix="nizamuddin" />
                   </TabsContent>
                 </Tabs>
               </section>
@@ -138,7 +125,7 @@ const International = () => {
                 <h2 id="global-heading" className="sr-only">Global Regions</h2>
 
                 <Tabs defaultValue="uk" className="w-full">
-                  <TabsList aria-label="Global locations">
+                  <TabsList aria-label="Global locations" className="w-full overflow-x-auto whitespace-nowrap">
                     <TabsTrigger value="uk">UK</TabsTrigger>
                     <TabsTrigger value="canada">Canada</TabsTrigger>
                     <TabsTrigger value="other">Other</TabsTrigger>
@@ -146,55 +133,19 @@ const International = () => {
                   </TabsList>
 
                   <TabsContent value="uk">
-                    <Accordion type="single" collapsible className="w-full">
-                      {ukList.map((label, idx) => (
-                        <AccordionItem key={idx} value={`uk-${idx}`}>
-                          <AccordionTrigger>{label}</AccordionTrigger>
-                          <AccordionContent>
-                            <p className="text-muted-foreground">Details coming soon.</p>
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
+                    <AccordionList items={ukList} prefix="uk" />
                   </TabsContent>
 
                   <TabsContent value="canada">
-                    <Accordion type="single" collapsible className="w-full">
-                      {canadaList.map((label, idx) => (
-                        <AccordionItem key={idx} value={`canada-${idx}`}>
-                          <AccordionTrigger>{label}</AccordionTrigger>
-                          <AccordionContent>
-                            <p className="text-muted-foreground">Details coming soon.</p>
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
+                    <AccordionList items={canadaList} prefix="canada" />
                   </TabsContent>
 
                   <TabsContent value="other">
-                    <Accordion type="single" collapsible className="w-full">
-                      {otherList.map((label, idx) => (
-                        <AccordionItem key={idx} value={`other-${idx}`}>
-                          <AccordionTrigger>{label}</AccordionTrigger>
-                          <AccordionContent>
-                            <p className="text-muted-foreground">Details coming soon.</p>
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
+                    <AccordionList items={otherList} prefix="other" />
                   </TabsContent>
 
                   <TabsContent value="india">
-                    <Accordion type="single" collapsible className="w-full">
-                      {indiaList.map((label, idx) => (
-                        <AccordionItem key={idx} value={`india-${idx}`}>
-                          <AccordionTrigger>{label}</AccordionTrigger>
-                          <AccordionContent>
-                            <p className="text-muted-foreground">Details coming soon.</p>
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
+                    <AccordionList items={indiaList} prefix="india" />
                   </TabsContent>
                 </Tabs>
               </section>
