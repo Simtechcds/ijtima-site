@@ -24,11 +24,18 @@ const queryClient = new QueryClient();
 const RoutedApp = () => {
   const location = useLocation();
   const isSouthAfrica = location.pathname === "/south-africa";
+  const isInternational = location.pathname === "/international";
   const saStats = [
     { value: 24, label: "National", bg: "stat-sage" },
     { value: 75, label: "Regional", bg: "stat-saffron" },
     { value: 23, label: "Old Workers", bg: "stat-oxidized" },
     { value: 122, label: "Total", bg: "stat-harbor" },
+  ];
+  const intlStats = [
+    { value: 14, label: "Raiwind", bg: "stat-sage" },
+    { value: 7, label: "India", bg: "stat-saffron" },
+    { value: 1, label: "Tongi", bg: "stat-brown" },
+    { value: 9, label: "Global", bg: "stat-olive" },
   ];
 
   return (
@@ -53,7 +60,10 @@ const RoutedApp = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
-      <StatisticsSection title={isSouthAfrica ? "SA Ijtima Overview" : undefined} stats={isSouthAfrica ? saStats : undefined} />
+      <StatisticsSection
+        title={isSouthAfrica ? "SA Ijtima Overview" : isInternational ? "Global Ijtima Overview" : undefined}
+        stats={isSouthAfrica ? saStats : isInternational ? intlStats : undefined}
+      />
       <Footer />
       <StickyLivePill />
     </>
