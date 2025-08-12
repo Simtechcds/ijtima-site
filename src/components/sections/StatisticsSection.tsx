@@ -47,7 +47,7 @@ const CountUp: React.FC<{ end: number; duration?: number; className?: string }> 
   );
 };
 
-const StatisticsSection: React.FC<{ stats?: { value: number; label: string; bg: string }[]; title?: string }> = ({ stats, title }) => {
+const StatisticsSection: React.FC<{ stats?: { value: number; label: string; bg: string }[]; title?: string; description?: string }> = ({ stats, title, description }) => {
   const defaultStats = [
     { value: 50, label: "Years", bg: "stat-brown" },
     { value: 109, label: "Ijtimas", bg: "stat-olive" },
@@ -76,7 +76,7 @@ const StatisticsSection: React.FC<{ stats?: { value: number; label: string; bg: 
               {title ?? "Ijtima Overview Insights"}
             </h2>
             <p className="mt-2 max-w-3xl mx-auto text-base md:text-lg text-muted-foreground drop-shadow">
-              Preserving the Heritage and Legacy of Ijtimas in South Africa and Beyond
+              {description ?? "Preserving the Heritage and Legacy of Ijtimas in South Africa and Beyond"}
             </p>
           </header>
 

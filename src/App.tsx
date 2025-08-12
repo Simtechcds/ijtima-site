@@ -35,7 +35,7 @@ const RoutedApp = () => {
     { value: 14, label: "Raiwind", bg: "stat-sage" },
     { value: 7, label: "India", bg: "stat-saffron" },
     { value: 1, label: "Tongi", bg: "stat-brown" },
-    { value: 9, label: "Global", bg: "stat-olive" },
+    { value: 9, label: "Global", bg: "stat-slate" },
   ];
 
   return (
@@ -63,6 +63,7 @@ const RoutedApp = () => {
       <StatisticsSection
         title={isSouthAfrica ? "SA Ijtima Overview" : isInternational ? "Global Ijtima Overview" : undefined}
         stats={isSouthAfrica ? saStats : isInternational ? intlStats : undefined}
+        description={isInternational ? "Connecting Generations Through Ijtimas Around the World." : undefined}
       />
       <Footer />
       <StickyLivePill />
