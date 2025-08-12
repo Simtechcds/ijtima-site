@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import Seo from "@/components/Seo";
 import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   BarChart,
   Bar,
@@ -106,25 +107,45 @@ const owjByYear: { year: number; venue: string; province: "GP" | "KZN" | "CPT" |
 ];
 
 const Stats: React.FC = () => {
-  // Colors from theme tokens
+  // Color palette per spec (second image)
+  const COLORS = {
+    national: '#556B57', // Sage Pine
+    regional: '#B06E4C', // Clay Saffron
+    oldWorkers: '#7A4242', // Oxidized Red
+    total: '#606466', // Iron Mist
+  } as const;
+
   const provinceColors = {
-    JHB: "hsl(var(--primary))",
-    KZN: "hsl(var(--accent))",
-    GP: "hsl(var(--primary))",
-    CPT: "hsl(var(--destructive))",
-    PE: "hsl(var(--muted-foreground))",
+    JHB: COLORS.national,
+    KZN: COLORS.regional,
+    GP: COLORS.national,
+    CPT: COLORS.oldWorkers,
+    PE: COLORS.total,
   } as const;
 
   const tooltipStyle: React.CSSProperties = {
-    background: "hsl(var(--popover))",
-    color: "hsl(var(--popover-foreground))",
-    border: "1px solid hsl(var(--border))",
+    background: "rgba(17, 25, 40, 0.85)",
+    color: "#fff",
+    border: "1px solid rgba(255, 255, 255, 0.15)",
     borderRadius: 8,
     padding: "6px 8px",
     boxShadow: "var(--shadow-elegant, 0 10px 30px -10px hsl(var(--primary) / 0.3))",
   };
 
-  const lastUpdated = useMemo(() => new Date().toLocaleString(), []);
+  const lastUpdated = useMemo(() => {
+    const d = new Date();
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    const dd = d.getDate().toString().padStart(2, "0");
+    const MMM = months[d.getMonth()];
+    const yyyy = d.getFullYear();
+    let hh = d.getHours();
+    const ampm = hh >= 12 ? "PM" : "AM";
+    hh = hh % 12; if (hh === 0) hh = 12;
+    const HH = hh.toString().padStart(2, "0");
+    const MM = d.getMinutes().toString().padStart(2, "0");
+    const SS = d.getSeconds().toString().padStart(2, "0");
+    return `${dd} ${MMM} ${yyyy}, ${HH}:${MM}:${SS} ${ampm}`;
+  }, []);
 
   // National (1975–1999) – counts per venue and totals per province
   const { venueCounts, nationalTotals } = useMemo(() => {
@@ -181,11 +202,19 @@ const Stats: React.FC = () => {
     return arr;
   }, []);
 
+  const kpis = useMemo(() => {
+    const national = nationalEvents1975_1999.length;
+    const regional = regionalByYear.reduce((acc, r) => acc + (r.GP ? 1 : 0) + (r.KZN ? 1 : 0), 0);
+    const owj = owjByYear.length;
+    const total = national + regional + owj;
+    return { national, regional, owj, total };
+  }, []);
+
   return (
     <>
       <Seo
-        title="Ijtima Stats Dashboard"
-        description="Glass-style Ijtima statistics: national (1975–1999), GP & KZN regional breakdowns, and OWJ per province."
+        title="SA Ijtima Stats Dashboard"
+        description="Glass-style SA Ijtima statistics: national (1975–1999), GP & KZN regional breakdowns, and OWJ per province."
         canonical={typeof window !== "undefined" ? `${window.location.origin}/stats` : undefined}
       />
 
@@ -194,12 +223,34 @@ const Stats: React.FC = () => {
           <div className="mx-auto w-[min(1200px,92%)]">
             <header className="mb-6 md:mb-8 text-center">
               <h1 id="stats-title" className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-tight text-foreground drop-shadow-xl">
-                National Ijtima Stats
+                SA IJTIMA STATS DASHBAORD
               </h1>
-              <p className="mt-2 text-sm md:text-base text-muted-foreground">
-                Last updated: <time dateTime={new Date().toISOString()}>{lastUpdated}</time>
-              </p>
+              <div className="mt-3 flex justify-center">
+                <Badge className="rounded-full px-3 py-1 text-xs md:text-sm font-medium shadow" style={{ backgroundColor: COLORS.total, color: "#fff" }}>
+                  Last Updated : <time dateTime={new Date().toISOString()} className="ml-1">{lastUpdated}</time>
+                </Badge>
+              </div>
             </header>
+
+            {/* KPI Blocks */}
+            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
+              <article className="relative overflow-hidden rounded-3xl module-frame animate-fade-in p-4 md:p-6" style={{ backgroundColor: COLORS.national }}>
+                <p className="text-sm text-white/90">National Ijtimas</p>
+                <p className="text-4xl md:text-5xl font-extrabold text-white">{kpis.national}</p>
+              </article>
+              <article className="relative overflow-hidden rounded-3xl module-frame animate-fade-in p-4 md:p-6" style={{ backgroundColor: COLORS.regional }}>
+                <p className="text-sm text-white/90">Regional Ijtimas</p>
+                <p className="text-4xl md:text-5xl font-extrabold text-white">{kpis.regional}</p>
+              </article>
+              <article className="relative overflow-hidden rounded-3xl module-frame animate-fade-in p-4 md:p-6" style={{ backgroundColor: COLORS.oldWorkers }}>
+                <p className="text-sm text-white/90">Old Workers</p>
+                <p className="text-4xl md:text-5xl font-extrabold text-white">{kpis.owj}</p>
+              </article>
+              <article className="relative overflow-hidden rounded-3xl module-frame animate-fade-in p-4 md:p-6" style={{ backgroundColor: COLORS.total }}>
+                <p className="text-sm text-white/90">Total</p>
+                <p className="text-4xl md:text-5xl font-extrabold text-white">{kpis.total}</p>
+              </article>
+            </section>
 
             {/* SA Ijtima Count (1975–1999) */}
             <section className="grid grid-cols-1 gap-4 md:gap-6 mb-6 md:mb-8">
@@ -214,7 +265,7 @@ const Stats: React.FC = () => {
                         <XAxis type="number" allowDecimals={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
                         <YAxis type="category" dataKey="venue" width={120} tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
                         <ReTooltip contentStyle={tooltipStyle} />
-                        <Bar dataKey="count" fill="hsl(var(--primary))" radius={[8, 8, 8, 8]} />
+                        <Bar dataKey="count" fill={COLORS.national} radius={[8, 8, 8, 8]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -266,7 +317,7 @@ const Stats: React.FC = () => {
                         <XAxis type="number" allowDecimals={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
                         <YAxis type="category" dataKey="name" width={140} tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
                         <ReTooltip contentStyle={tooltipStyle} />
-                        <Bar dataKey="count" fill={provinceColors.GP} radius={[8, 8, 8, 8]} />
+                        <Bar dataKey="count" fill={COLORS.regional} radius={[8, 8, 8, 8]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -285,7 +336,7 @@ const Stats: React.FC = () => {
                         <XAxis type="number" allowDecimals={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
                         <YAxis type="category" dataKey="name" width={160} tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
                         <ReTooltip contentStyle={tooltipStyle} />
-                        <Bar dataKey="count" fill={provinceColors.KZN} radius={[8, 8, 8, 8]} />
+                        <Bar dataKey="count" fill={COLORS.regional} radius={[8, 8, 8, 8]} />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
