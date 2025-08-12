@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import type { ReactNode } from "react";
+import StatisticsSection from "@/components/sections/StatisticsSection";
 type SAItemProps = { value: string; label: string; pending?: boolean; children: ReactNode };
 
 const SAItem = ({ value, label, pending = true, children }: SAItemProps) => {
@@ -144,6 +145,15 @@ const SouthAfrica = () => {
   return (
     <main className="space-y-6">
       <Seo title="South Africa — IJTIMA.SITE" description="Local collections including Ijtima and Old Workers." />
+      <StatisticsSection
+        title="SA Ijtima Overview"
+        stats={[
+          { value: 24, label: "National", bg: "stat-sage" },
+          { value: 75, label: "Regional", bg: "stat-saffron" },
+          { value: 23, label: "Old Workers", bg: "stat-oxidized" },
+          { value: 122, label: "Total", bg: "stat-iron" },
+        ]}
+      />
       <Tabs defaultValue="National">
         <div className="mb-4">
           <Link to="/">

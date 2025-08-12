@@ -70,6 +70,11 @@
     --stat-olive: 47 9% 40%;
     --stat-slate: 209 8% 31%;
     --stat-plum: 275 13% 35%;
+    /* SA counters */
+    --stat-sage: 126 12% 38%;
+    --stat-saffron: 20 40% 49%;
+    --stat-oxidized: 0 30% 37%;
+    --stat-iron: 200 3% 39%;
   }
 
   .dark {
@@ -117,6 +122,11 @@
     --stat-olive: 47 9% 40%;
     --stat-slate: 209 8% 31%;
     --stat-plum: 275 13% 35%;
+    /* SA counters */
+    --stat-sage: 126 12% 38%;
+    --stat-saffron: 20 40% 49%;
+    --stat-oxidized: 0 30% 37%;
+    --stat-iron: 200 3% 39%;
     /* Extras */
     --glass-white: 0 0% 100%;
     --plum: 275 13% 35%;
@@ -156,6 +166,10 @@
   .stat-olive { background-color: hsl(var(--stat-olive) / 0.6); }
   .stat-slate { background-color: hsl(var(--stat-slate) / 0.6); }
   .stat-plum  { background-color: hsl(var(--stat-plum) / 0.6); }
+  .stat-sage { background-color: hsl(var(--stat-sage) / 0.6); }
+  .stat-saffron { background-color: hsl(var(--stat-saffron) / 0.6); }
+  .stat-oxidized { background-color: hsl(var(--stat-oxidized) / 0.6); }
+  .stat-iron { background-color: hsl(var(--stat-iron) / 0.6); }
 }
 
 /* Month badge theme */
