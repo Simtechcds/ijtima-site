@@ -2,18 +2,60 @@ import Seo from "@/components/Seo";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 
-const majorSections = [
-  { id: "raiwind", title: "Raiwind", desc: "Pakistan — typical dates in Nov.", to: "/collection/raiwind" },
-  { id: "tongi", title: "Tongi", desc: "Bangladesh — typical dates Jan/Feb.", to: "#" },
-  { id: "nizamuddin", title: "Nizamuddin", desc: "India — overview & links.", to: "#" },
+const raiwindList = [
+  "2024 Raiwind Ijtema – Part 2",
+  "2024 Raiwind Ijtema – Part 1",
+  "2023 Raiwind Ijtema – Part 2",
+  "2023 Raiwind Ijtema – Part 1",
+  "2022 Raiwind Ijtema – Part 2",
+  "2022 Raiwind Ijtema – Part 1",
+  "2022 Old Workers Jor – Raiwind",
+  "2021 Raiwind Ijtema – Part 2",
+  "2021 Raiwind Ijtema – Part 1",
+  "2021 Raiwind Old Workers Jor",
+  "2020 Raiwind Ijtema",
+  "2019 Raiwind Ijtema – Part 2",
+  "2019 Raiwind Ijtema – Part 1",
+  "2019 Old Workers Jor – Raiwind",
+  "2018 Raiwind Ijtema – Part 2",
+  "2018 Raiwind Ijtema – Part 1",
+  "2017 Raiwind Ijtema",
+  "2016 Raiwind Ijtema",
+  "2014 Raiwind Ijtema",
+  "2013 Raiwind Ijtema",
+  "2012 Raiwind Ijtema",
+  "2011 Raiwind Ijtema",
+  "2010 Raiwind Ijtema",
+  "2007 Raiwind Ijtema",
+  "2006 Raiwind Ijtema",
 ];
 
-const globalSections = [
-  { id: "india", title: "India", desc: "Regional programs and links.", to: "#" },
-  { id: "uk", title: "UK", desc: "Regional programs and links.", to: "#" },
-  { id: "canada", title: "Canada", desc: "Regional programs and links.", to: "#" },
-  { id: "other", title: "Other", desc: "Other regions and programs.", to: "#" },
+const tongiList = ["2016 Tongi Ijtema"];
+
+const nizamuddinList = ["2015 All Africa Nizamuddin Jor"];
+
+const ukList = ["2018 Blackburn", "2019 Blackburn", "2022 Blackburn"];
+const canadaList = ["2011 Toronto", "2023 Canada"];
+const otherList = ["2011 Gaza", "2014 Sweden", "2014 Sudan", "2014 Jordan"];
+const indiaList = [
+  "2025 Old Workers Jor (Panoli dist.)",
+  "2024 Mosali (Panoli) Ijtema",
+  "2023 All India Mashwara – Godhra",
+  "2023 All India Mashwera – Bangalore",
+  "2023 Dadhal (Panoli) Ijtema",
+  "2022 Amrawati (Maharastra) Ijtema",
+  "2022 Old Workers & Railway Workers – Bangalore",
+  "2021 Kul Hind Mashwera – Delhi",
+  "2021 Kathor (Panoli) Jor",
+  "2019 Hyderabad Ijtema",
+  "2019 Banaskantha Ijtema",
+  "2019 Sarkhej Ijtema",
+  "2019 Aanand Ijtema",
+  "2019 Godhra Ijtema",
+  "2018 Italwa (Surat) Ijtema",
+  "2017 Surendra Nagar Ijtema",
 ];
 
 const International = () => {
@@ -31,50 +73,135 @@ const International = () => {
         </Link>
       </div>
 
-      <Tabs defaultValue="major" className="w-full">
-        <TabsList aria-label="International categories">
-          <TabsTrigger value="major">Major</TabsTrigger>
-          <TabsTrigger value="global">Global</TabsTrigger>
-        </TabsList>
+        <div className="rounded-lg ring-1 ring-foreground/20 p-3">
+          <Tabs defaultValue="major" className="w-full">
+            <TabsList aria-label="International categories">
+              <TabsTrigger value="major">Major</TabsTrigger>
+              <TabsTrigger value="global">Global</TabsTrigger>
+            </TabsList>
 
-        <TabsContent value="major">
-          <section aria-labelledby="major-heading" className="mt-3">
-            <h2 id="major-heading" className="sr-only">Major International Ijtimas</h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              {majorSections.map((s) => (
-                <Link to={s.to} key={s.id} className="pressable">
-                  <article className="glass-surface module-frame p-4 h-full flex items-center gap-3">
-                    <img src="/lovable-uploads/3b7a5720-d209-4717-b9cf-19529c55872e.png" alt={`${s.title} emblem`} className="w-12 h-12 rounded-lg object-cover" loading="lazy" decoding="async" />
-                    <div>
-                      <h3 className="font-semibold">{s.title}</h3>
-                      <p className="text-sm text-muted-foreground">{s.desc}</p>
-                    </div>
-                  </article>
-                </Link>
-              ))}
-            </div>
-          </section>
-        </TabsContent>
+            <TabsContent value="major">
+              <section aria-labelledby="major-heading" className="mt-3">
+                <h2 id="major-heading" className="sr-only">Major International Ijtimas</h2>
 
-        <TabsContent value="global">
-          <section aria-labelledby="global-heading" className="mt-3">
-            <h2 id="global-heading" className="sr-only">Global Regions</h2>
-            <div className="grid md:grid-cols-2 gap-4">
-              {globalSections.map((s) => (
-                <Link to={s.to} key={s.id} className="pressable">
-                  <article className="glass-surface module-frame p-4 h-full flex items-center gap-3">
-                    <img src="/lovable-uploads/3b7a5720-d209-4717-b9cf-19529c55872e.png" alt={`${s.title} emblem`} className="w-12 h-12 rounded-lg object-cover" loading="lazy" decoding="async" />
-                    <div>
-                      <h3 className="font-semibold">{s.title}</h3>
-                      <p className="text-sm text-muted-foreground">{s.desc}</p>
-                    </div>
-                  </article>
-                </Link>
-              ))}
-            </div>
-          </section>
-        </TabsContent>
-      </Tabs>
+                <Tabs defaultValue="raiwind" className="w-full">
+                  <TabsList aria-label="Major locations">
+                    <TabsTrigger value="raiwind">Raiwind</TabsTrigger>
+                    <TabsTrigger value="tongi">Tongi</TabsTrigger>
+                    <TabsTrigger value="nizamuddin">Nizamuddin Jors</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="raiwind">
+                    <Accordion type="single" collapsible className="w-full">
+                      {raiwindList.map((label, idx) => (
+                        <AccordionItem key={idx} value={`raiwind-${idx}`}>
+                          <AccordionTrigger>{label}</AccordionTrigger>
+                          <AccordionContent>
+                            <p className="text-muted-foreground">Details coming soon.</p>
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </TabsContent>
+
+                  <TabsContent value="tongi">
+                    <Accordion type="single" collapsible className="w-full">
+                      {tongiList.map((label, idx) => (
+                        <AccordionItem key={idx} value={`tongi-${idx}`}>
+                          <AccordionTrigger>{label}</AccordionTrigger>
+                          <AccordionContent>
+                            <p className="text-muted-foreground">Details coming soon.</p>
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </TabsContent>
+
+                  <TabsContent value="nizamuddin">
+                    <Accordion type="single" collapsible className="w-full">
+                      {nizamuddinList.map((label, idx) => (
+                        <AccordionItem key={idx} value={`nizamuddin-${idx}`}>
+                          <AccordionTrigger>{label}</AccordionTrigger>
+                          <AccordionContent>
+                            <p className="text-muted-foreground">Details coming soon.</p>
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </TabsContent>
+                </Tabs>
+              </section>
+            </TabsContent>
+
+            <TabsContent value="global">
+              <section aria-labelledby="global-heading" className="mt-3">
+                <h2 id="global-heading" className="sr-only">Global Regions</h2>
+
+                <Tabs defaultValue="uk" className="w-full">
+                  <TabsList aria-label="Global locations">
+                    <TabsTrigger value="uk">UK</TabsTrigger>
+                    <TabsTrigger value="canada">Canada</TabsTrigger>
+                    <TabsTrigger value="other">Other</TabsTrigger>
+                    <TabsTrigger value="india">India</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="uk">
+                    <Accordion type="single" collapsible className="w-full">
+                      {ukList.map((label, idx) => (
+                        <AccordionItem key={idx} value={`uk-${idx}`}>
+                          <AccordionTrigger>{label}</AccordionTrigger>
+                          <AccordionContent>
+                            <p className="text-muted-foreground">Details coming soon.</p>
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </TabsContent>
+
+                  <TabsContent value="canada">
+                    <Accordion type="single" collapsible className="w-full">
+                      {canadaList.map((label, idx) => (
+                        <AccordionItem key={idx} value={`canada-${idx}`}>
+                          <AccordionTrigger>{label}</AccordionTrigger>
+                          <AccordionContent>
+                            <p className="text-muted-foreground">Details coming soon.</p>
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </TabsContent>
+
+                  <TabsContent value="other">
+                    <Accordion type="single" collapsible className="w-full">
+                      {otherList.map((label, idx) => (
+                        <AccordionItem key={idx} value={`other-${idx}`}>
+                          <AccordionTrigger>{label}</AccordionTrigger>
+                          <AccordionContent>
+                            <p className="text-muted-foreground">Details coming soon.</p>
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </TabsContent>
+
+                  <TabsContent value="india">
+                    <Accordion type="single" collapsible className="w-full">
+                      {indiaList.map((label, idx) => (
+                        <AccordionItem key={idx} value={`india-${idx}`}>
+                          <AccordionTrigger>{label}</AccordionTrigger>
+                          <AccordionContent>
+                            <p className="text-muted-foreground">Details coming soon.</p>
+                          </AccordionContent>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </TabsContent>
+                </Tabs>
+              </section>
+            </TabsContent>
+          </Tabs>
+        </div>
+
     </main>
   );
 };
