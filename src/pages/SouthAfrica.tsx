@@ -3,6 +3,29 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { Badge } from "@/components/ui/badge";
+import type { ReactNode } from "react";
+type SAItemProps = { value: string; label: string; pending?: boolean; children: ReactNode };
+
+const SAItem = ({ value, label, pending = true, children }: SAItemProps) => {
+  return (
+    <div className={`${pending ? 'bg-[hsl(var(--plum))]/28' : 'bg-[hsl(var(--glass-white))]/20'} rounded-xl border border-border/50 backdrop-blur-md mb-2`}>
+      <AccordionItem value={value} className="border-0">
+        <AccordionTrigger className="text-left px-4">
+          <span className="flex items-center gap-2">
+            {label}
+            {pending && (
+              <Badge className="ml-2 bg-[hsl(var(--plum))] text-foreground">Updates Pending</Badge>
+            )}
+          </span>
+        </AccordionTrigger>
+        <AccordionContent className="text-muted-foreground px-4">
+          {children}
+        </AccordionContent>
+      </AccordionItem>
+    </div>
+  );
+};
 
 const SouthAfrica = () => {
   const nationalItems = [
@@ -120,7 +143,7 @@ const SouthAfrica = () => {
   ];
   return (
     <main className="space-y-6">
-      <Seo title="South Africa — IJTIMA Collection" description="Local collections including Ijtima and Old Workers." />
+      <Seo title="South Africa — IJTIMA.SITE" description="Local collections including Ijtima and Old Workers." />
       <Tabs defaultValue="National">
         <div className="mb-4">
           <Link to="/">
@@ -134,14 +157,11 @@ const SouthAfrica = () => {
         </TabsList>
 
         <TabsContent value="National" className="mt-4">
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full space-y-2">
             {nationalItems.map((label, idx) => (
-              <AccordionItem key={idx} value={`national-${idx}`}>
-                <AccordionTrigger className="text-left">{label}</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">
-                  Details will be added soon.
-                </AccordionContent>
-              </AccordionItem>
+              <SAItem key={idx} value={`national-${idx}`} label={label} pending>
+                Details will be added soon.
+              </SAItem>
             ))}
           </Accordion>
         </TabsContent>
@@ -155,34 +175,31 @@ const SouthAfrica = () => {
             </TabsList>
 
             <TabsContent value="Gauteng" className="mt-4">
-              <Accordion type="single" collapsible className="w-full">
+              <Accordion type="single" collapsible className="w-full space-y-2">
                 {gautengItems.map((label, idx) => (
-                  <AccordionItem key={idx} value={`gauteng-${idx}`}>
-                    <AccordionTrigger className="text-left">{label}</AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground">Details will be added soon.</AccordionContent>
-                  </AccordionItem>
+                  <SAItem key={idx} value={`gauteng-${idx}`} label={label} pending>
+                    Details will be added soon.
+                  </SAItem>
                 ))}
               </Accordion>
             </TabsContent>
 
             <TabsContent value="KZN" className="mt-4">
-              <Accordion type="single" collapsible className="w-full">
+              <Accordion type="single" collapsible className="w-full space-y-2">
                 {kznItems.map((label, idx) => (
-                  <AccordionItem key={idx} value={`kzn-${idx}`}>
-                    <AccordionTrigger className="text-left">{label}</AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground">Details will be added soon.</AccordionContent>
-                  </AccordionItem>
+                  <SAItem key={idx} value={`kzn-${idx}`} label={label} pending>
+                    Details will be added soon.
+                  </SAItem>
                 ))}
               </Accordion>
             </TabsContent>
 
             <TabsContent value="Cape" className="mt-4">
-              <Accordion type="single" collapsible className="w-full">
+              <Accordion type="single" collapsible className="w-full space-y-2">
                 {capeItems.map((label, idx) => (
-                  <AccordionItem key={idx} value={`cape-${idx}`}>
-                    <AccordionTrigger className="text-left">{label}</AccordionTrigger>
-                    <AccordionContent className="text-muted-foreground">Details will be added soon.</AccordionContent>
-                  </AccordionItem>
+                  <SAItem key={idx} value={`cape-${idx}`} label={label} pending>
+                    Details will be added soon.
+                  </SAItem>
                 ))}
               </Accordion>
             </TabsContent>
@@ -190,12 +207,11 @@ const SouthAfrica = () => {
         </TabsContent>
 
         <TabsContent value="Old Workers" className="mt-4">
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion type="single" collapsible className="w-full space-y-2">
             {oldWorkersItems.map((label, idx) => (
-              <AccordionItem key={idx} value={`oldworkers-${idx}`}>
-                <AccordionTrigger className="text-left">{label}</AccordionTrigger>
-                <AccordionContent className="text-muted-foreground">Details will be added soon.</AccordionContent>
-              </AccordionItem>
+              <SAItem key={idx} value={`oldworkers-${idx}`} label={label} pending>
+                Details will be added soon.
+              </SAItem>
             ))}
           </Accordion>
         </TabsContent>

@@ -60,6 +60,9 @@
     --glass-bg: 210 30% 12% / 0.6;   /* backdrop glass */
     --glass-border: 210 16% 22% / 0.6;
     --glass-elev: 0 10px 28px -10px hsl(210 40% 2% / 0.5);
+    /* Extras */
+    --glass-white: 0 0% 100%;
+    --plum: 275 13% 35%;
 
     /* Statistics card shades */
     --stat-brown: 0 21% 29%;
@@ -113,6 +116,9 @@
     --stat-olive: 47 9% 40%;
     --stat-slate: 209 8% 31%;
     --stat-plum: 275 13% 35%;
+    /* Extras */
+    --glass-white: 0 0% 100%;
+    --plum: 275 13% 35%;
   }
 }
 
