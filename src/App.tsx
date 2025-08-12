@@ -25,10 +25,10 @@ const RoutedApp = () => {
   const location = useLocation();
   const isSouthAfrica = location.pathname === "/south-africa";
   const saStats = [
-    { value: 24, label: "National", bg: "stat-brown" },
-    { value: 75, label: "Regional", bg: "stat-olive" },
-    { value: 23, label: "Old Workers", bg: "stat-slate" },
-    { value: 122, label: "Total", bg: "stat-plum" },
+    { value: 24, label: "National", bg: "stat-sage" },
+    { value: 75, label: "Regional", bg: "stat-saffron" },
+    { value: 23, label: "Old Workers", bg: "stat-oxidized" },
+    { value: 122, label: "Total", bg: "stat-harbor" },
   ];
 
   return (
@@ -53,7 +53,7 @@ const RoutedApp = () => {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
-      <StatisticsSection stats={isSouthAfrica ? saStats : undefined} />
+      <StatisticsSection title={isSouthAfrica ? "SA Ijtima Overview" : undefined} stats={isSouthAfrica ? saStats : undefined} />
       <Footer />
       <StickyLivePill />
     </>
