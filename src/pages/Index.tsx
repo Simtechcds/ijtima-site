@@ -43,7 +43,7 @@ const UpcomingList = memo(({ events }: { events: typeof mockEvents }) => {
     <ul className="space-y-3">
       {events.map((ev) => (
         <li id={`ev-${ev.id}`} key={ev.id} className="event-card flex flex-col md:flex-row items-start md:items-center gap-3 p-3 rounded-xl hover:bg-secondary/50 transition-colors">
-          <div className={`pill px-3 py-2 border border-border ${getMonthClass(ev.dateLabel)} text-sm font-semibold min-w-[84px] text-center self-center md:self-auto`}>
+          <div className={`pill px-3 py-2 border border-foreground/90 ${getMonthClass(ev.dateLabel)} text-sm font-semibold min-w-[84px] text-center self-center md:self-auto`}>
             {ev.dateLabel}
           </div>
           <div className="flex-1 text-left w-full mt-2 md:mt-0 text-center md:text-left">
@@ -56,11 +56,6 @@ const UpcomingList = memo(({ events }: { events: typeof mockEvents }) => {
                   className="h-4 w-4 rounded-full object-cover"
                   loading="lazy"
                 />
-              )}
-              {ev.status === "TBC" ? (
-                <Badge variant="muted" className="border border-border">TBC</Badge>
-              ) : (
-                <Badge variant="accent">Confirmed</Badge>
               )}
             </div>
             <div className="text-sm text-muted-foreground">DATE: {ev.detailsDate ?? ev.dateLabel}</div>
