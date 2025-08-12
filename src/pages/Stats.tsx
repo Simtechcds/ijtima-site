@@ -13,6 +13,9 @@ import {
   Pie,
   Cell,
   ResponsiveContainer,
+  RadialBarChart,
+  RadialBar,
+  PolarAngleAxis,
 } from "recharts";
 
 // Stats Dashboard (National Ijtima + Regional + OWJ)
@@ -112,7 +115,7 @@ const Stats: React.FC = () => {
     national: '#556B57', // Sage Pine
     regional: '#B06E4C', // Clay Saffron
     oldWorkers: '#7A4242', // Oxidized Red
-    total: '#606466', // Iron Mist
+    total: '#4F6473', // Harbor Blue
   } as const;
 
   const provinceColors = {
@@ -233,7 +236,7 @@ const Stats: React.FC = () => {
             </header>
 
             {/* KPI Blocks */}
-            <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
+            <section className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-6 md:mb-8">
               <article className="relative overflow-hidden rounded-3xl module-frame animate-fade-in p-4 md:p-6" style={{ backgroundColor: COLORS.national }}>
                 <p className="text-sm text-white/90">National Ijtimas</p>
                 <p className="text-4xl md:text-5xl font-extrabold text-white">{kpis.national}</p>
@@ -258,12 +261,12 @@ const Stats: React.FC = () => {
                 <div className="p-4 md:p-6 lg:p-8">
                   <h2 className="text-lg md:text-xl font-semibold mb-1">SA Ijtima Count (1975–1999)</h2>
                   <p className="text-sm text-muted-foreground mb-4">Count by venue across JHB and KZN</p>
-                  <div className="h-80">
+                    <div className="h-64 sm:h-72 md:h-80">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={venueCounts} layout="vertical" margin={{ left: 24, right: 12 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" horizontal={true} vertical={false} />
                         <XAxis type="number" allowDecimals={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                        <YAxis type="category" dataKey="venue" width={120} tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                        <YAxis type="category" dataKey="venue" width={110} tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
                         <ReTooltip contentStyle={tooltipStyle} />
                         <Bar dataKey="count" fill={COLORS.national} radius={[8, 8, 8, 8]} />
                       </BarChart>
@@ -279,7 +282,7 @@ const Stats: React.FC = () => {
                 <div className="p-4 md:p-6 lg:p-8">
                   <h2 className="text-lg md:text-xl font-semibold mb-1">Total Count: 1975–1999</h2>
                   <p className="text-sm text-muted-foreground mb-4">JHB vs KZN</p>
-                  <div className="h-72">
+                  <div className="h-64 sm:h-72">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <ReTooltip contentStyle={tooltipStyle} />
@@ -294,13 +297,29 @@ const Stats: React.FC = () => {
                 </div>
               </article>
 
-              {/* Spacer KPI card for context, optional */}
-              <Card className="glass-surface hairline rounded-3xl shadow-none bg-transparent">
-                <CardContent className="p-6 flex flex-col items-center justify-center h-full">
-                  <p className="text-sm text-muted-foreground">National events recorded</p>
-                  <p className="text-4xl font-bold">{nationalEvents1975_1999.length}</p>
-                </CardContent>
-              </Card>
+              <article className="relative overflow-hidden rounded-3xl glass-surface module-frame animate-fade-in">
+                <div className="p-4 md:p-6 lg:p-8">
+                  <h2 className="text-lg md:text-xl font-semibold mb-1">JHB vs KZN — Radial Comparison</h2>
+                  <p className="text-sm text-muted-foreground mb-4">Alternative view of 1975–1999 totals</p>
+                  <div className="h-64 sm:h-72">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RadialBarChart
+                        cx="50%"
+                        cy="50%"
+                        innerRadius="25%"
+                        outerRadius="85%"
+                        startAngle={90}
+                        endAngle={-270}
+                        data={nationalTotals.map((d) => ({ name: d.name, value: d.value, fill: provinceColors[d.name as "JHB" | "KZN"] }))}
+                      >
+                        <PolarAngleAxis type="number" domain={[0, Math.max(...nationalTotals.map((d) => d.value))]} tick={false} />
+                        <ReTooltip contentStyle={tooltipStyle} />
+                        <RadialBar background dataKey="value" />
+                      </RadialBarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </article>
             </section>
 
             {/* Regional Breakdown (2000+) */}
@@ -310,12 +329,12 @@ const Stats: React.FC = () => {
                 <div className="p-4 md:p-6 lg:p-8">
                   <h2 className="text-lg md:text-xl font-semibold mb-1">GP Regional Ijtimas (from 2000)</h2>
                   <p className="text-sm text-muted-foreground mb-4">Count by venue</p>
-                  <div className="h-80">
+                  <div className="h-64 sm:h-72 md:h-80">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={gpRegional} layout="vertical" margin={{ left: 24, right: 12 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
                         <XAxis type="number" allowDecimals={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                        <YAxis type="category" dataKey="name" width={140} tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                        <YAxis type="category" dataKey="name" width={120} tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
                         <ReTooltip contentStyle={tooltipStyle} />
                         <Bar dataKey="count" fill={COLORS.regional} radius={[8, 8, 8, 8]} />
                       </BarChart>
@@ -329,12 +348,12 @@ const Stats: React.FC = () => {
                 <div className="p-4 md:p-6 lg:p-8">
                   <h2 className="text-lg md:text-xl font-semibold mb-1">KZN Regional Ijtimas (from 2000)</h2>
                   <p className="text-sm text-muted-foreground mb-4">Count by venue</p>
-                  <div className="h-80">
+                  <div className="h-64 sm:h-72 md:h-80">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={kznRegional} layout="vertical" margin={{ left: 24, right: 12 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
                         <XAxis type="number" allowDecimals={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
-                        <YAxis type="category" dataKey="name" width={160} tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
+                        <YAxis type="category" dataKey="name" width={130} tickLine={false} axisLine={false} stroke="hsl(var(--muted-foreground))" fontSize={12} />
                         <ReTooltip contentStyle={tooltipStyle} />
                         <Bar dataKey="count" fill={COLORS.regional} radius={[8, 8, 8, 8]} />
                       </BarChart>
@@ -351,7 +370,7 @@ const Stats: React.FC = () => {
                 <div className="p-4 md:p-6 lg:p-8">
                   <h2 className="text-lg md:text-xl font-semibold mb-1">OWJ – Total Count by Province</h2>
                   <p className="text-sm text-muted-foreground mb-4">From 2000 onwards</p>
-                  <div className="h-72">
+                  <div className="h-64 sm:h-72">
                     <ResponsiveContainer width="100%" height="100%">
                       <PieChart>
                         <ReTooltip contentStyle={tooltipStyle} />
@@ -371,7 +390,7 @@ const Stats: React.FC = () => {
                 <div className="p-4 md:p-6 lg:p-8">
                   <h2 className="text-lg md:text-xl font-semibold mb-1">OWJ – Count per Province</h2>
                   <p className="text-sm text-muted-foreground mb-4">Horizontal bar comparison</p>
-                  <div className="h-72">
+                  <div className="h-64 sm:h-72">
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={owjTotals.map((d) => ({ name: d.province, count: d.value }))} layout="vertical" margin={{ left: 24, right: 12 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" vertical={false} />
