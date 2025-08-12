@@ -17,7 +17,7 @@ type Props = {
 export default function FadeAutoGallery({
   slides,
   className,
-  heightClass = "h-[420px] sm:h-[460px] md:h-[520px] lg:h-[560px] xl:h-[600px]",
+  heightClass = "h-[320px] sm:h-[380px] md:h-[480px] lg:h-[540px] xl:h-[580px]",
   intervalMs = 4000,
 }: Props) {
   const [active, setActive] = useState(0);
@@ -32,7 +32,7 @@ export default function FadeAutoGallery({
 
   return (
     <section className={cn("w-full py-6 relative", className)}>
-      <div className={cn("relative mx-auto max-w-6xl md:max-w-7xl rounded-2xl overflow-hidden bg-muted", heightClass)}>
+      <div className={cn("relative mx-auto max-w-6xl md:max-w-7xl rounded-2xl overflow-hidden glass-surface hairline", heightClass)}>
         {/* Slides */}
         {slides.map((s, i) => (
           <article
@@ -63,7 +63,7 @@ export default function FadeAutoGallery({
       </div>
 
       {/* Dots */}
-      <div className="flex justify-center mt-5 gap-2">
+      <div className="flex justify-center mt-3 sm:mt-5 gap-2">
         {slides.map((_, i) => (
           <button
             key={i}
