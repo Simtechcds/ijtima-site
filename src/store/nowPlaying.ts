@@ -20,9 +20,18 @@ const state: NowPlayingState = {
   startedAt: null,
 };
 
+// Keep a cached snapshot with stable identity between updates
+let snapshot: NowPlayingState = { ...state };
+
 const listeners = new Set<() => void>();
 
+function buildSnapshot(): NowPlayingState {
+  return { ...state };
+}
+
 function notify() {
+  // Rebuild cached snapshot once per state change
+  snapshot = buildSnapshot();
   listeners.forEach((l) => l());
 }
 
@@ -59,7 +68,7 @@ export const nowPlayingActions = {
 };
 
 function getSnapshot(): NowPlayingState {
-  return { ...state };
+  return snapshot;
 }
 
 function subscribe(callback: () => void) {
@@ -70,3 +79,4 @@ function subscribe(callback: () => void) {
 export function useNowPlaying() {
   return useSyncExternalStore(subscribe, getSnapshot, getSnapshot);
 }
+
