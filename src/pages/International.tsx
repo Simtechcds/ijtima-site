@@ -109,9 +109,9 @@ const International = () => {
 
                 <Tabs defaultValue="raiwind" className="w-full">
                     <TabsList aria-label="Major locations" className="segmented w-full">
-                      <TabsTrigger value="raiwind" className="seg flex-1">Raiwind</TabsTrigger>
-                      <TabsTrigger value="tongi" className="seg flex-1">Tongi</TabsTrigger>
-                      <TabsTrigger value="nizamuddin" className="seg flex-1">Nizamuddin Jors</TabsTrigger>
+                      <TabsTrigger value="raiwind" className="seg flex-1 text-xs sm:text-sm px-3 sm:px-4 py-2 leading-tight tracking-tight">Raiwind</TabsTrigger>
+                      <TabsTrigger value="tongi" className="seg flex-1 text-xs sm:text-sm px-3 sm:px-4 py-2 leading-tight tracking-tight">Tongi</TabsTrigger>
+                      <TabsTrigger value="nizamuddin" className="seg flex-1 text-xs sm:text-sm px-2.5 sm:px-4 py-2 leading-tight tracking-tight">Nizamuddin Jors</TabsTrigger>
                     </TabsList>
 
                   <TabsContent value="raiwind">
@@ -135,10 +135,10 @@ const International = () => {
 
                 <Tabs defaultValue="uk" className="w-full">
                     <TabsList aria-label="Global locations" className="segmented w-full">
-                      <TabsTrigger value="uk" className="seg flex-1">UK</TabsTrigger>
-                      <TabsTrigger value="canada" className="seg flex-1">Canada</TabsTrigger>
-                      <TabsTrigger value="other" className="seg flex-1">Other</TabsTrigger>
-                      <TabsTrigger value="india" className="seg flex-1">India</TabsTrigger>
+                      <TabsTrigger value="uk" className="seg flex-1 text-xs sm:text-sm px-3 sm:px-4 py-2 leading-tight tracking-tight">UK</TabsTrigger>
+                      <TabsTrigger value="canada" className="seg flex-1 text-xs sm:text-sm px-3 sm:px-4 py-2 leading-tight tracking-tight">Canada</TabsTrigger>
+                      <TabsTrigger value="other" className="seg flex-1 text-xs sm:text-sm px-3 sm:px-4 py-2 leading-tight tracking-tight">Other</TabsTrigger>
+                      <TabsTrigger value="india" className="seg flex-1 text-xs sm:text-sm px-3 sm:px-4 py-2 leading-tight tracking-tight">India</TabsTrigger>
                     </TabsList>
 
                   <TabsContent value="uk">
