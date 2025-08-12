@@ -17,7 +17,7 @@ type Props = {
 export default function FadeAutoGallery({
   slides,
   className,
-  heightClass = "h-[520px] md:h-[560px]",
+  heightClass = "h-[420px] sm:h-[460px] md:h-[520px] lg:h-[560px] xl:h-[600px]",
   intervalMs = 4000,
 }: Props) {
   const [active, setActive] = useState(0);
@@ -32,7 +32,7 @@ export default function FadeAutoGallery({
 
   return (
     <section className={cn("w-full py-6 relative", className)}>
-      <div className={cn("relative mx-auto max-w-5xl md:max-w-6xl rounded-2xl overflow-hidden", heightClass)}>
+      <div className={cn("relative mx-auto max-w-6xl md:max-w-7xl rounded-2xl overflow-hidden bg-muted", heightClass)}>
         {/* Slides */}
         {slides.map((s, i) => (
           <article
@@ -45,11 +45,11 @@ export default function FadeAutoGallery({
             aria-roledescription="slide"
             aria-label={s.title || s.alt}
           >
-            <div className="relative w-full h-full">
+            <div className="relative w-full h-full flex items-center justify-center p-4 md:p-6 lg:p-8">
               <img
                 src={s.src}
                 alt={s.alt}
-                className="absolute inset-0 w-full h-full object-cover"
+                className="w-full h-full object-contain"
                 loading="lazy"
               />
               <div className="absolute inset-x-0 bottom-0 p-4 md:p-6 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
