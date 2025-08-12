@@ -237,6 +237,7 @@ const Index = () => {
 
           <TabsContent value="Upcoming" className="mt-4">
             <UpcomingList events={upcoming} />
+            <p className="mt-3 text-xs text-muted-foreground"> ** Dates are subject to change — please verify closer to the time</p>
           </TabsContent>
 
           <TabsContent value="Latest" className="mt-4">
@@ -262,7 +263,7 @@ const Index = () => {
       {/* Featured Collections */}
       <FeaturedCollections />
 
-      <p className="text-xs text-muted-foreground">Dates may change — refer to organisers.</p>
+      
     </main>
   );
 };
