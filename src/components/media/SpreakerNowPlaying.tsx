@@ -15,23 +15,25 @@ export default function SpreakerNowPlaying({ src, height = 350 }: { src: string;
 
   useEffect(() => {
     const handler = (event: MessageEvent) => {
-      if (!iframeRef.current) return;
-      const fromIframe = event.source === iframeRef.current.contentWindow;
-      const fromSpreaker = typeof event.origin === "string" && /spreaker\.com$/i.test(new URL(event.origin).hostname);
-      if (!fromIframe || !fromSpreaker) return;
+      // Accept any message from *.spreaker.com (widget or www)
+      const isSpreaker = (() => {
+        try { return /spreaker\.com$/i.test(new URL(event.origin).hostname); } catch { return false; }
+      })();
+      if (!isSpreaker) return;
 
       const data: SpreakerMessage = parseData(event.data);
-      const evt = data?.event || data?.type || data?.sp_event;
-      const episode = data?.episode || data?.payload || data?.data;
-      const epTitle = episode?.title || data?.title;
-      const epId = episode?.id || episode?.episode_id || data?.episode_id;
+      const evt = data?.event || data?.type || data?.sp_event || data?.name;
+      const episode = data?.episode || data?.payload || data?.data || data?.current_episode || data?.track;
+      const epTitle: string | undefined = episode?.title || data?.title || data?.episode_title;
+      const epId: string | number | undefined = episode?.id || episode?.episode_id || data?.episode_id;
 
       if (!evt) return;
 
-      if (evt === "play" || evt === "resume" || evt === "episode:changed" || evt === "track:changed") {
-        nowPlayingActions.play({ provider: "podcast", title: epTitle || "Podcast", sourceId: epId ?? undefined });
-      } else if (evt === "pause" || evt === "ended" || evt === "stop") {
-        nowPlayingActions.pause(epId ?? undefined);
+      const evtStr = String(evt).toLowerCase();
+      if (evtStr.includes("play") || evtStr.includes("resume") || evtStr.includes("episode:changed") || evtStr.includes("track:changed")) {
+        nowPlayingActions.play({ provider: "podcast", title: epTitle || "Podcast audio", sourceId: epId ? String(epId) : undefined });
+      } else if (evtStr.includes("pause") || evtStr.includes("ended") || evtStr.includes("stop")) {
+        nowPlayingActions.pause(epId ? String(epId) : undefined);
       }
     };
 
