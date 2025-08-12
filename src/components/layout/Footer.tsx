@@ -8,7 +8,7 @@ const Footer = () => {
         <nav className="flex flex-wrap items-center justify-center md:justify-end gap-3 md:gap-4">
           <Link to="/archive" className="hover:text-accent-foreground text-muted-foreground">Search</Link>
           <a href="#" className="hover:text-accent-foreground text-muted-foreground">Stats</a>
-          <a href="#" className="hover:text-accent-foreground text-muted-foreground">Views</a>
+          <Link to="/views" className="hover:text-accent-foreground text-muted-foreground">Views</Link>
         </nav>
       </div>
     </footer>

@@ -13,6 +13,7 @@ import Archive from "./pages/Archive";
 import Event from "./pages/Event";
 import CollectionDetail from "./pages/CollectionDetail";
 import AudioList from "./pages/AudioList";
+import Views from "./pages/Views";
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import StickyLivePill from "./components/media/StickyLivePill";
@@ -25,6 +26,7 @@ const RoutedApp = () => {
   const location = useLocation();
   const isSouthAfrica = location.pathname === "/south-africa";
   const isInternational = location.pathname === "/international";
+  const isViews = location.pathname === "/views";
   const saStats = [
     { value: 24, label: "National", bg: "stat-sage" },
     { value: 75, label: "Regional", bg: "stat-saffron" },
@@ -56,15 +58,18 @@ const RoutedApp = () => {
           <Route path="/event/:id" element={<Event />} />
           <Route path="/collection/:id" element={<CollectionDetail />} />
           <Route path="/audio" element={<AudioList />} />
+          <Route path="/views" element={<Views />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
-      <StatisticsSection
-        title={isSouthAfrica ? "SA Ijtima Overview" : isInternational ? "Global Ijtima Overview" : undefined}
-        stats={isSouthAfrica ? saStats : isInternational ? intlStats : undefined}
-        description={isInternational ? "Connecting Generations Through Ijtimas Around the World." : undefined}
-      />
+      {!isViews && (
+        <StatisticsSection
+          title={isSouthAfrica ? "SA Ijtima Overview" : isInternational ? "Global Ijtima Overview" : undefined}
+          stats={isSouthAfrica ? saStats : isInternational ? intlStats : undefined}
+          description={isInternational ? "Connecting Generations Through Ijtimas Around the World." : undefined}
+        />
+      )}
       <Footer />
       <StickyLivePill />
     </>
