@@ -21,8 +21,8 @@
     --primary: 210 20% 92%;
     --primary-foreground: 210 28% 10%;
 
-    /* Accent — Primary Green Sage Pine (#556B57) */
-    --accent: 125 13% 38%;
+    /* Accent — Primary Green Sage Pine (#3D4A3B) */
+    --accent: 125 13% 24%;
     --accent-foreground: 125 20% 97%;
 
     --secondary: 210 25% 18%;
@@ -36,7 +36,7 @@
 
     --border: 210 16% 22%;
     --input: 210 16% 22%;
-    --ring: 158 77% 33%;
+    --ring: 125 13% 24%;
 
     /* Custom brand accents */
     --olive: 47 9% 40%;
@@ -102,7 +102,7 @@
 
     --border: 210 16% 22%;
     --input: 210 16% 22%;
-    --ring: 158 77% 33%;
+    --ring: 125 13% 24%;
 
     /* Custom brand accents */
     --olive: 47 9% 40%;
