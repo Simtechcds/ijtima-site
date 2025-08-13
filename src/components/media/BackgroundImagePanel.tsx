@@ -60,7 +60,9 @@ const BackgroundImagePanel = () => {
           backgroundSize: "cover",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
-          backgroundAttachment: "fixed",
+          // Remove fixed attachment to prevent mobile jitter and use GPU compositing
+          transform: "translateZ(0)",
+          willChange: "transform",
         }}
       />
 
