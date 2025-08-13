@@ -9,7 +9,7 @@ import { searchableItems, locationOptions, type SearchItem } from "@/data/search
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const Archive = () => {
+const Search = () => {
   const [selectedLocation, setSelectedLocation] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedResult, setSelectedResult] = useState<SearchItem | null>(null);
@@ -162,4 +162,4 @@ const Archive = () => {
   );
 };
 
-export default Archive;
+export default Search;

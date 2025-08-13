@@ -8,6 +8,7 @@ const Header = () => {
     { to: "/", label: "Home" },
     { to: "/south-africa", label: "South Africa" },
     { to: "/international", label: "International" },
+    { to: "/search", label: "Search" },
     { to: "https://ijtima.mixlr.com/", label: "Live" },
     { to: "/about", label: "About" },
   ];

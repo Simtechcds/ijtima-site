@@ -9,7 +9,7 @@ import SouthAfrica from "./pages/SouthAfrica";
 import International from "./pages/International";
 import Live from "./pages/Live";
 import About from "./pages/About";
-import Archive from "./pages/Archive";
+import Search from "./pages/Search";
 import Event from "./pages/Event";
 import CollectionDetail from "./pages/CollectionDetail";
 import AudioList from "./pages/AudioList";
@@ -55,7 +55,7 @@ const RoutedApp = () => {
           <Route path="/international" element={<International />} />
           <Route path="/live" element={<Live />} />
           <Route path="/about" element={<About />} />
-          <Route path="/archive" element={<Archive />} />
+          <Route path="/search" element={<Search />} />
           <Route path="/event/:id" element={<Event />} />
           <Route path="/collection/:id" element={<CollectionDetail />} />
           <Route path="/audio" element={<AudioList />} />
