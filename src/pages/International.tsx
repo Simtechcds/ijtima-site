@@ -12,7 +12,7 @@ import SpreakerNowPlaying from "@/components/media/SpreakerNowPlaying";
 // Dynamic data components for different international locations
 
 type DynamicAccordionListProps = {
-  category: 'Raiwind' | 'Tongi' | 'Nizamuddin' | 'UK' | 'Canada' | 'India' | 'Other';
+  category: 'Raiwind' | 'Tongi' | 'Nizamuddin' | 'UK' | 'Canada' | 'India' | 'Other' | 'Gauteng' | 'KZN' | 'Cape' | 'Old Worlders';
   prefix: string;
 };
 
@@ -36,12 +36,14 @@ const DynamicAccordionList = ({ category, prefix }: DynamicAccordionListProps) =
     return (
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value={`${prefix}-error`}>
-          <AccordionTrigger className="text-sm md:text-base text-left">Error loading {category} events</AccordionTrigger>
+          <AccordionTrigger className="text-sm md:text-base text-left">Coming Soon</AccordionTrigger>
           <AccordionContent>
-            <p className="text-muted-foreground">Failed to load data: {error}</p>
-            <Button variant="outline" size="sm" onClick={refresh} className="mt-2">
-              Try Again
-            </Button>
+            <div className="text-center py-8">
+              <p className="text-muted-foreground mb-2">Content Coming Soon</p>
+              <p className="text-sm text-muted-foreground">
+                We're working on adding content for this section. Please check back later.
+              </p>
+            </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
@@ -162,6 +164,7 @@ const International = () => {
             <TabsList aria-label="International categories" className="segmented w-full">
               <TabsTrigger value="major" className="seg flex-1">Major</TabsTrigger>
               <TabsTrigger value="global" className="seg flex-1">Global</TabsTrigger>
+              <TabsTrigger value="regional" className="seg flex-1">Regional</TabsTrigger>
             </TabsList>
 
             <TabsContent value="major">
@@ -216,6 +219,37 @@ const International = () => {
 
                   <TabsContent value="india">
                     <DynamicAccordionList category="India" prefix="india" />
+                  </TabsContent>
+                </Tabs>
+              </section>
+            </TabsContent>
+
+            <TabsContent value="regional">
+              <section aria-labelledby="regional-heading" className="mt-3">
+                <h2 id="regional-heading" className="sr-only">Regional SA Collections</h2>
+
+                <Tabs defaultValue="gauteng" className="w-full">
+                    <TabsList aria-label="Regional SA locations" className="segmented w-full">
+                      <TabsTrigger value="gauteng" className="seg flex-1 text-xs sm:text-sm px-3 sm:px-4 py-2 leading-tight tracking-tight">Gauteng</TabsTrigger>
+                      <TabsTrigger value="kzn" className="seg flex-1 text-xs sm:text-sm px-3 sm:px-4 py-2 leading-tight tracking-tight">KZN</TabsTrigger>
+                      <TabsTrigger value="cape" className="seg flex-1 text-xs sm:text-sm px-3 sm:px-4 py-2 leading-tight tracking-tight">Cape</TabsTrigger>
+                      <TabsTrigger value="oldworlders" className="seg flex-1 text-xs sm:text-sm px-2.5 sm:px-4 py-2 leading-tight tracking-tight">Old Worlders</TabsTrigger>
+                    </TabsList>
+
+                  <TabsContent value="gauteng">
+                    <DynamicAccordionList category="Gauteng" prefix="gauteng" />
+                  </TabsContent>
+
+                  <TabsContent value="kzn">
+                    <DynamicAccordionList category="KZN" prefix="kzn" />
+                  </TabsContent>
+
+                  <TabsContent value="cape">
+                    <DynamicAccordionList category="Cape" prefix="cape" />
+                  </TabsContent>
+
+                  <TabsContent value="oldworlders">
+                    <DynamicAccordionList category="Old Worlders" prefix="oldworlders" />
                   </TabsContent>
                 </Tabs>
               </section>

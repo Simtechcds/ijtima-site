@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useBaserowConfig } from './useBaserowConfig';
 import { useSchemaMapping } from './useSchemaMapping';
+import { useDataCache } from './useDataCache';
 
 export interface RichInternationalEvent {
   id: number;
@@ -37,7 +38,11 @@ const INTERNATIONAL_CATEGORIES = {
   'UK': ['International-UK', 'UK'],
   'Canada': ['International-Canada', 'Canada'],
   'India': ['International-India', 'India'],
-  'Other': ['International-Other', 'Other']
+  'Other': ['International-Other', 'Other'],
+  'Gauteng': ['South Africa-Gauteng', 'Gauteng'],
+  'KZN': ['South Africa-KZN', 'KZN'],
+  'Cape': ['South Africa-Cape', 'Cape'],
+  'Old Worlders': ['South Africa-Old Worlders', 'Old Worlders']
 } as const;
 
 export function useRichInternationalData(category: keyof typeof INTERNATIONAL_CATEGORIES) {
@@ -48,131 +53,92 @@ export function useRichInternationalData(category: keyof typeof INTERNATIONAL_CA
   const { config, loading: configLoading } = useBaserowConfig();
   const { mapRowData, schemas } = useSchemaMapping();
 
-  const fetchRichInternationalData = async () => {
-    if (configLoading) return;
+  // Enhanced caching with data cache hook
+  const fetchDataFunction = async () => {
+    if (configLoading) throw new Error('Configuration still loading');
     
-    try {
-      setLoading(true);
-      setError(null);
-      setIsPending(false);
-      
-      // Find configuration for this category
-      const searchPatterns = INTERNATIONAL_CATEGORIES[category];
-      let configItem = null;
-      
-      for (const pattern of searchPatterns) {
-        configItem = config.find(item => 
-          item.category === pattern && 
-          (item.Status === 'active' || item.Status === 'Active')
-        );
-        if (configItem) break;
-      }
-      
-      console.log(`[RichInternationalData] Category: ${category}, Config found:`, configItem);
-      
-      if (!configItem) {
-        // Check if there's an inactive/pending entry
-        const pendingItem = config.find(item => 
-          searchPatterns.some(pattern => item.category === pattern)
-        );
-        
-        if (pendingItem) {
-          console.log(`[RichInternationalData] Found pending/inactive entry for ${category}`);
-          setIsPending(true);
-          setEvents([]);
-          setLoading(false);
-          return;
-        }
-        
-        throw new Error(`No configuration found for ${category}`);
-      }
-
-      if (!configItem.api_rows_url) {
-        console.log(`[RichInternationalData] No API URL for ${category} - marking as pending`);
-        setIsPending(true);
-        setEvents([]);
-        setLoading(false);
-        return;
-      }
-
-      // Fetch data from API
-      const response = await fetch(configItem.api_rows_url, {
-        headers: {
-          'Authorization': `Token ${BASEROW_TOKEN}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
-      }
-
-      const baserowData: BaserowResponse = await response.json();
-      console.log(`[RichInternationalData] Raw API response for ${category}:`, baserowData);
-      
-      if (!baserowData.results || baserowData.results.length === 0) {
-        console.log(`[RichInternationalData] No data found for ${category} - marking as pending`);
-        setIsPending(true);
-        setEvents([]);
-        setLoading(false);
-        return;
-      }
-
-      // Transform data using schema mapping
-      const transformedEvents: RichInternationalEvent[] = baserowData.results.map(row => {
-        const mappedData = mapRowData(row, configItem.baserow_id);
-        console.log(`[RichInternationalData] Mapped row for ${category}:`, mappedData);
-        
-        // Extract iframe/audio URLs from various possible field names
-        const iframeUrl = mappedData.iframeUrl || 
-                         mappedData.iframe_url || 
-                         mappedData.iframe || 
-                         mappedData.url || 
-                         mappedData.link || 
-                         mappedData.audio_url ||
-                         mappedData.audio ||
-                         mappedData.Audio ||
-                         mappedData.URL ||
-                         mappedData.Link ||
-                         mappedData.Iframe;
-
-        const audioUrl = mappedData.audioUrl || 
-                        mappedData.audio_url || 
-                        mappedData.audio || 
-                        mappedData.Audio;
-
-        return {
-          id: row.id,
-          title: mappedData.title || mappedData.name || mappedData.Title || mappedData.Name || `${category} Event ${row.id}`,
-          year: mappedData.year || mappedData.Year,
-          location: mappedData.location || mappedData.Location,
-          city: mappedData.city || mappedData.City,
-          region: mappedData.region || mappedData.Region,
-          iframeUrl: iframeUrl,
-          audioUrl: audioUrl,
-          category: category,
-          rawData: mappedData
-        };
-      });
-
-      console.log(`[RichInternationalData] Final transformed events for ${category}:`, transformedEvents);
-      setEvents(transformedEvents);
-      
-    } catch (err) {
-      console.error(`[RichInternationalData] Error fetching ${category} data:`, err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch data');
-      setEvents([]);
-    } finally {
-      setLoading(false);
+    // Find configuration for this category
+    const searchPatterns = INTERNATIONAL_CATEGORIES[category];
+    let configItem = null;
+    
+    for (const pattern of searchPatterns) {
+      configItem = config.find(item => 
+        item.category === pattern && 
+        (item.Status === 'active' || item.Status === 'Active')
+      );
+      if (configItem) break;
     }
+
+    if (!configItem) {
+      throw new Error(`No configuration found for ${category}`);
+    }
+
+    if (!configItem.api_rows_url) {
+      throw new Error(`No API URL configured for ${category}`);
+    }
+
+    // Fetch data from Baserow
+    const response = await fetch(configItem.api_rows_url, {
+      headers: { 'Authorization': `Token ${BASEROW_TOKEN}` }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data: ${response.statusText}`);
+    }
+
+    const data: BaserowResponse = await response.json();
+
+    if (!data.results || data.results.length === 0) {
+      return [];
+    }
+
+    // Transform the data using schema mapping
+    const transformedEvents: RichInternationalEvent[] = data.results.map(row => {
+      const mappedData = mapRowData(row, configItem!.baserow_id);
+      
+      return {
+        id: mappedData.id,
+        title: mappedData.title || mappedData.name || `${category} Event`,
+        year: mappedData.year,
+        location: mappedData.location,
+        region: mappedData.region,
+        iframeUrl: mappedData.iframeUrl,
+        audioUrl: mappedData.audioUrl,
+        category: category,
+        ...mappedData
+      };
+    });
+
+    return transformedEvents;
   };
 
-  useEffect(() => {
-    fetchRichInternationalData();
-  }, [category, config, configLoading]);
+  const {
+    data: cachedEvents,
+    loading: cacheLoading,
+    error: cacheError,
+    refresh: refreshCache
+  } = useDataCache(
+    fetchDataFunction,
+    {
+      key: `international_${category}`,
+      duration: 30 * 60 * 1000 // 30 minutes cache
+    },
+    [category, config, configLoading]
+  );
 
-  // Manual refresh function
+  // Update state based on cache results
+  useEffect(() => {
+    if (cachedEvents) {
+      setEvents(cachedEvents);
+      setIsPending(cachedEvents.length === 0);
+    }
+    setLoading(cacheLoading);
+    setError(cacheError);
+  }, [cachedEvents, cacheLoading, cacheError]);
+
+  // Manual refresh function  
   const refresh = async () => {
-    await fetchRichInternationalData();
+    await refreshCache();
   };
 
   return { events, loading, error, isPending, refresh };
