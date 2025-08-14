@@ -5,23 +5,25 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { useBaserowNationalEvents } from "@/hooks/useBaserowData";
+import { SegmentedFilter } from "@/components/ui/segmented-filter";
+import { useState, useMemo } from "react";
 import type { ReactNode } from "react";
 
 type SAItemProps = { value: string; label: string; pending?: boolean; children: ReactNode };
 
 const SAItem = ({ value, label, pending = true, children }: SAItemProps) => {
   return (
-    <div className={`${pending ? 'bg-[hsl(var(--plum))]/28' : 'bg-[hsl(var(--glass-white))]/20'} rounded-xl border border-border/50 backdrop-blur-md mb-2`}>
+    <div className="bg-secondary rounded-xl border border-border/50 backdrop-blur-md mb-2">
       <AccordionItem value={value} className="border-0">
         <AccordionTrigger className="text-left px-4">
           <span className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-2">
-            <span className="whitespace-nowrap text-shadow-soft">{label}</span>
+            <span className="whitespace-nowrap text-foreground font-medium">{label}</span>
             {pending && (
-              <Badge variant="outline" className="badge-pending font-normal text-shadow-soft self-start sm:self-auto sm:ml-2">Updates Pending</Badge>
+              <Badge variant="outline" className="badge-pending font-normal self-start sm:self-auto sm:ml-2">Updates Pending</Badge>
             )}
           </span>
         </AccordionTrigger>
-        <AccordionContent className="text-muted-foreground px-4 text-shadow-soft">
+        <AccordionContent className="text-foreground/90 px-4">
           {children}
         </AccordionContent>
       </AccordionItem>
@@ -32,6 +34,36 @@ const SAItem = ({ value, label, pending = true, children }: SAItemProps) => {
 const SouthAfrica = () => {
   // Fetch National events from Baserow
   const { events: nationalEvents, loading: nationalLoading, error: nationalError } = useBaserowNationalEvents();
+  
+  // Filter and sort state
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [filterType, setFilterType] = useState<'all' | 'with-audio' | 'pending'>('all');
+
+  // Memoized filtered and sorted events
+  const filteredAndSortedEvents = useMemo(() => {
+    let filtered = [...nationalEvents];
+    
+    // Apply filter
+    if (filterType === 'with-audio') {
+      filtered = filtered.filter(event => event.iframeHtml);
+    } else if (filterType === 'pending') {
+      filtered = filtered.filter(event => !event.iframeHtml);
+    }
+    
+    // Apply sort
+    filtered.sort((a, b) => {
+      const yearA = parseInt(a.year);
+      const yearB = parseInt(b.year);
+      return sortOrder === 'asc' ? yearA - yearB : yearB - yearA;
+    });
+    
+    return filtered;
+  }, [nationalEvents, sortOrder, filterType]);
+
+  const handleClearAll = () => {
+    setSortOrder('asc');
+    setFilterType('all');
+  };
 
   const capeItems = [
     "2008 Cape Town (WC)",
@@ -147,25 +179,35 @@ const SouthAfrica = () => {
           )}
           
           {!nationalLoading && !nationalError && (
-            <Accordion type="single" collapsible className="w-full space-y-2">
-              {nationalEvents.map((event, idx) => (
-                <SAItem 
-                  key={event.id} 
-                  value={`national-${event.id}`} 
-                  label={`${event.year} ${event.city}${event.region ? ` (${event.region})` : ''}`}
-                  pending={!event.iframeHtml}
-                >
-                  {event.iframeHtml ? (
-                    <div 
-                      dangerouslySetInnerHTML={{ __html: event.iframeHtml }}
-                      className="mt-2"
-                    />
-                  ) : (
-                    <p>Audio coming soon.</p>
-                  )}
-                </SAItem>
-              ))}
-            </Accordion>
+            <>
+              <SegmentedFilter
+                sortOrder={sortOrder}
+                filterType={filterType}
+                onSortChange={setSortOrder}
+                onFilterChange={setFilterType}
+                onClearAll={handleClearAll}
+              />
+              
+              <Accordion type="single" collapsible className="w-full space-y-2">
+                {filteredAndSortedEvents.map((event) => (
+                  <SAItem 
+                    key={event.id} 
+                    value={`national-${event.id}`} 
+                    label={`${event.year} ${event.city}${event.region ? ` (${event.region})` : ''}`}
+                    pending={!event.iframeHtml}
+                  >
+                    {event.iframeHtml ? (
+                      <div 
+                        dangerouslySetInnerHTML={{ __html: event.iframeHtml }}
+                        className="mt-2"
+                      />
+                    ) : (
+                      <p>Audio coming soon.</p>
+                    )}
+                  </SAItem>
+                ))}
+              </Accordion>
+            </>
           )}
         </TabsContent>
 
