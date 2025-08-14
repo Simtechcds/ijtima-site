@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { useBackgroundCache } from "@/hooks/useBackgroundCache";
 
 /*
   BackgroundImagePanel
@@ -15,12 +16,25 @@ const LS_KEY = "ijtima:bg";
 const BackgroundImagePanel = () => {
   const [open, setOpen] = useState(false);
   const [bg, setBg] = useState<string | null>(null);
+  const [cachedBg, setCachedBg] = useState<string | null>(null);
+  const { getCachedImage } = useBackgroundCache();
 
-  // Load saved bg once on mount
+  // Load saved bg once on mount and cache it
   useEffect(() => {
     const saved = localStorage.getItem(LS_KEY);
-    if (saved) setBg(saved);
-  }, []);
+    if (saved) {
+      setBg(saved);
+      // Cache the background image for faster loading
+      if (!saved.startsWith('data:')) {
+        getCachedImage(saved).then(setCachedBg);
+      } else {
+        setCachedBg(saved);
+      }
+    } else {
+      // Cache the default background
+      getCachedImage(DEFAULT_BG).then(setCachedBg);
+    }
+  }, [getCachedImage]);
 
   // Listen for the custom open event (triggered by double-click in main container)
   useEffect(() => {
@@ -29,7 +43,7 @@ const BackgroundImagePanel = () => {
     return () => window.removeEventListener("bgpanel:open", onOpen as EventListener);
   }, []);
 
-  const effectiveBg = useMemo(() => bg || DEFAULT_BG, [bg]);
+  const effectiveBg = useMemo(() => cachedBg || bg || DEFAULT_BG, [cachedBg, bg]);
 
   const handleFilePick = (file?: File) => {
     if (!file) return;
@@ -38,6 +52,7 @@ const BackgroundImagePanel = () => {
       const dataUrl = String(reader.result ?? "");
       if (dataUrl) {
         setBg(dataUrl);
+        setCachedBg(dataUrl);
         try { localStorage.setItem(LS_KEY, dataUrl); } catch {}
       }
     };
@@ -46,6 +61,8 @@ const BackgroundImagePanel = () => {
 
   const handleReset = () => {
     setBg(null);
+    // Load cached default background
+    getCachedImage(DEFAULT_BG).then(setCachedBg);
     try { localStorage.removeItem(LS_KEY); } catch {}
   };
 

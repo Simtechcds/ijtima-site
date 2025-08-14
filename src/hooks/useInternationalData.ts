@@ -38,7 +38,7 @@ export function useInternationalData(category: keyof typeof INTERNATIONAL_CATEGO
   const [events, setEvents] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { getApiUrl, loading: configLoading } = useBaserowConfig();
+  const { getApiUrl, getTableId, loading: configLoading } = useBaserowConfig();
 
   useEffect(() => {
     async function fetchInternationalData() {
@@ -74,10 +74,22 @@ export function useInternationalData(category: keyof typeof INTERNATIONAL_CATEGO
         // Transform data to string array (maintain compatibility)
         const transformedEvents: string[] = baserowData.results
           .map(row => {
-            // Try different field names that might contain the event title
-            return row.Title || row.title || row.Name || row.name || 
-                   row.Event || row.event || row.Location || row.location ||
-                   `Event ${row.id}`;
+            // Try multiple field patterns for event titles
+            const title = row.Title || row.title || row.Name || row.name || 
+                         row.Event || row.event || row.Location || row.location ||
+                         row.City || row.city || row.Year || row.year || '';
+            
+            const year = row.Year || row.year || '';
+            const city = row.City || row.city || '';
+            
+            // Create meaningful title
+            if (year && city) {
+              return `${year} ${city}`;
+            } else if (title) {
+              return title;
+            } else {
+              return `Event ${row.id}`;
+            }
           })
           .filter(Boolean);
 
@@ -95,9 +107,14 @@ export function useInternationalData(category: keyof typeof INTERNATIONAL_CATEGO
     }
 
     fetchInternationalData();
-  }, [category, getApiUrl, configLoading]);
+  }, [category, getApiUrl, getTableId, configLoading]);
 
-  return { events, loading, error };
+  // Manual refresh function
+  const refresh = async () => {
+    await fetchInternationalData();
+  };
+
+  return { events, loading, error, refresh };
 }
 
 // Fallback static data

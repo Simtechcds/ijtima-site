@@ -6,6 +6,7 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/
 import { Badge } from "@/components/ui/badge";
 import { useBaserowNationalEvents } from "@/hooks/useBaserowData";
 import { SegmentedFilter } from "@/components/ui/segmented-filter";
+import { RefreshButton } from "@/components/ui/refresh-button";
 import { useState, useMemo } from "react";
 import type { ReactNode } from "react";
 
@@ -33,7 +34,7 @@ const SAItem = ({ value, label, pending = true, children }: SAItemProps) => {
 
 const SouthAfrica = () => {
   // Fetch National events from Baserow
-  const { events: nationalEvents, loading: nationalLoading, error: nationalError } = useBaserowNationalEvents();
+  const { events: nationalEvents, loading: nationalLoading, error: nationalError, refresh: refreshNational } = useBaserowNationalEvents();
   
   // Filter and sort state
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
@@ -154,10 +155,11 @@ const SouthAfrica = () => {
     <main className="space-y-6">
       <Seo title="South Africa — IJTIMA.SITE" description="Local collections including Ijtima and Old Workers." />
       <Tabs defaultValue="National">
-        <div className="mb-4">
+        <div className="mb-4 flex justify-between items-center">
           <Link to="/">
             <Button variant="olive" size="smWide">Back to Home</Button>
           </Link>
+          <RefreshButton onRefresh={refreshNational} />
         </div>
         <TabsList className="segmented w-full">
           <TabsTrigger value="National" className="seg flex-1">National</TabsTrigger>

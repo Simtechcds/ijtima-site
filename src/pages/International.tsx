@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { RefreshButton } from "@/components/ui/refresh-button";
 import { useInternationalData } from "@/hooks/useInternationalData";
+import { useState } from "react";
 
 // Dynamic data components for different international locations
 
@@ -13,7 +15,7 @@ type DynamicAccordionListProps = {
 };
 
 const DynamicAccordionList = ({ category, prefix }: DynamicAccordionListProps) => {
-  const { events, loading, error } = useInternationalData(category);
+  const { events, loading, error, refresh } = useInternationalData(category);
   
   if (loading) {
     return (
@@ -56,6 +58,13 @@ const DynamicAccordionList = ({ category, prefix }: DynamicAccordionListProps) =
 };
 
 const International = () => {
+  const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+  const handleRefresh = () => {
+    setRefreshTrigger(prev => prev + 1);
+    window.location.reload(); // Force full page refresh for all data
+  };
+
   return (
     <main className="space-y-6">
       <Seo title="International — IJTIMA Collection" description="International hubs and related audios." />
@@ -64,10 +73,11 @@ const International = () => {
         <h1 className="sr-only">International Ijtima Collections</h1>
       </header>
 
-      <div className="mb-4">
+      <div className="mb-4 flex justify-between items-center">
         <Link to="/">
           <Button variant="olive" size="smWide">Back to Home</Button>
         </Link>
+        <RefreshButton onRefresh={handleRefresh} />
       </div>
 
         <div className="rounded-lg ring-1 ring-foreground/20 p-3">
