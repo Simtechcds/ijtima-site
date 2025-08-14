@@ -51,6 +51,11 @@ export function useSouthAfricaData(category: keyof typeof SOUTH_AFRICA_CATEGORIE
   const fetchDataFunction = async () => {
     if (configLoading) throw new Error('Configuration still loading');
     
+    // Debug logging
+    console.log('useSouthAfricaData - Category:', category);
+    console.log('useSouthAfricaData - Available config:', config.map(c => c.category));
+    console.log('useSouthAfricaData - Search patterns:', SOUTH_AFRICA_CATEGORIES[category]);
+    
     // Find configuration for this category
     const searchPatterns = SOUTH_AFRICA_CATEGORIES[category];
     let configItem = null;
@@ -60,6 +65,7 @@ export function useSouthAfricaData(category: keyof typeof SOUTH_AFRICA_CATEGORIE
         item.category === pattern && 
         (item.Status === 'active' || item.Status === 'Active')
       );
+      console.log(`useSouthAfricaData - Checking pattern "${pattern}":`, configItem ? 'FOUND' : 'NOT FOUND');
       if (configItem) break;
     }
 
