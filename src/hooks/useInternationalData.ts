@@ -38,13 +38,25 @@ export function useInternationalData(category: keyof typeof INTERNATIONAL_CATEGO
   const [events, setEvents] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { getApiUrl, getTableId, loading: configLoading } = useBaserowConfig();
+  const { config, loading: configLoading } = useBaserowConfig();
 
   const fetchInternationalData = async () => {
     if (configLoading) return;
     
-    const configCategory = INTERNATIONAL_CATEGORIES[category];
-    const apiUrl = getApiUrl('International', category);
+    // Find configuration for this category with better pattern matching
+    const searchPatterns = [`International-${category}`, category];
+    let apiUrl = null;
+    
+    for (const pattern of searchPatterns) {
+      const configItem = config.find(item => 
+        item.category === pattern && 
+        (item.Status === 'active' || item.Status === 'Active')
+      );
+      if (configItem?.api_rows_url) {
+        apiUrl = configItem.api_rows_url;
+        break;
+      }
+    }
     
     if (!apiUrl) {
       // Fallback to static data if no API configured
@@ -107,7 +119,7 @@ export function useInternationalData(category: keyof typeof INTERNATIONAL_CATEGO
 
   useEffect(() => {
     fetchInternationalData();
-  }, [category, getApiUrl, getTableId, configLoading]);
+  }, [category, config, configLoading]);
 
   // Manual refresh function
   const refresh = async () => {

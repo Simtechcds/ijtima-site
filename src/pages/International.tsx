@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { RefreshButton } from "@/components/ui/refresh-button";
-import { useInternationalData } from "@/hooks/useInternationalData";
+import { useRichInternationalData } from "@/hooks/useRichInternationalData";
 import { useState } from "react";
+import YouTubeNowPlaying from "@/components/media/YouTubeNowPlaying";
+import SpreakerNowPlaying from "@/components/media/SpreakerNowPlaying";
 
 // Dynamic data components for different international locations
 
@@ -15,7 +17,7 @@ type DynamicAccordionListProps = {
 };
 
 const DynamicAccordionList = ({ category, prefix }: DynamicAccordionListProps) => {
-  const { events, loading, error, refresh } = useInternationalData(category);
+  const { events, loading, error, isPending, refresh } = useRichInternationalData(category);
   
   if (loading) {
     return (
@@ -37,6 +39,29 @@ const DynamicAccordionList = ({ category, prefix }: DynamicAccordionListProps) =
           <AccordionTrigger className="text-sm md:text-base text-left">Error loading {category} events</AccordionTrigger>
           <AccordionContent>
             <p className="text-muted-foreground">Failed to load data: {error}</p>
+            <Button variant="outline" size="sm" onClick={refresh} className="mt-2">
+              Try Again
+            </Button>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    );
+  }
+
+  if (isPending || events.length === 0) {
+    return (
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value={`${prefix}-pending`}>
+          <AccordionTrigger className="text-sm md:text-base text-left">
+            {category} Collection
+          </AccordionTrigger>
+          <AccordionContent>
+            <div className="text-center py-8">
+              <p className="text-muted-foreground mb-2">Pending Updates</p>
+              <p className="text-sm text-muted-foreground">
+                Content for this region is being prepared and will be available soon.
+              </p>
+            </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>
@@ -45,16 +70,68 @@ const DynamicAccordionList = ({ category, prefix }: DynamicAccordionListProps) =
 
   return (
     <Accordion type="single" collapsible className="w-full">
-      {events.map((label, idx) => (
-        <AccordionItem key={`${prefix}-${idx}`} value={`${prefix}-${idx}`}>
-          <AccordionTrigger className="text-sm md:text-base text-left">{label}</AccordionTrigger>
-          <AccordionContent>
-            <p className="text-muted-foreground">Details coming soon.</p>
-          </AccordionContent>
-        </AccordionItem>
-      ))}
+      {events.map((event, idx) => {
+        const displayTitle = event.year && event.city 
+          ? `${event.year} ${event.city}`
+          : event.title;
+          
+        return (
+          <AccordionItem key={`${prefix}-${event.id}`} value={`${prefix}-${event.id}`}>
+            <AccordionTrigger className="text-sm md:text-base text-left">
+              {displayTitle}
+            </AccordionTrigger>
+            <AccordionContent>
+              <div className="space-y-4">
+                {/* Event Details */}
+                {(event.location || event.region) && (
+                  <div className="text-sm text-muted-foreground">
+                    {event.location && <p>Location: {event.location}</p>}
+                    {event.region && <p>Region: {event.region}</p>}
+                  </div>
+                )}
+                
+                {/* Audio/Video Content */}
+                {event.iframeUrl && (
+                  <div className="w-full">
+                    {event.iframeUrl.includes('youtube.com') || event.iframeUrl.includes('youtu.be') ? (
+                      <YouTubeNowPlaying 
+                        videoId={extractYouTubeId(event.iframeUrl)} 
+                        title={event.title}
+                      />
+                    ) : event.iframeUrl.includes('spreaker.com') ? (
+                      <SpreakerNowPlaying src={event.iframeUrl} />
+                    ) : (
+                      <iframe
+                        src={event.iframeUrl}
+                        width="100%"
+                        height="350"
+                        frameBorder="0"
+                        allowFullScreen
+                        title={event.title}
+                        className="rounded-md"
+                      />
+                    )}
+                  </div>
+                )}
+                
+                {/* Fallback if no media */}
+                {!event.iframeUrl && (
+                  <p className="text-muted-foreground">Content details for this event.</p>
+                )}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+        );
+      })}
     </Accordion>
   );
+};
+
+// Helper function to extract YouTube video ID
+const extractYouTubeId = (url: string): string => {
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  return (match && match[2].length === 11) ? match[2] : '';
 };
 
 const International = () => {
