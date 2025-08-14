@@ -21,6 +21,15 @@ const CONFIG_TABLE_ID = '641142';
 const CONFIG_API_URL = `https://api.baserow.io/api/database/rows/table/${CONFIG_TABLE_ID}/?user_field_names=true`;
 const BASEROW_TOKEN = 'eaoPQeXBFEeZO2YPWrN20FRm5WJVlonF';
 
+// Cache configuration
+const CACHE_KEY = 'baserow_config';
+const CACHE_DURATION = 60 * 60 * 1000; // 1 hour in milliseconds
+
+interface CachedConfig {
+  data: BaserowConfigItem[];
+  timestamp: number;
+}
+
 export function useBaserowConfig() {
   const [config, setConfig] = useState<BaserowConfigItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,6 +41,20 @@ export function useBaserowConfig() {
         setLoading(true);
         setError(null);
         
+        // Check cache first
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+          const cachedConfig: CachedConfig = JSON.parse(cached);
+          const now = Date.now();
+          
+          // Use cached data if it's still fresh
+          if (now - cachedConfig.timestamp < CACHE_DURATION) {
+            setConfig(cachedConfig.data);
+            setLoading(false);
+            return;
+          }
+        }
+        
         const response = await fetch(CONFIG_API_URL, {
           headers: {
             'Authorization': `Token ${BASEROW_TOKEN}`
@@ -39,6 +62,13 @@ export function useBaserowConfig() {
         });
 
         if (!response.ok) {
+          // If API fails but we have cached data, use it
+          if (cached) {
+            const cachedConfig: CachedConfig = JSON.parse(cached);
+            setConfig(cachedConfig.data);
+            setLoading(false);
+            return;
+          }
           throw new Error(`Config API error: ${response.status}`);
         }
 
@@ -49,10 +79,23 @@ export function useBaserowConfig() {
           item.Status === 'active' || item.Status === 'Active'
         );
         
+        // Cache the fresh data
+        localStorage.setItem(CACHE_KEY, JSON.stringify({
+          data: activeConfig,
+          timestamp: Date.now()
+        }));
+        
         setConfig(activeConfig);
       } catch (err) {
         console.error('Error fetching Baserow config:', err);
         setError(err instanceof Error ? err.message : 'Failed to fetch config');
+        
+        // Try to use cached data as fallback
+        const cached = localStorage.getItem(CACHE_KEY);
+        if (cached) {
+          const cachedConfig: CachedConfig = JSON.parse(cached);
+          setConfig(cachedConfig.data);
+        }
       } finally {
         setLoading(false);
       }
