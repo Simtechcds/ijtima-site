@@ -96,18 +96,11 @@ export function useSouthAfricaData(category: keyof typeof SOUTH_AFRICA_CATEGORIE
     const transformedEvents: SouthAfricaEvent[] = data.results.map(row => {
       const mappedData = mapRowData(row, configItem!.baserow_id);
       
-      // Extract iframe/audio URLs from various possible field names
-      const iframeUrl = mappedData.iframeUrl || 
+      // Extract iframe/audio URLs from standardized field names
+      const iframeUrl = mappedData['iFrames URL'] || 
+                       mappedData.iframeUrl || 
                        mappedData.iframe_url || 
-                       mappedData.iframe || 
-                       mappedData.url || 
-                       mappedData.link || 
-                       mappedData.audio_url ||
-                       mappedData.audio ||
-                       mappedData.Audio ||
-                       mappedData.URL ||
-                       mappedData.Link ||
-                       mappedData.Iframe;
+                       mappedData.iframe;
 
       const audioUrl = mappedData.audioUrl || 
                       mappedData.audio_url || 
@@ -133,10 +126,10 @@ export function useSouthAfricaData(category: keyof typeof SOUTH_AFRICA_CATEGORIE
       return {
         id: row.id.toString(),
         title: mappedData.title || mappedData.name || mappedData.Title || mappedData.Name || `${category} Event ${row.id}`,
-        year: mappedData.year || mappedData.Year || mappedData.YEAR,
-        city: mappedData.city || mappedData.City || mappedData.DATE || mappedData.LOCATION,
-        location: mappedData.location || mappedData.Location || mappedData.LOCATION,
-        region: mappedData.region || mappedData.Region,
+        year: mappedData.Year || mappedData.year,
+        city: mappedData.City || mappedData.city,
+        location: mappedData.location || mappedData.Location,
+        region: mappedData.Region || mappedData.region,
         iframeUrl: iframeUrl,
         audioUrl: audioUrl,
         iframeHtml: iframeHtml,
