@@ -133,9 +133,9 @@ export function useSouthAfricaData(category: keyof typeof SOUTH_AFRICA_CATEGORIE
       return {
         id: row.id.toString(),
         title: mappedData.title || mappedData.name || mappedData.Title || mappedData.Name || `${category} Event ${row.id}`,
-        year: mappedData.year || mappedData.Year,
-        city: mappedData.city || mappedData.City,
-        location: mappedData.location || mappedData.Location,
+        year: mappedData.year || mappedData.Year || mappedData.YEAR,
+        city: mappedData.city || mappedData.City || mappedData.DATE || mappedData.LOCATION,
+        location: mappedData.location || mappedData.Location || mappedData.LOCATION,
         region: mappedData.region || mappedData.Region,
         iframeUrl: iframeUrl,
         audioUrl: audioUrl,
