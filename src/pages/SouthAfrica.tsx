@@ -14,7 +14,7 @@ type SAItemProps = { value: string; label: string; pending?: boolean; children: 
 
 const SAItem = ({ value, label, pending = true, children }: SAItemProps) => {
   return (
-    <div className={`${pending ? 'bg-[hsl(var(--plum))]/28' : 'bg-[hsl(var(--glass-white))]/20'} rounded-xl border border-border/50 backdrop-blur-md mb-2`}>
+    <div className="bg-[hsl(var(--plum))]/28 rounded-xl border border-border/50 backdrop-blur-md mb-2">
       <AccordionItem value={value} className="border-0">
         <AccordionTrigger className="text-left px-4">
           <span className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-2">
