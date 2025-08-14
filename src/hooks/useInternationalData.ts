@@ -40,72 +40,72 @@ export function useInternationalData(category: keyof typeof INTERNATIONAL_CATEGO
   const [error, setError] = useState<string | null>(null);
   const { getApiUrl, getTableId, loading: configLoading } = useBaserowConfig();
 
-  useEffect(() => {
-    async function fetchInternationalData() {
-      if (configLoading) return;
-      
-      const configCategory = INTERNATIONAL_CATEGORIES[category];
-      const apiUrl = getApiUrl('International', category);
-      
-      if (!apiUrl) {
-        // Fallback to static data if no API configured
-        const staticData = getStaticData(category);
-        setEvents(staticData);
-        setLoading(false);
-        return;
-      }
-
-      try {
-        setLoading(true);
-        setError(null);
-        
-        const response = await fetch(apiUrl, {
-          headers: {
-            'Authorization': `Token ${BASEROW_TOKEN}`
-          }
-        });
-
-        if (!response.ok) {
-          throw new Error(`API error: ${response.status}`);
-        }
-
-        const baserowData: BaserowResponse = await response.json();
-        
-        // Transform data to string array (maintain compatibility)
-        const transformedEvents: string[] = baserowData.results
-          .map(row => {
-            // Try multiple field patterns for event titles
-            const title = row.Title || row.title || row.Name || row.name || 
-                         row.Event || row.event || row.Location || row.location ||
-                         row.City || row.city || row.Year || row.year || '';
-            
-            const year = row.Year || row.year || '';
-            const city = row.City || row.city || '';
-            
-            // Create meaningful title
-            if (year && city) {
-              return `${year} ${city}`;
-            } else if (title) {
-              return title;
-            } else {
-              return `Event ${row.id}`;
-            }
-          })
-          .filter(Boolean);
-
-        setEvents(transformedEvents);
-      } catch (err) {
-        console.error(`Error fetching ${category} data:`, err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch data');
-        
-        // Fallback to static data on error
-        const staticData = getStaticData(category);
-        setEvents(staticData);
-      } finally {
-        setLoading(false);
-      }
+  const fetchInternationalData = async () => {
+    if (configLoading) return;
+    
+    const configCategory = INTERNATIONAL_CATEGORIES[category];
+    const apiUrl = getApiUrl('International', category);
+    
+    if (!apiUrl) {
+      // Fallback to static data if no API configured
+      const staticData = getStaticData(category);
+      setEvents(staticData);
+      setLoading(false);
+      return;
     }
 
+    try {
+      setLoading(true);
+      setError(null);
+      
+      const response = await fetch(apiUrl, {
+        headers: {
+          'Authorization': `Token ${BASEROW_TOKEN}`
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const baserowData: BaserowResponse = await response.json();
+      
+      // Transform data to string array (maintain compatibility)
+      const transformedEvents: string[] = baserowData.results
+        .map(row => {
+          // Try multiple field patterns for event titles
+          const title = row.Title || row.title || row.Name || row.name || 
+                       row.Event || row.event || row.Location || row.location ||
+                       row.City || row.city || row.Year || row.year || '';
+          
+          const year = row.Year || row.year || '';
+          const city = row.City || row.city || '';
+          
+          // Create meaningful title
+          if (year && city) {
+            return `${year} ${city}`;
+          } else if (title) {
+            return title;
+          } else {
+            return `Event ${row.id}`;
+          }
+        })
+        .filter(Boolean);
+
+      setEvents(transformedEvents);
+    } catch (err) {
+      console.error(`Error fetching ${category} data:`, err);
+      setError(err instanceof Error ? err.message : 'Failed to fetch data');
+      
+      // Fallback to static data on error
+      const staticData = getStaticData(category);
+      setEvents(staticData);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchInternationalData();
   }, [category, getApiUrl, getTableId, configLoading]);
 

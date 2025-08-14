@@ -244,7 +244,7 @@ export function useBaserowNationalEvents() {
             iframeHtml,
           };
         })
-        .filter(Boolean) as NationalEvent[]
+        .filter((event): event is NonNullable<typeof event> => event !== null)
         .sort((a, b) => parseInt(a.year) - parseInt(b.year));
 
       // Cache the fresh data
