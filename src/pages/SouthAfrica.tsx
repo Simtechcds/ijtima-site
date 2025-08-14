@@ -36,9 +36,21 @@ const SouthAfrica = () => {
   // Fetch National events from Baserow
   const { events: nationalEvents, loading: nationalLoading, error: nationalError, refresh: refreshNational } = useBaserowNationalEvents();
   
-  // Filter and sort state
+  // Filter and sort state for National
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [filterType, setFilterType] = useState<'all' | 'with-audio' | 'pending'>('all');
+
+  // Filter and sort state for Regional views
+  const [gautengSortOrder, setGautengSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [gautengFilterType, setGautengFilterType] = useState<'all' | 'with-audio' | 'pending'>('all');
+  const [kznSortOrder, setKznSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [kznFilterType, setKznFilterType] = useState<'all' | 'with-audio' | 'pending'>('all');
+  const [capeSortOrder, setCapeSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [capeFilterType, setCapeFilterType] = useState<'all' | 'with-audio' | 'pending'>('all');
+
+  // Filter and sort state for Old Workers
+  const [oldWorkersSortOrder, setOldWorkersSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [oldWorkersFilterType, setOldWorkersFilterType] = useState<'all' | 'with-audio' | 'pending'>('all');
 
   // Memoized filtered and sorted events
   const filteredAndSortedEvents = useMemo(() => {
@@ -64,6 +76,26 @@ const SouthAfrica = () => {
   const handleClearAll = () => {
     setSortOrder('asc');
     setFilterType('all');
+  };
+
+  const handleGautengClearAll = () => {
+    setGautengSortOrder('asc');
+    setGautengFilterType('all');
+  };
+
+  const handleKznClearAll = () => {
+    setKznSortOrder('asc');
+    setKznFilterType('all');
+  };
+
+  const handleCapeClearAll = () => {
+    setCapeSortOrder('asc');
+    setCapeFilterType('all');
+  };
+
+  const handleOldWorkersClearAll = () => {
+    setOldWorkersSortOrder('asc');
+    setOldWorkersFilterType('all');
   };
 
   const capeItems = [
@@ -151,6 +183,48 @@ const SouthAfrica = () => {
     "2024 La Mercy (KZN)",
     "2025 Masjid un Noor (GP)",
   ];
+
+  // Function to filter and sort regional items
+  const filterAndSortItems = (items: string[], sortOrder: 'asc' | 'desc', filterType: 'all' | 'with-audio' | 'pending') => {
+    let filtered = [...items];
+    
+    // Apply filter (all items are currently pending since they have no audio)
+    if (filterType === 'with-audio') {
+      filtered = []; // No items have audio yet
+    } else if (filterType === 'pending') {
+      filtered = items; // All items are pending
+    }
+    
+    // Apply sort (extract year and sort)
+    filtered.sort((a, b) => {
+      const yearA = parseInt(a.match(/^\d{4}/)?.[0] || '0');
+      const yearB = parseInt(b.match(/^\d{4}/)?.[0] || '0');
+      return sortOrder === 'asc' ? yearA - yearB : yearB - yearA;
+    });
+    
+    return filtered;
+  };
+
+  // Memoized filtered arrays for each regional view
+  const filteredGautengItems = useMemo(() => 
+    filterAndSortItems(gautengItems, gautengSortOrder, gautengFilterType), 
+    [gautengItems, gautengSortOrder, gautengFilterType]
+  );
+
+  const filteredKznItems = useMemo(() => 
+    filterAndSortItems(kznItems, kznSortOrder, kznFilterType), 
+    [kznItems, kznSortOrder, kznFilterType]
+  );
+
+  const filteredCapeItems = useMemo(() => 
+    filterAndSortItems(capeItems, capeSortOrder, capeFilterType), 
+    [capeItems, capeSortOrder, capeFilterType]
+  );
+
+  const filteredOldWorkersItems = useMemo(() => 
+    filterAndSortItems(oldWorkersItems, oldWorkersSortOrder, oldWorkersFilterType), 
+    [oldWorkersItems, oldWorkersSortOrder, oldWorkersFilterType]
+  );
   return (
     <main className="space-y-6">
       <Seo title="South Africa — IJTIMA.SITE" description="Local collections including Ijtima and Old Workers." />
@@ -222,8 +296,15 @@ const SouthAfrica = () => {
             </TabsList>
 
             <TabsContent value="Gauteng" className="mt-4">
+              <SegmentedFilter
+                sortOrder={gautengSortOrder}
+                filterType={gautengFilterType}
+                onSortChange={setGautengSortOrder}
+                onFilterChange={setGautengFilterType}
+                onClearAll={handleGautengClearAll}
+              />
               <Accordion type="single" collapsible className="w-full space-y-2">
-                {gautengItems.map((label, idx) => (
+                {filteredGautengItems.map((label, idx) => (
                   <SAItem key={idx} value={`gauteng-${idx}`} label={label} pending>
                     Details will be added soon.
                   </SAItem>
@@ -232,8 +313,15 @@ const SouthAfrica = () => {
             </TabsContent>
 
             <TabsContent value="KZN" className="mt-4">
+              <SegmentedFilter
+                sortOrder={kznSortOrder}
+                filterType={kznFilterType}
+                onSortChange={setKznSortOrder}
+                onFilterChange={setKznFilterType}
+                onClearAll={handleKznClearAll}
+              />
               <Accordion type="single" collapsible className="w-full space-y-2">
-                {kznItems.map((label, idx) => (
+                {filteredKznItems.map((label, idx) => (
                   <SAItem key={idx} value={`kzn-${idx}`} label={label} pending>
                     Details will be added soon.
                   </SAItem>
@@ -242,8 +330,15 @@ const SouthAfrica = () => {
             </TabsContent>
 
             <TabsContent value="Cape" className="mt-4">
+              <SegmentedFilter
+                sortOrder={capeSortOrder}
+                filterType={capeFilterType}
+                onSortChange={setCapeSortOrder}
+                onFilterChange={setCapeFilterType}
+                onClearAll={handleCapeClearAll}
+              />
               <Accordion type="single" collapsible className="w-full space-y-2">
-                {capeItems.map((label, idx) => (
+                {filteredCapeItems.map((label, idx) => (
                   <SAItem key={idx} value={`cape-${idx}`} label={label} pending>
                     Details will be added soon.
                   </SAItem>
@@ -254,8 +349,15 @@ const SouthAfrica = () => {
         </TabsContent>
 
         <TabsContent value="Old Workers" className="mt-4">
+          <SegmentedFilter
+            sortOrder={oldWorkersSortOrder}
+            filterType={oldWorkersFilterType}
+            onSortChange={setOldWorkersSortOrder}
+            onFilterChange={setOldWorkersFilterType}
+            onClearAll={handleOldWorkersClearAll}
+          />
           <Accordion type="single" collapsible className="w-full space-y-2">
-            {oldWorkersItems.map((label, idx) => (
+            {filteredOldWorkersItems.map((label, idx) => (
               <SAItem key={idx} value={`oldworkers-${idx}`} label={label} pending>
                 Details will be added soon.
               </SAItem>
