@@ -17,7 +17,7 @@ export const SegmentedFilter: React.FC<SegmentedFilterProps> = ({
   onClearAll,
 }) => {
   return (
-    <div className="flex flex-col sm:flex-row gap-3 mb-4">
+    <div className="flex flex-col sm:flex-row gap-3 mb-4 p-4 bg-[hsl(var(--plum))]/28 rounded-xl border border-border/50 backdrop-blur-md">
       {/* Sort Controls */}
       <div className="segmented">
         <button
@@ -64,7 +64,7 @@ export const SegmentedFilter: React.FC<SegmentedFilterProps> = ({
       {/* Clear All Button */}
       <button
         onClick={onClearAll}
-        className="px-4 py-2 text-sm font-medium text-muted-foreground hover:text-foreground bg-secondary hover:bg-secondary/80 rounded-md border border-border transition-colors"
+        className="px-4 py-2 text-sm font-medium text-foreground hover:text-foreground/80 bg-[hsl(var(--plum-deep))]/60 hover:bg-[hsl(var(--plum-deep))]/80 rounded-md border border-border/50 transition-colors text-shadow-soft"
       >
         Clear All
       </button>

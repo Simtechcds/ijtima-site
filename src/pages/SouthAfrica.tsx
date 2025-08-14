@@ -13,17 +13,17 @@ type SAItemProps = { value: string; label: string; pending?: boolean; children: 
 
 const SAItem = ({ value, label, pending = true, children }: SAItemProps) => {
   return (
-    <div className="bg-secondary rounded-xl border border-border/50 backdrop-blur-md mb-2">
+    <div className={`${pending ? 'bg-[hsl(var(--plum))]/28' : 'bg-[hsl(var(--glass-white))]/20'} rounded-xl border border-border/50 backdrop-blur-md mb-2`}>
       <AccordionItem value={value} className="border-0">
         <AccordionTrigger className="text-left px-4">
           <span className="flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:gap-2">
-            <span className="whitespace-nowrap text-foreground font-medium">{label}</span>
+            <span className="whitespace-nowrap text-foreground font-medium text-shadow-soft">{label}</span>
             {pending && (
-              <Badge variant="outline" className="badge-pending font-normal self-start sm:self-auto sm:ml-2">Updates Pending</Badge>
+              <Badge variant="outline" className="badge-pending font-normal text-shadow-soft self-start sm:self-auto sm:ml-2">Updates Pending</Badge>
             )}
           </span>
         </AccordionTrigger>
-        <AccordionContent className="text-foreground/90 px-4">
+        <AccordionContent className="text-foreground/90 px-4 text-shadow-soft">
           {children}
         </AccordionContent>
       </AccordionItem>
