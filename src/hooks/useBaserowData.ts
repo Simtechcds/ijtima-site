@@ -41,8 +41,12 @@ export function useBaserowNationalData() {
         setLoading(true);
         setError(null);
         
-        // Fetch data directly from Baserow API (no auth required for testing)
-        const response = await fetch(BASEROW_ROWS_URL);
+        // Fetch data directly from Baserow API with authorization
+        const response = await fetch(BASEROW_ROWS_URL, {
+          headers: {
+            'Authorization': 'Token eaoPQeXBFEeZO2YPWrN20FRm5WJVlonF'
+          }
+        });
 
         if (!response.ok) {
           throw new Error(`Baserow API error: ${response.status}`);
@@ -89,7 +93,11 @@ export function useBaserowNationalEvents() {
         setLoading(true);
         setError(null);
         
-        const response = await fetch(BASEROW_ROWS_URL);
+        const response = await fetch(BASEROW_ROWS_URL, {
+          headers: {
+            'Authorization': 'Token eaoPQeXBFEeZO2YPWrN20FRm5WJVlonF'
+          }
+        });
 
         if (!response.ok) {
           throw new Error(`Baserow API error: ${response.status}`);
