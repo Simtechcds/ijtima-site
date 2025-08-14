@@ -17,15 +17,15 @@ export const SegmentedFilter: React.FC<SegmentedFilterProps> = ({
   onClearAll,
 }) => {
   return (
-    <div className="flex flex-col sm:flex-row gap-3 mb-4 p-4 bg-[hsl(var(--plum))]/28 rounded-xl border border-border/50 backdrop-blur-md">
+    <div className="flex flex-col sm:flex-row gap-3 mb-4 p-4 bg-[hsl(var(--stat-slate))]/28 rounded-xl border border-border/50 backdrop-blur-md">
       {/* Sort Controls */}
       <div className="flex gap-2">
         <button
           className={cn(
             "px-4 py-2 text-sm font-medium rounded-md border border-border/50 backdrop-blur-md transition-all text-shadow-soft",
             sortOrder === 'asc' 
-              ? "bg-[hsl(var(--plum-deep))]/60 text-foreground border-foreground/30" 
-              : "bg-[hsl(var(--plum))]/40 text-foreground/80 hover:bg-[hsl(var(--plum-deep))]/40"
+              ? "bg-[hsl(var(--stat-slate-deep))]/60 text-foreground border-foreground/30" 
+              : "bg-[hsl(var(--stat-slate))]/40 text-foreground/80 hover:bg-[hsl(var(--stat-slate-deep))]/40"
           )}
           onClick={() => onSortChange('asc')}
         >
@@ -35,8 +35,8 @@ export const SegmentedFilter: React.FC<SegmentedFilterProps> = ({
           className={cn(
             "px-4 py-2 text-sm font-medium rounded-md border border-border/50 backdrop-blur-md transition-all text-shadow-soft",
             sortOrder === 'desc' 
-              ? "bg-[hsl(var(--plum-deep))]/60 text-foreground border-foreground/30" 
-              : "bg-[hsl(var(--plum))]/40 text-foreground/80 hover:bg-[hsl(var(--plum-deep))]/40"
+              ? "bg-[hsl(var(--stat-slate-deep))]/60 text-foreground border-foreground/30" 
+              : "bg-[hsl(var(--stat-slate))]/40 text-foreground/80 hover:bg-[hsl(var(--stat-slate-deep))]/40"
           )}
           onClick={() => onSortChange('desc')}
         >
@@ -50,8 +50,8 @@ export const SegmentedFilter: React.FC<SegmentedFilterProps> = ({
           className={cn(
             "flex-1 px-4 py-2 text-sm font-medium rounded-md border border-border/50 backdrop-blur-md transition-all text-shadow-soft",
             filterType === 'all' 
-              ? "bg-[hsl(var(--plum-deep))]/60 text-foreground border-foreground/30" 
-              : "bg-[hsl(var(--plum))]/40 text-foreground/80 hover:bg-[hsl(var(--plum-deep))]/40"
+              ? "bg-[hsl(var(--stat-slate-deep))]/60 text-foreground border-foreground/30" 
+              : "bg-[hsl(var(--stat-slate))]/40 text-foreground/80 hover:bg-[hsl(var(--stat-slate-deep))]/40"
           )}
           onClick={() => onFilterChange('all')}
         >
@@ -61,8 +61,8 @@ export const SegmentedFilter: React.FC<SegmentedFilterProps> = ({
           className={cn(
             "flex-1 px-4 py-2 text-sm font-medium rounded-md border border-border/50 backdrop-blur-md transition-all text-shadow-soft",
             filterType === 'with-audio' 
-              ? "bg-[hsl(var(--plum-deep))]/60 text-foreground border-foreground/30" 
-              : "bg-[hsl(var(--plum))]/40 text-foreground/80 hover:bg-[hsl(var(--plum-deep))]/40"
+              ? "bg-[hsl(var(--stat-slate-deep))]/60 text-foreground border-foreground/30" 
+              : "bg-[hsl(var(--stat-slate))]/40 text-foreground/80 hover:bg-[hsl(var(--stat-slate-deep))]/40"
           )}
           onClick={() => onFilterChange('with-audio')}
         >
@@ -72,8 +72,8 @@ export const SegmentedFilter: React.FC<SegmentedFilterProps> = ({
           className={cn(
             "flex-1 px-4 py-2 text-sm font-medium rounded-md border border-border/50 backdrop-blur-md transition-all text-shadow-soft",
             filterType === 'pending' 
-              ? "bg-[hsl(var(--plum-deep))]/60 text-foreground border-foreground/30" 
-              : "bg-[hsl(var(--plum))]/40 text-foreground/80 hover:bg-[hsl(var(--plum-deep))]/40"
+              ? "bg-[hsl(var(--stat-slate-deep))]/60 text-foreground border-foreground/30" 
+              : "bg-[hsl(var(--stat-slate))]/40 text-foreground/80 hover:bg-[hsl(var(--stat-slate-deep))]/40"
           )}
           onClick={() => onFilterChange('pending')}
         >
@@ -84,7 +84,7 @@ export const SegmentedFilter: React.FC<SegmentedFilterProps> = ({
       {/* Clear All Button */}
       <button
         onClick={onClearAll}
-        className="px-4 py-2 text-sm font-medium text-foreground hover:text-foreground/80 bg-[hsl(var(--plum-deep))]/60 hover:bg-[hsl(var(--plum-deep))]/80 rounded-md border border-border/50 transition-colors text-shadow-soft backdrop-blur-md"
+        className="px-4 py-2 text-sm font-medium text-foreground hover:text-foreground/80 bg-[hsl(var(--stat-slate-deep))]/60 hover:bg-[hsl(var(--stat-slate-deep))]/80 rounded-md border border-border/50 transition-colors text-shadow-soft backdrop-blur-md"
       >
         Clear All
       </button>
