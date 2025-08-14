@@ -6,7 +6,7 @@ interface BaserowRow {
   Year?: string;
   City?: string;
   Region?: string;
-  'iframe URL'?: string;
+  'Long text'?: string;
   [key: string]: any; // Allow other fields
 }
 
@@ -15,7 +15,7 @@ interface NationalEvent {
   year: string;
   city: string;
   region?: string;
-  iframeUrl?: string;
+  iframeHtml?: string;
 }
 
 interface BaserowResponse {
@@ -63,7 +63,7 @@ export function useBaserowNationalData() {
             location: 'South Africa',
             type: 'National' as const,
             baserowId: row.id,
-            iframeUrl: row['iframe URL'],
+            iframeUrl: row['Long text'],
           }));
 
         setData(transformedData);
@@ -113,7 +113,7 @@ export function useBaserowNationalEvents() {
             year: row.Year || '',
             city: row.City || '',
             region: row.Region,
-            iframeUrl: row['iframe URL'],
+            iframeHtml: row['Long text'],
           }))
           .sort((a, b) => parseInt(a.year) - parseInt(b.year)); // Sort by year
 

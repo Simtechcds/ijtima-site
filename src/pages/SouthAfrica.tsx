@@ -153,15 +153,12 @@ const SouthAfrica = () => {
                   key={event.id} 
                   value={`national-${event.id}`} 
                   label={`${event.year} ${event.city}${event.region ? ` (${event.region})` : ''}`}
-                  pending={!event.iframeUrl}
+                  pending={!event.iframeHtml}
                 >
-                  {event.iframeUrl ? (
-                    <iframe 
-                      src={event.iframeUrl} 
-                      width="100%" 
-                      height="200" 
-                      className="rounded-md border mt-2"
-                      title={`${event.year} ${event.city} Audio`}
+                  {event.iframeHtml ? (
+                    <div 
+                      dangerouslySetInnerHTML={{ __html: event.iframeHtml }}
+                      className="mt-2"
                     />
                   ) : (
                     <p>Audio coming soon.</p>
