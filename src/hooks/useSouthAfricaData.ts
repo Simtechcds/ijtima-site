@@ -33,10 +33,10 @@ const BASEROW_TOKEN = 'eaoPQeXBFEeZO2YPWrN20FRm5WJVlonF';
 
 // South Africa data categories mapping with configuration patterns
 const SOUTH_AFRICA_CATEGORIES = {
-  'Gauteng': ['South Africa-Gauteng', 'Gauteng'],
-  'KZN': ['South Africa-KZN', 'KZN'],
-  'Cape': ['South Africa-Cape', 'Cape'],
-  'Old Workers': ['South Africa-Old Workers', 'Old Workers', 'Old-Workers']
+  'Gauteng': ['Gauteng'],
+  'KZN': ['KZN'],
+  'Cape': ['Cape'],
+  'Old Workers': ['OWJ']
 } as const;
 
 export function useSouthAfricaData(category: keyof typeof SOUTH_AFRICA_CATEGORIES) {
