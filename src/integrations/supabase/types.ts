@@ -14,7 +14,81 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      baserow_national_events: {
+        Row: {
+          baserow_id: string
+          category: string
+          city: string | null
+          created_at: string
+          id: string
+          region: string | null
+          synced_at: string
+          title: string
+          type: string
+          updated_at: string
+          year: string | null
+        }
+        Insert: {
+          baserow_id: string
+          category?: string
+          city?: string | null
+          created_at?: string
+          id?: string
+          region?: string | null
+          synced_at?: string
+          title: string
+          type?: string
+          updated_at?: string
+          year?: string | null
+        }
+        Update: {
+          baserow_id?: string
+          category?: string
+          city?: string | null
+          created_at?: string
+          id?: string
+          region?: string | null
+          synced_at?: string
+          title?: string
+          type?: string
+          updated_at?: string
+          year?: string | null
+        }
+        Relationships: []
+      }
+      sync_status: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          id: string
+          last_sync_at: string | null
+          records_synced: number | null
+          status: string | null
+          table_name: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          last_sync_at?: string | null
+          records_synced?: number | null
+          status?: string | null
+          table_name: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          last_sync_at?: string | null
+          records_synced?: number | null
+          status?: string | null
+          table_name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
