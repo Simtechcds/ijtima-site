@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { SearchItem } from '@/data/searchData';
+import { useBaserowConfig } from './useBaserowConfig';
 
 interface BaserowRow {
   id: number;
@@ -7,7 +8,14 @@ interface BaserowRow {
   City?: string;
   Region?: string;
   iframe_url?: string;
-  [key: string]: any; // Allow other fields
+  [key: string]: any;
+}
+
+interface BaserowResponse {
+  count: number;
+  next?: string;
+  previous?: string;
+  results: BaserowRow[];
 }
 
 interface NationalEvent {
@@ -18,94 +26,104 @@ interface NationalEvent {
   iframeHtml?: string;
 }
 
-interface BaserowResponse {
-  count: number;
-  next?: string;
-  previous?: string;
-  results: BaserowRow[];
-}
+const BASEROW_TOKEN = 'eaoPQeXBFEeZO2YPWrN20FRm5WJVlonF';
 
-// Baserow API configuration for NATIONAL table
-const BASEROW_TABLE_ID = '641352'; // NATIONAL table ID
-const BASEROW_FIELDS_URL = `https://api.baserow.io/api/database/fields/table/${BASEROW_TABLE_ID}/`;
-const BASEROW_ROWS_URL = `https://api.baserow.io/api/database/rows/table/${BASEROW_TABLE_ID}/?user_field_names=true`;
-
-export function useBaserowNationalData() {
+// Universal hook for any Baserow data source
+export function useBaserowData(category: string, subcategory?: string) {
   const [data, setData] = useState<SearchItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { getApiUrl, loading: configLoading } = useBaserowConfig();
 
   useEffect(() => {
-    async function fetchBaserowData() {
+    async function fetchData() {
+      // Wait for config to load
+      if (configLoading) return;
+      
+      const apiUrl = getApiUrl(category, subcategory);
+      if (!apiUrl) {
+        setError(`No API URL found for ${category}${subcategory ? `-${subcategory}` : ''}`);
+        setLoading(false);
+        return;
+      }
+
       try {
         setLoading(true);
         setError(null);
         
-        // Fetch data directly from Baserow API with authorization
-        const response = await fetch(BASEROW_ROWS_URL, {
+        const response = await fetch(apiUrl, {
           headers: {
-            'Authorization': 'Token eaoPQeXBFEeZO2YPWrN20FRm5WJVlonF'
+            'Authorization': `Token ${BASEROW_TOKEN}`
           }
         });
 
         if (!response.ok) {
-          throw new Error(`Baserow API error: ${response.status}`);
+          throw new Error(`API error: ${response.status}`);
         }
 
         const baserowData: BaserowResponse = await response.json();
         
-        // Transform Baserow data to SearchItem format
+        // Transform to SearchItem format
         const transformedData: SearchItem[] = baserowData.results
-          .filter(row => row.Year && row.City) // Only include rows with required data
+          .filter(row => row.Year && row.City)
           .map(row => ({
             title: `${row.Year} ${row.City}${row.Region ? ` (${row.Region})` : ''}`,
-            category: 'South Africa',
-            location: 'South Africa',
-            type: 'National' as const,
+            category: category,
+            location: category === 'South Africa' ? 'South Africa' : 'International',
+            type: (subcategory || category) as any,
             baserowId: row.id,
             iframeUrl: row.iframe_url,
           }));
 
         setData(transformedData);
       } catch (err) {
-        console.error('Error fetching Baserow data:', err);
+        console.error(`Error fetching ${category} data:`, err);
         setError(err instanceof Error ? err.message : 'Failed to fetch data');
       } finally {
         setLoading(false);
       }
     }
 
-    fetchBaserowData();
-  }, []);
+    fetchData();
+  }, [category, subcategory, getApiUrl, configLoading]);
 
   return { data, loading, error };
 }
 
-// New hook specifically for South Africa National events  
+// Specialized hook for National events (maintains compatibility)
 export function useBaserowNationalEvents() {
   const [events, setEvents] = useState<NationalEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { getApiUrl, loading: configLoading } = useBaserowConfig();
 
   useEffect(() => {
     async function fetchNationalEvents() {
+      if (configLoading) return;
+      
+      // Try to get URL from config, fallback to hardcoded
+      let apiUrl = getApiUrl('South Africa', 'National');
+      if (!apiUrl) {
+        // Fallback to existing hardcoded URL
+        apiUrl = 'https://api.baserow.io/api/database/rows/table/641352/?user_field_names=true';
+      }
+
       try {
         setLoading(true);
         setError(null);
         
-        const response = await fetch(BASEROW_ROWS_URL, {
+        const response = await fetch(apiUrl, {
           headers: {
-            'Authorization': 'Token eaoPQeXBFEeZO2YPWrN20FRm5WJVlonF'
+            'Authorization': `Token ${BASEROW_TOKEN}`
           }
         });
 
         if (!response.ok) {
-          throw new Error(`Baserow API error: ${response.status}`);
+          throw new Error(`API error: ${response.status}`);
         }
 
         const baserowData: BaserowResponse = await response.json();
         
-        // Transform to NationalEvent format
         const transformedEvents: NationalEvent[] = baserowData.results
           .filter(row => row.Year && row.City)
           .map(row => ({
@@ -115,7 +133,7 @@ export function useBaserowNationalEvents() {
             region: row.Region,
             iframeHtml: row.iframe_url,
           }))
-          .sort((a, b) => parseInt(a.year) - parseInt(b.year)); // Sort by year
+          .sort((a, b) => parseInt(a.year) - parseInt(b.year));
 
         setEvents(transformedEvents);
       } catch (err) {
@@ -127,7 +145,13 @@ export function useBaserowNationalEvents() {
     }
 
     fetchNationalEvents();
-  }, []);
+  }, [getApiUrl, configLoading]);
 
   return { events, loading, error };
+}
+
+// Legacy hook for backward compatibility
+export function useBaserowNationalData() {
+  const { data, loading, error } = useBaserowData('South Africa', 'National');
+  return { data, loading, error };
 }

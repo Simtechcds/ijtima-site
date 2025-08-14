@@ -3,83 +3,57 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { useInternationalData } from "@/hooks/useInternationalData";
 
-const raiwindList = [
-  "2024 Raiwind Ijtema – Part 2",
-  "2024 Raiwind Ijtema – Part 1",
-  "2023 Raiwind Ijtema – Part 2",
-  "2023 Raiwind Ijtema – Part 1",
-  "2022 Raiwind Ijtema – Part 2",
-  "2022 Raiwind Ijtema – Part 1",
-  "2022 Old Workers Jor – Raiwind",
-  "2021 Raiwind Ijtema – Part 2",
-  "2021 Raiwind Ijtema – Part 1",
-  "2021 Raiwind Old Workers Jor",
-  "2020 Raiwind Ijtema",
-  "2019 Raiwind Ijtema – Part 2",
-  "2019 Raiwind Ijtema – Part 1",
-  "2019 Old Workers Jor – Raiwind",
-  "2018 Raiwind Ijtema – Part 2",
-  "2018 Raiwind Ijtema – Part 1",
-  "2017 Raiwind Ijtema",
-  "2016 Raiwind Ijtema",
-  "2014 Raiwind Ijtema",
-  "2013 Raiwind Ijtema",
-  "2012 Raiwind Ijtema",
-  "2011 Raiwind Ijtema",
-  "2010 Raiwind Ijtema",
-  "2007 Raiwind Ijtema",
-  "2006 Raiwind Ijtema",
-];
+// Dynamic data components for different international locations
 
-const tongiList = ["2016 Tongi Ijtema"];
+type DynamicAccordionListProps = {
+  category: 'Raiwind' | 'Tongi' | 'Nizamuddin' | 'UK' | 'Canada' | 'India' | 'Other';
+  prefix: string;
+};
 
-const nizamuddinList = [
-  "2015 All Africa Nizamuddin Jor",
-  "2013 All Africa Nizamuddin Jor",
-  "2011 All Africa Nizamuddin Jor",
-  "2011 All USA Nizamuddin Jor",
-  "2011 All India Nizamuddin Jor",
-  "2011 All Europe Nizamuddin Jor",
-  "2006 SA Nizamuddin Jor",
-  "2004 SA Nizamuddin Jor",
-];
+const DynamicAccordionList = ({ category, prefix }: DynamicAccordionListProps) => {
+  const { events, loading, error } = useInternationalData(category);
+  
+  if (loading) {
+    return (
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value={`${prefix}-loading`}>
+          <AccordionTrigger className="text-sm md:text-base text-left">Loading {category} events...</AccordionTrigger>
+          <AccordionContent>
+            <p className="text-muted-foreground">Fetching data...</p>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    );
+  }
+  
+  if (error) {
+    return (
+      <Accordion type="single" collapsible className="w-full">
+        <AccordionItem value={`${prefix}-error`}>
+          <AccordionTrigger className="text-sm md:text-base text-left">Error loading {category} events</AccordionTrigger>
+          <AccordionContent>
+            <p className="text-muted-foreground">Failed to load data: {error}</p>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    );
+  }
 
-const ukList = ["2018 Blackburn", "2019 Blackburn", "2022 Blackburn"];
-const canadaList = ["2011 Toronto", "2023 Canada"];
-const otherList = ["2011 Gaza", "2014 Sweden", "2014 Sudan", "2014 Jordan"];
-const indiaList = [
-  "2025 Old Workers Jor (Panoli dist.)",
-  "2024 Mosali (Panoli) Ijtema",
-  "2023 All India Mashwara – Godhra",
-  "2023 All India Mashwera – Bangalore",
-  "2023 Dadhal (Panoli) Ijtema",
-  "2022 Amrawati (Maharastra) Ijtema",
-  "2022 Old Workers & Railway Workers – Bangalore",
-  "2021 Kul Hind Mashwera – Delhi",
-  "2021 Kathor (Panoli) Jor",
-  "2019 Hyderabad Ijtema",
-  "2019 Banaskantha Ijtema",
-  "2019 Sarkhej Ijtema",
-  "2019 Aanand Ijtema",
-  "2019 Godhra Ijtema",
-  "2018 Italwa (Surat) Ijtema",
-  "2017 Surendra Nagar Ijtema",
-];
-
-type AccordionListProps = { items: readonly string[]; prefix: string };
-const AccordionList = ({ items, prefix }: AccordionListProps) => (
-  <Accordion type="single" collapsible className="w-full">
-    {items.map((label, idx) => (
-      <AccordionItem key={`${prefix}-${idx}`} value={`${prefix}-${idx}`}>
-        <AccordionTrigger className="text-sm md:text-base text-left">{label}</AccordionTrigger>
-        <AccordionContent>
-          <p className="text-muted-foreground">Details coming soon.</p>
-        </AccordionContent>
-      </AccordionItem>
-    ))}
-  </Accordion>
-);
+  return (
+    <Accordion type="single" collapsible className="w-full">
+      {events.map((label, idx) => (
+        <AccordionItem key={`${prefix}-${idx}`} value={`${prefix}-${idx}`}>
+          <AccordionTrigger className="text-sm md:text-base text-left">{label}</AccordionTrigger>
+          <AccordionContent>
+            <p className="text-muted-foreground">Details coming soon.</p>
+          </AccordionContent>
+        </AccordionItem>
+      ))}
+    </Accordion>
+  );
+};
 
 const International = () => {
   return (
@@ -115,15 +89,15 @@ const International = () => {
                     </TabsList>
 
                   <TabsContent value="raiwind">
-                    <AccordionList items={raiwindList} prefix="raiwind" />
+                    <DynamicAccordionList category="Raiwind" prefix="raiwind" />
                   </TabsContent>
 
                   <TabsContent value="tongi">
-                    <AccordionList items={tongiList} prefix="tongi" />
+                    <DynamicAccordionList category="Tongi" prefix="tongi" />
                   </TabsContent>
 
                   <TabsContent value="nizamuddin">
-                    <AccordionList items={nizamuddinList} prefix="nizamuddin" />
+                    <DynamicAccordionList category="Nizamuddin" prefix="nizamuddin" />
                   </TabsContent>
                 </Tabs>
               </section>
@@ -142,19 +116,19 @@ const International = () => {
                     </TabsList>
 
                   <TabsContent value="uk">
-                    <AccordionList items={ukList} prefix="uk" />
+                    <DynamicAccordionList category="UK" prefix="uk" />
                   </TabsContent>
 
                   <TabsContent value="canada">
-                    <AccordionList items={canadaList} prefix="canada" />
+                    <DynamicAccordionList category="Canada" prefix="canada" />
                   </TabsContent>
 
                   <TabsContent value="other">
-                    <AccordionList items={otherList} prefix="other" />
+                    <DynamicAccordionList category="Other" prefix="other" />
                   </TabsContent>
 
                   <TabsContent value="india">
-                    <AccordionList items={indiaList} prefix="india" />
+                    <DynamicAccordionList category="India" prefix="india" />
                   </TabsContent>
                 </Tabs>
               </section>
