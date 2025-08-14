@@ -5,6 +5,8 @@ export interface SearchItem {
   category: string;
   location: string;
   type: 'National' | 'Gauteng' | 'KZN' | 'Cape' | 'Old Workers' | 'Raiwind' | 'Tongi' | 'Nizamuddin Jor' | 'India' | 'UK' | 'Canada' | 'Other';
+  baserowId?: number;
+  iframeUrl?: string;
 }
 
 // South Africa data

@@ -7,6 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { searchableItems, locationOptions, type SearchItem } from "@/data/searchData";
+import { useBaserowNationalData } from "@/hooks/useBaserowData";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -16,6 +17,9 @@ const Search = () => {
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState("");
   const [selectedResult, setSelectedResult] = useState<SearchItem | null>(null);
   const [open, setOpen] = useState(false);
+  
+  // Fetch dynamic Baserow data for National events
+  const { data: baserowNationalData, loading: baserowLoading, error: baserowError } = useBaserowNationalData();
 
   // Debounce search query for better performance
   useEffect(() => {
@@ -26,9 +30,16 @@ const Search = () => {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
+  // Combine static and dynamic data
+  const allItems = useMemo(() => {
+    // Replace static national items with dynamic Baserow data when available
+    const staticNonNational = searchableItems.filter(item => item.type !== 'National');
+    return [...staticNonNational, ...baserowNationalData];
+  }, [baserowNationalData]);
+
   // Filter items based on location selection
   const filteredItems = useMemo(() => {
-    let items = searchableItems;
+    let items = allItems;
     
     if (selectedLocation !== "all") {
       const locationMap: Record<string, string[]> = {
@@ -50,7 +61,7 @@ const Search = () => {
     }
     
     return items;
-  }, [selectedLocation]);
+  }, [selectedLocation, allItems]);
 
   // Filter items based on debounced search query
   const searchResults = useMemo(() => {
@@ -162,17 +173,50 @@ const Search = () => {
             <div className="flex flex-wrap gap-2">
               <Badge variant="secondary">{selectedResult.category}</Badge>
               <Badge variant="accent">{selectedResult.type}</Badge>
+              {selectedResult.baserowId && (
+                <Badge variant="outline">ID: {selectedResult.baserowId}</Badge>
+              )}
             </div>
-            <p className="mt-3 text-muted-foreground">Details coming soon.</p>
+            {selectedResult.iframeUrl ? (
+              <div className="mt-4">
+                <p className="text-sm text-muted-foreground mb-2">Audio available</p>
+                <iframe 
+                  src={selectedResult.iframeUrl} 
+                  width="100%" 
+                  height="200" 
+                  className="rounded-md border"
+                />
+              </div>
+            ) : (
+              <p className="mt-3 text-muted-foreground">Audio coming soon.</p>
+            )}
+          </div>
+        )}
+
+        {/* Loading and Error States */}
+        {baserowLoading && (
+          <div className="text-center text-muted-foreground">
+            <p className="text-sm">Loading National events from Baserow...</p>
+          </div>
+        )}
+        
+        {baserowError && (
+          <div className="text-center text-destructive">
+            <p className="text-sm">Error loading data: {baserowError}</p>
           </div>
         )}
 
         {/* Search Instructions */}
-        {!selectedResult && (
+        {!selectedResult && !baserowLoading && (
           <div className="text-center text-muted-foreground">
             <p className="text-sm">
               Select a location and start typing to search through all Ijtima events and collections.
             </p>
+            {baserowNationalData.length > 0 && (
+              <p className="text-xs mt-1">
+                Loaded {baserowNationalData.length} National events from Baserow
+              </p>
+            )}
           </div>
         )}
       </div>
