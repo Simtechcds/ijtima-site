@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
+import { useBaserowNationalEvents } from "@/hooks/useBaserowData";
 import type { ReactNode } from "react";
 
 type SAItemProps = { value: string; label: string; pending?: boolean; children: ReactNode };
@@ -29,33 +30,8 @@ const SAItem = ({ value, label, pending = true, children }: SAItemProps) => {
 };
 
 const SouthAfrica = () => {
-  const nationalItems = [
-    "1975 Lenasia (GP)",
-    "1976 Chatsworth (KZN)",
-    "1977 Benoni (GP)",
-    "1978 Newcastle (KZN)",
-    "1979 Springfield (KZN)",
-    "1980 Laudium (GP)",
-    "1981 Lenasia (GP)",
-    "1982 Ladysmith (KZN)",
-    "1983 PMB (KZN)",
-    "1984 Azaadville (GP)",
-    "1985 Stanger (KZN)",
-    "1986 Springs (GP)",
-    "1987 Roshnee (GP)",
-    "1988 PMB (KZN)",
-    "1989 Lenasia (GP)",
-    "1990 Springfield (KZN)",
-    "1991 Malboro (GP)",
-    "1992 Newcastle (KZN)",
-    "1993 Laudium (GP)",
-    "1994 Roshnee (GP)",
-    "1995 PMB (KZN)",
-    "1996 Mayfair (GP)",
-    "1997 Dundee (KZN)",
-    "1998 Azaadville (GP)",
-    "1999 Reservoir Hills (KZN)",
-  ];
+  // Fetch National events from Baserow
+  const { events: nationalEvents, loading: nationalLoading, error: nationalError } = useBaserowNationalEvents();
 
   const capeItems = [
     "2008 Cape Town (WC)",
@@ -158,13 +134,42 @@ const SouthAfrica = () => {
         </TabsList>
 
         <TabsContent value="National" className="mt-4">
-          <Accordion type="single" collapsible className="w-full space-y-2">
-            {nationalItems.map((label, idx) => (
-              <SAItem key={idx} value={`national-${idx}`} label={label} pending>
-                Details will be added soon.
-              </SAItem>
-            ))}
-          </Accordion>
+          {nationalLoading && (
+            <div className="text-center text-muted-foreground py-8">
+              Loading National events from Baserow...
+            </div>
+          )}
+          
+          {nationalError && (
+            <div className="text-center text-destructive py-8">
+              Error loading National events: {nationalError}
+            </div>
+          )}
+          
+          {!nationalLoading && !nationalError && (
+            <Accordion type="single" collapsible className="w-full space-y-2">
+              {nationalEvents.map((event, idx) => (
+                <SAItem 
+                  key={event.id} 
+                  value={`national-${event.id}`} 
+                  label={`${event.year} ${event.city}${event.region ? ` (${event.region})` : ''}`}
+                  pending={!event.iframeUrl}
+                >
+                  {event.iframeUrl ? (
+                    <iframe 
+                      src={event.iframeUrl} 
+                      width="100%" 
+                      height="200" 
+                      className="rounded-md border mt-2"
+                      title={`${event.year} ${event.city} Audio`}
+                    />
+                  ) : (
+                    <p>Audio coming soon.</p>
+                  )}
+                </SAItem>
+              ))}
+            </Accordion>
+          )}
         </TabsContent>
 
         <TabsContent value="Regional" className="mt-4">
